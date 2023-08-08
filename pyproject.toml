@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "amixtli-web"
+version = "1.0.0"
+description = "My thesis to the world"
+authors = ["Ladivcr <ladivcr@gmail.com>"]
+readme = "README.md"
+packages = [{include = "amixtli_web"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pre-commit = "^2.20.0"
+flask = "^2.3.2"
+python-dotenv = "^1.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pudb = "^2022.1.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,95 @@
+{% extends "base_generic.html" %}
+{% block head_content %}
+    <title>Validación de reportes</title>
+    <!-- Agrega los estilos CSS del carrusel, puedes usar Bootstrap o cualquier otra biblioteca de tu preferencia -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
+    <style>
+
+
+        .carousel-inner img {
+            max-width: 20%;
+            height: auto;
+        }
+
+        .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.4);
+            width: 50%;
+            margin: auto;
+            padding: 10px;
+        }
+
+        .carousel-control-prev-icon:before {
+            content: '❮'; /* Icono para "Anterior" */
+            color: black; /* Cambia el color del icono a blanco */
+            font-size: 50px;
+        }
+
+        .carousel-control-next-icon:before {
+            content: '❯'; /* Icono para "Siguiente" */
+            color: black; /* Cambia el color del icono a blanco */
+            font-size: 50px;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border: 2px solid #002d03;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <!--Apartado sobre el carrusel para validar las imagenes de los reportes-->
+<center>
+    <div id="carrusel-container" class="container">
+        <div id="carrusel" class="carousel slide" data-interval="false">
+            <!-- Slides -->
+            <div class="carousel-inner">
+                {% for imagen in imagenes %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ imagen.0 }}" alt="{{ imagen.1 }}" class="d-block w-100">
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <div class="carousel-caption">
+                            <h3>{{ imagen.1 }}</h3>
+                            <p><strong>{{ imagen.3 }} {{imagen.4}}</strong><br>{{ imagen.2 }}</p>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Controles -->
+            <a class="carousel-control-prev" href="#carrusel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carrusel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Siguiente</span>
+            </a>
+        </div>
+    </div>
+    <!-- Recuadro de texto -->
+    <input type="text" placeholder="Introduce tu token personal">
+    <br>
+    <br>
+     <!-- Agrega los botones con los iconos utilizando clases de Bootstrap -->
+     <button class="btn btn-success"><strong>ACEPTAR</strong></button>
+     <span style="margin-right: 50px;"></span> <!-- Separación de 10px -->
+     <button class="btn btn-danger"><strong>RECHAZAR</strong></button>
+</center>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- TERMINA Apartado sobre el carrusel para validar las imagenes de los reportes-->
+{% endblock %}
