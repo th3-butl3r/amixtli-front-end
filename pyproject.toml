@@ -11,6 +11,9 @@ python = "^3.11"
 pre-commit = "^2.20.0"
 flask = "^2.3.2"
 python-dotenv = "^1.0.0"
+folium = "^0.14.0"
+pydantic = "^2.1.1"
+pydantic-settings = "^2.0.2"
 
 
 [tool.poetry.group.dev.dependencies]
