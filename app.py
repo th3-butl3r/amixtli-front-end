@@ -2,7 +2,8 @@ from flask import Flask
 from flask import render_template
 
 from config.settings import settings
-from utils.make_map import build_map
+from services.map import map_services
+from services.reports import reports_services
 
 app = Flask(__name__)
 
@@ -55,11 +56,15 @@ def map():
     Returns:
         html: map page
     """
-    map_html = build_map()
+    map_html = map_services.build_map()
     return render_template("map.html", map_html=map_html)
 
 
-# TODO: Añadir las páginas de reportes
+@app.route("/validacion_reportes")
+def validate_reports():
+    reports = reports_services.get_reports_to_validate()
+    return render_template("validate_reports.html", imagenes=reports)
+
 
 if __name__ == "__main__":
     environment = settings.ENV_STATE

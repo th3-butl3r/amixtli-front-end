@@ -50,19 +50,18 @@
             <!-- Slides -->
             <div class="carousel-inner">
                 {% for imagen in imagenes %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ imagen.0 }}" alt="{{ imagen.1 }}" class="d-block w-100">
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <div class="carousel-caption">
-                            <h3>{{ imagen.1 }}</h3>
-                            <p><strong>{{ imagen.3 }} {{imagen.4}}</strong><br>{{ imagen.2 }}</p>
-
-                        </div>
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <img src="{{ imagen[0] }}" alt="{{ imagen[1] }}" class="d-block w-100">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="carousel-caption">
+                        <h3>{{ imagen[1] }}</h3>
+                        <p><strong>{{ imagen[3] }} {{ imagen[4] }}</strong><br>{{ imagen[2] }}</p>
+                    </div>
                     </div>
                 {% endfor %}
             </div>
