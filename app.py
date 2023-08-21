@@ -110,6 +110,7 @@ def procesar():
 if __name__ == "__main__":
     environment = settings.ENV_STATE
     if environment == "LOCAL" or environment == "DEVELOPMENT":
-        app.run(debug=True)  # nosec
+        app.run(host="0.0.0.0", port=5000, debug=True)  # nosec
+
     else:
         app.run()
