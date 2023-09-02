@@ -2,7 +2,6 @@ import branca
 import folium
 
 from managers.amixtli_manager import amixtli_manager
-from utils.struct_element_html import create_html_element
 
 
 class MapServices:
@@ -25,7 +24,7 @@ class MapServices:
         if len(docs) >= 1:
             for doc in docs:
                 element = doc
-                html = create_html_element(element)
+                html = self.create_html_element(element)
                 iframe1 = branca.element.IFrame(html=html, width=280, height=200)
                 if element.get("isSolved", None) is False:
                     # Add radius for each register

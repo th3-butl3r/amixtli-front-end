@@ -45,24 +45,27 @@
 
     <!--Apartado sobre el carrusel para validar las imagenes de los reportes-->
 <center>
+
     <div id="carrusel-container" class="container">
         <div id="carrusel" class="carousel slide" data-interval="false">
             <!-- Slides -->
             <div class="carousel-inner">
                 {% for imagen in imagenes %}
-                <div class="carousel-item {% if loop.first %}active{% endif %}">
-                    <img src="{{ imagen[0] }}" alt="{{ imagen[1] }}" class="d-block w-100">
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="carousel-caption">
-                        <h3>{{ imagen[1] }}</h3>
-                        <p><strong>{{ imagen[3] }} {{ imagen[4] }}</strong><br>{{ imagen[2] }}</p>
+                <form action="/procesar" method="post">
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ imagen[0] }}" alt="{{ imagen[1] }}" class="d-block w-100">
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <div class="carousel-caption">
+                            <h3>{{ imagen[1] }}</h3>
+                            <p><strong>{{ imagen[3] }} {{ imagen[4] }}</strong><br>{{ imagen[2] }}</p>
+                        </div>
                     </div>
-                    </div>
+                    <input type="hidden" name="image_id" value={{ imagen[5] }}>
                 {% endfor %}
             </div>
 
@@ -78,13 +81,18 @@
         </div>
     </div>
     <!-- Recuadro de texto -->
-    <input type="text" placeholder="Introduce tu token personal">
-    <br>
-    <br>
-     <!-- Agrega los botones con los iconos utilizando clases de Bootstrap -->
-     <button class="btn btn-success"><strong>ACEPTAR</strong></button>
-     <span style="margin-right: 50px;"></span> <!-- Separación de 10px -->
-     <button class="btn btn-danger"><strong>RECHAZAR</strong></button>
+
+        <strong>¿La imagen se trata de una acumulación de basura?</strong>
+        <br>
+        <br>
+        <input type="text" name="token" placeholder="Introduce tu token personal">
+        <br>
+        <br>
+        <!-- Agrega los botones con los iconos utilizando clases de Bootstrap -->
+        <button type="submit" name="accion" value="aceptar" class="btn btn-success"><strong>ACEPTAR</strong></button>
+        <span style="margin-right: 50px;"></span> <!-- Separación de 10px -->
+        <button type="submit" name="accion" value="rechazar" class="btn btn-danger"><strong>RECHAZAR</strong></button>
+    </form>
 </center>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
