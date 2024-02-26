@@ -8,15 +8,55 @@ class MapServices:
     @classmethod
     def build_map(self):
         """Function to build the map for map page"""
-        docs = amixtli_manager.get_reports()
+        docs = amixtli_manager.get_reports(is_valid=True)
         # creation of map comes here + business logic
         # * where the map start: Mexico
+        Mexico = (19.9998589, -100.9994856)
+        ENES_Computo = (19.649269, -101.222084)
         maping = folium.Map(
-            location=(19.9998589, -100.9994856),
+            location=Mexico,
             titles="Mexico",
             zoom_start=7,
             max_zoom=19,
         )
+        html = folium.Html(
+            """
+                <!DOCTYPE html>
+                <html>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+               <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default" style="text-align: left; border-color: #ffffff !important;">
+                        <div class="panel-heading" role="tab" id="headingOne" style="background: #ffffff!important;">
+                            <h4 class="panel-title" style="color:cornflowerblue">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    <strong> <i class="fa fa-newspaper-o"></i> Significado de los colores <span class="glyphicon glyphicon-menu-down" aria-hidden="true" style="float: right;"></span></strong>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body" align="left">
+                                <p><strong>Iconos Color Rojo:</strong> Indican reportes que no han sido resueltos</p>\
+                                <p><strong>Iconos Color Verde:</strong> Indican reportes que ya han sido resueltos</p>\
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </html>
+                """,
+            script=True,
+        )
+        iframe1 = branca.element.IFrame(html=html, width=280, height=200)
+        folium.Marker(
+            location=ENES_Computo,
+            popup=folium.Popup(iframe1, max_width=400),
+            icon=folium.Icon(
+                color="white", icon_color="#0055A4", icon="fa-info", prefix="fa"
+            ),
+            opacity=0.85,
+            tooltip="Presiona para ver la información de los colores",
+        ).add_to(maping)
+
         folium.TileLayer("cartodbpositron").add_to(maping)
 
         # Create group to marks
@@ -26,7 +66,9 @@ class MapServices:
                 element = doc
                 html = self.create_html_element(element)
                 iframe1 = branca.element.IFrame(html=html, width=280, height=200)
-                if element.get("isSolved", None) is False:
+                if (
+                    element.get("isSolved", None) is False
+                ):  # Validate if the element is solved or not
                     # Add radius for each register
                     folium.Circle(
                         [element.get("latitude"), element.get("longitude")],
@@ -80,7 +122,6 @@ class MapServices:
         # folium.GeoJson(map_graph, name="Michoacán", style_function=style_function).add_to(
         #     maping
         # )
-
         # add group to map
         group_report.add_to(maping)
 
