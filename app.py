@@ -1,8 +1,12 @@
+import ast
 import json
 
+import jwt
 from flask import Flask
+from flask import redirect
 from flask import render_template
 from flask import request
+from flask import url_for
 
 from config.settings import settings
 from services.map import map_services
@@ -63,14 +67,47 @@ def map():
     return render_template("map.html", map_html=map_html)
 
 
-@app.route("/validacion_reportes")
+# Functions AUX TO VALIDATE REPORTS
+@app.route("/validacion_reportes", methods=["GET", "POST"])
+def mostrar_formulario():
+    mensaje_error = None
+    if request.method == "POST":
+        token_personal = request.form.get("token_personal")
+        try:
+            emails_validos = ast.literal_eval(settings.ALLOWED_EMAILS)
+        except (ValueError, SyntaxError):
+            emails_validos = []
+        try:
+            payload = jwt.decode(
+                token_personal, settings.SECRET_KEY, algorithms=["HS256"]
+            )
+            email = payload.get("email", None)
+        except jwt.ExpiredSignatureError:
+            mensaje_error = "Token expirado"
+        except jwt.InvalidTokenError:
+            mensaje_error = "Token inválido"
+
+        if email in emails_validos:
+            # Redirige a la página deseada si el token es correcto
+            return redirect(url_for("validate_reports", token_user=token_personal))
+        else:
+            mensaje_error = "El token no es válido. Contacta con el administrador si aún no tienes tu token personal."
+
+    # Renderiza el formulario si es un método GET o si el token es incorrecto
+    return render_template("login_form.html", mensaje_error=mensaje_error)
+
+
+@app.route("/reportes")
 def validate_reports():
     """Provide the page to validate reports by using a personal token
     Returns:
         html: validate reports page
     """
+    token_user = request.args.get("token_user", "")
     reports = reports_services.get_reports_to_validate()
-    return render_template("validate_reports.html", imagenes=reports)
+    return render_template(
+        "validate_reports.html", imagenes=reports, token_user=token_user
+    )
 
 
 @app.route("/procesar", methods=["POST"])

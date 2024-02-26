@@ -1,0 +1,34 @@
+{% extends "base_generic.html" %}
+{% block head_content %}
+  <title>Amixtli</title>
+{% endblock %}
+{% block content %}
+    <!--¿Qué es Amixtli?-->
+    <div id="container">
+      <div id="post">
+        <h2>Acceder a la validación de reportes</h2>
+        {% if mensaje_error %}
+            <p style="color: red;">{{ mensaje_error }}</p>
+        {% endif %}
+    <form id="miFormulario" method="post">
+        <label for="string_ingresado">Introduce tu token personal:</label>
+        <input type="text" id="token_personal" name="token_personal" placeholder="i.e. eyJhbGciOiJIU" required><br>
+
+        <input type="submit" value="Aceptar">
+        <button type="button" onclick="cancelar()">Cancelar</button>
+    </form>
+
+    <script>
+        function cancelar() {
+            // Limpiar el cuadro de texto
+            document.getElementById('token_personal').value = '';
+
+            // Puedes agregar lógica adicional si es necesario
+            alert('Operación cancelada');
+        }
+    </script>
+      </div>
+      <div id="footer"><center><h1>Hecho con mucho amor y Flask &hearts;</h1></center></div>
+    </div>
+    <!-- TERMINA ¿Qué es Amixtli?-->
+{% endblock %}
