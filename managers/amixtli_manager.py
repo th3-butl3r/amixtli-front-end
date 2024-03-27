@@ -44,5 +44,16 @@ class AmixtliManager:
         )
         return response
 
+    def delete_report(self, id_report: str, token: str):
+        """Function to delete a report in firebase through method API
+
+        Args:
+            id_report (str): id of the report
+            token (str): To be able to use the endpoint
+        """
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.delete(f"{self.url}/{id_report}", headers=headers)
+        return response
+
 
 amixtli_manager = AmixtliManager()

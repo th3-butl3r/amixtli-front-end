@@ -1,8 +1,8 @@
 import ast
 import json
 
-import jwt
 from flask import Flask
+from flask import jsonify
 from flask import redirect
 from flask import render_template
 from flask import request
@@ -72,26 +72,17 @@ def map():
 def mostrar_formulario():
     mensaje_error = None
     if request.method == "POST":
-        token_personal = request.form.get("token_personal")
+        email = request.form.get("email_personal")
         try:
             emails_validos = ast.literal_eval(settings.ALLOWED_EMAILS)
         except (ValueError, SyntaxError):
             emails_validos = []
-        try:
-            payload = jwt.decode(
-                token_personal, settings.SECRET_KEY, algorithms=["HS256"]
-            )
-            email = payload.get("email", None)
-        except jwt.ExpiredSignatureError:
-            mensaje_error = "Token expirado"
-        except jwt.InvalidTokenError:
-            mensaje_error = "Token inválido"
 
         if email in emails_validos:
             # Redirige a la página deseada si el token es correcto
-            return redirect(url_for("validate_reports", token_user=token_personal))
+            return redirect(url_for("validate_reports"))
         else:
-            mensaje_error = "El token no es válido. Contacta con el administrador si aún no tienes tu token personal."
+            mensaje_error = "El correo no está dentro de la lista de confianza. Contacta con el administrador si quieres ingresar a esta lista."
 
     # Renderiza el formulario si es un método GET o si el token es incorrecto
     return render_template("login_form.html", mensaje_error=mensaje_error)
@@ -103,10 +94,10 @@ def validate_reports():
     Returns:
         html: validate reports page
     """
-    token_user = request.args.get("token_user", "")
     reports = reports_services.get_reports_to_validate()
     return render_template(
-        "validate_reports.html", imagenes=reports, token_user=token_user
+        "validate_reports.html",
+        imagenes=reports,
     )
 
 
@@ -119,13 +110,13 @@ def procesar():
     if accion == "aceptar":
         # Hacer algo con el token cuando se presiona el botón "ACEPTAR"
         new_value = {"isValid": True}
-    elif accion == "rechazar":
-        # Hacer algo con el token cuando se presiona el botón "RECHAZAR"
-        new_value = {"isValid": False}
+        response = reports_services.update_report(
+            id_report=imagen_id, new_value=new_value, token=token
+        )
+    elif accion == "eliminar":
+        # Hacer algo con el token cuando se presiona el botón "ELIMINAR"
+        response = reports_services.delete_report(id_report=imagen_id, token=token)
 
-    response = reports_services.update_report(
-        id_report=imagen_id, new_value=new_value, token=token
-    )
     if response.status_code in [200, 201]:
         mensaje = "¡El reporte se ha actualizado con éxito! Muchas gracias por validar que el reporte sea un reporte válido y permitirnos mejorar el sistema."
     else:
@@ -142,6 +133,12 @@ def procesar():
             )
 
     return render_template("mensaje.html", mensaje=mensaje)
+
+
+@app.route("/obtener_reportes", methods=["GET"])
+def get_reports():
+    list_reports = reports_services.get_reports()
+    return jsonify(list_reports)
 
 
 if __name__ == "__main__":

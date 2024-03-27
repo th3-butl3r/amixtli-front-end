@@ -11,8 +11,8 @@
             <p style="color: red;">{{ mensaje_error }}</p>
         {% endif %}
     <form id="miFormulario" method="post">
-        <label for="string_ingresado">Introduce tu token personal:</label>
-        <input type="text" id="token_personal" name="token_personal" placeholder="i.e. eyJhbGciOiJIU" required><br>
+        <label for="string_ingresado">Introduce tu correo personal: </label>
+        <input type="email" id="email_personal" name="email_personal" placeholder="i.e. myEmail@domain.com" required><br>
 
         <input type="submit" value="Aceptar">
         <button type="button" onclick="cancelar()">Cancelar</button>
@@ -21,7 +21,7 @@
     <script>
         function cancelar() {
             // Limpiar el cuadro de texto
-            document.getElementById('token_personal').value = '';
+            document.getElementById('email_personal').value = '';
 
             // Puedes agregar lógica adicional si es necesario
             alert('Operación cancelada');
