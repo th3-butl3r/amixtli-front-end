@@ -1,20 +1,26 @@
 import json
+from typing import Optional
 
 import requests
+from loguru import logger
 
 from config.settings import settings
 
 
 class AmixtliManager:
-    def __init__(self):
+    def __init__(self) -> None:
         self.url = settings.AMIXTLI_API_REPORTS
 
-    def get_reports(self, is_valid: bool = None):
-        """Function to get all reports from API
+    def get_reports(self, is_valid: Optional[bool] = None) -> list:
+        """Get all reports from the API.
+
+        Args:
+            is_valid: Filter reports by validation status. If None, returns all.
 
         Returns:
-            list: list of all reports
+            List of report dicts, or empty list on failure.
         """
+        logger.info(f"BL > AmixtliManager.get_reports() - Fetching reports with is_valid={is_valid}")
         if is_valid is not None:
             params = {"is_valid": is_valid}
             response = requests.get(self.url, params=params)
@@ -25,22 +31,25 @@ class AmixtliManager:
             response = json.loads(response.text)
             reports = response.get("results", [])
         else:
+            logger.warning(f"BL > AmixtliManager.get_reports() - API returned status {response.status_code}")
             reports = []
         return reports
 
-    def update_report(self, id_report: str, value_to_update: dict, token: str):
-        """Function to update a report in firebase through method API
+    def update_report(self, id_report: str, value_to_update: dict, token: str) -> requests.Response:
+        """Update a report field via the API.
 
         Args:
-            id_report (str): id of the report
-            value_to_update (dict): {name of the field to update: new value}
-            token (str): To be able to use the endpoint
-        """
+            id_report: ID of the report to update.
+            value_to_update: Dict with the field(s) and new value(s) to set.
+            token: Bearer token for authorization.
 
-        new_value = value_to_update
+        Returns:
+            The HTTP response from the API.
+        """
+        logger.info(f"BL > AmixtliManager.update_report() - Updating report id={id_report}")
         headers = {"Authorization": f"Bearer {token}"}
         response = requests.patch(
-            f"{self.url}/{id_report}", json=new_value, headers=headers
+            f"{self.url}/{id_report}", json=value_to_update, headers=headers
         )
         return response
 

@@ -1,16 +1,20 @@
 import branca
 import folium
+from loguru import logger
 
 from managers.amixtli_manager import amixtli_manager
 
 
 class MapServices:
     @classmethod
-    def build_map(self):
-        """Function to build the map for map page"""
+    def build_map(cls) -> str:
+        """Build the interactive folium map from validated reports.
+
+        Returns:
+            Raw HTML string of the rendered map, ready to embed in a template.
+        """
+        logger.info("BL > MapServices.build_map() - Building map")
         docs = amixtli_manager.get_reports(is_valid=True)
-        # creation of map comes here + business logic
-        # * where the map start: Mexico
         Mexico = (19.9998589, -100.9994856)
         ENES_Computo = (19.649269, -101.222084)
         maping = folium.Map(
@@ -59,17 +63,14 @@ class MapServices:
 
         folium.TileLayer("cartodbpositron").add_to(maping)
 
-        # Create group to marks
         group_report = folium.FeatureGroup(name="Reportes")
+        logger.info(f"BL > MapServices.build_map() - Rendering {len(docs)} valid reports")
         if len(docs) >= 1:
             for doc in docs:
                 element = doc
-                html = self.create_html_element(element)
+                html = cls.create_html_element(element)
                 iframe1 = branca.element.IFrame(html=html, width=280, height=200)
-                if (
-                    element.get("isSolved", None) is False
-                ):  # Validate if the element is solved or not
-                    # Add radius for each register
+                if element.get("isSolved", None) is False:
                     folium.Circle(
                         [element.get("latitude"), element.get("longitude")],
                         radius=15,
@@ -86,7 +87,6 @@ class MapServices:
                         tooltip="Presiona para ver la información",
                     )
                 else:
-                    # Add radius for each register
                     folium.Circle(
                         [element.get("latitude"), element.get("longitude")],
                         radius=15,
@@ -106,36 +106,26 @@ class MapServices:
                         tooltip="Presiona para ver la información",
                     )
 
-                # Add element to the group
                 the_element.add_to(group_report)
 
-        # NOTE: Descomentar en caso de ser necesario las delimitaciones geográficas para Mich.
-        # style_function = lambda x: {  # NOQA
-        #     "fillColor": ["green"],
-        #     "color": "black",
-        #     "weight": 0.85,
-        #     "fillOpacity": 0.1,
-        # }
-
-        # # Add layer to delimit michoacan
-        # map_graph = config("PATH_GEOMAP_MICH")
-        # folium.GeoJson(map_graph, name="Michoacán", style_function=style_function).add_to(
-        #     maping
-        # )
-        # add group to map
         group_report.add_to(maping)
-
-        # # add layer control
         folium.LayerControl().add_to(maping)
 
-        m = maping._repr_html_()  # * updated, with this I can see the map
+        m = maping._repr_html_()  # strip folium's outer wrapper before embedding
         m = m[:95] + m[180:]
         m = m[:37] + m[55:]
         return m
 
     @classmethod
-    def create_html_element(self, element):
-        """Function to create pre-define html elements for the map"""
+    def create_html_element(cls, element: dict) -> folium.Html:
+        """Build the folium HTML popup for a single report marker.
+
+        Args:
+            element: Report dict from the API containing location and metadata.
+
+        Returns:
+            A folium.Html object to use as a marker popup.
+        """
         importance_level = element.get("importanceReport", None)
         labels = element.get("labels", None)
         register_date = element.get("created", None)

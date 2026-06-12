@@ -297,3 +297,6 @@ cython_debug/
 
 # Others
 *.json
+
+
+.python-version
