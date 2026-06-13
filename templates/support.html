@@ -1,0 +1,142 @@
+{% extends "base_generic.html" %}
+{% block head_content %}<title>Apoyar el proyecto — Amixtli</title>{% endblock %}
+
+{% block content %}
+<div class="support-page">
+
+  <!-- Hero -->
+  <div class="support-hero">
+    <div class="support-hero-icon">
+      <i class="fa-solid fa-heart"></i>
+    </div>
+    <h1>Ayúdanos a mantener<br>el proyecto en línea</h1>
+    <p class="support-hero-lead">
+      Amixtli no tiene anuncios ni patrocinadores. Lo sostiene
+      <strong>una sola persona</strong> con el apoyo de quienes lo usan.
+      Tu donativo lo mantiene gratuito y disponible para toda la comunidad.
+    </p>
+  </div>
+
+  <!-- Allocation card -->
+  <div class="support-allocation">
+    <p class="section-label" style="margin-bottom:1.25rem;">¿A dónde va tu apoyo?</p>
+    <ul class="allocation-list">
+      <li>
+        <span class="alloc-icon"><i class="fa-solid fa-server"></i></span>
+        <div>
+          <strong>Servidor y hosting</strong>
+          <span>— mantener el sitio disponible 24/7 sin interrupciones.</span>
+        </div>
+      </li>
+      <li>
+        <span class="alloc-icon"><i class="fa-solid fa-database"></i></span>
+        <div>
+          <strong>Base de datos</strong>
+          <span>— almacenar y servir los reportes en tiempo real.</span>
+        </div>
+      </li>
+      <li>
+        <span class="alloc-icon"><i class="fa-solid fa-brain"></i></span>
+        <div>
+          <strong>Moderación con IA</strong>
+          <span>— filtrar reportes falsos o de baja calidad y mejorar las rutas de recolección.</span>
+        </div>
+      </li>
+      <li>
+        <span class="alloc-icon"><i class="fa-solid fa-globe"></i></span>
+        <div>
+          <strong>Dominio</strong>
+          <span>— la dirección donde vive el proyecto en internet.</span>
+        </div>
+      </li>
+      <li>
+        <span class="alloc-icon"><i class="fa-solid fa-mobile-screen"></i></span>
+        <div>
+          <strong>Aplicación móvil</strong>
+          <span>— mantenimiento, mejoras y desarrollo continuo de la app con la que los ciudadanos reportan directamente desde el campo.</span>
+        </div>
+      </li>
+      <li>
+        <span class="alloc-icon"><i class="fa-solid fa-rocket"></i></span>
+        <div>
+          <strong>Desarrollo y nuevas funciones</strong>
+          <span>— financiar la investigación y el trabajo para construir
+          mejores herramientas y seguir creciendo la plataforma.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Donation options -->
+  <div class="support-options">
+
+    <!-- One-time -->
+    <div class="support-option-block">
+      <p class="section-label">Donación única</p>
+      <h2>Apoya con el monto que tú elijas</h2>
+      <p class="support-option-desc">
+        Una sola vez, sin compromisos. Cada peso cuenta.
+      </p>
+      <a href="mailto:contacto@bastionlab.com.mx?subject=Quiero%20hacer%20una%20donación%20a%20Amixtli"
+         class="btn-donate btn-donate--primary" target="_blank" rel="noopener">
+        <i class="fa-solid fa-arrow-right"></i> Donar una vez
+      </a>
+    </div>
+
+    <div class="support-divider"></div>
+
+    <!-- Monthly -->
+    <div class="support-option-block">
+      <p class="section-label">Apoyo mensual</p>
+      <h2>La forma más útil de sostener el proyecto</h2>
+      <p class="support-option-desc">
+        Un pequeño apoyo recurrente que garantiza la continuidad del proyecto.
+        Puedes cancelar cuando quieras.
+      </p>
+      <div class="tier-grid">
+        <a href="mailto:contacto@bastionlab.com.mx?subject=Apoyo%20mensual%20%2450%20Amixtli"
+           class="tier-card" target="_blank" rel="noopener">
+          <span class="tier-amount">$50</span>
+          <span class="tier-period">MXN al mes</span>
+        </a>
+        <a href="mailto:contacto@bastionlab.com.mx?subject=Apoyo%20mensual%20%24100%20Amixtli"
+           class="tier-card tier-card--featured" target="_blank" rel="noopener">
+          <span class="tier-badge">Más popular</span>
+          <span class="tier-amount">$100</span>
+          <span class="tier-period">MXN al mes</span>
+        </a>
+        <a href="mailto:contacto@bastionlab.com.mx?subject=Apoyo%20mensual%20%24200%20Amixtli"
+           class="tier-card" target="_blank" rel="noopener">
+          <span class="tier-amount">$200</span>
+          <span class="tier-period">MXN al mes</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Transparency -->
+  <div class="support-transparency">
+    <div class="transparency-icon">
+      <i class="fa-solid fa-shield-halved"></i>
+    </div>
+    <div class="transparency-body">
+      <p class="transparency-title">Transparencia</p>
+      <p>
+        Amixtli es un proyecto independiente realizado y administrado por una sola persona.
+        Los donativos recibidos se destinan <strong>exclusivamente</strong> a los costos
+        operativos que demanda la plataforma: infraestructura, almacenamiento de datos,
+        dominio y herramientas de desarrollo. No existe ninguna persona jurídica ni empresa
+        detrás del proyecto, y la información de los usuarios es tratada conforme al
+        <a href="/politica_privacidad" class="text-link">Aviso de Privacidad</a>.
+      </p>
+      <p style="margin-top:0.75rem;">
+        Si tienes dudas sobre el destino de tu donativo o quieres conocer más sobre el
+        estado del proyecto, escríbenos a
+        <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>.
+      </p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
