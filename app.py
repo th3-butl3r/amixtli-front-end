@@ -17,9 +17,11 @@ app = Flask(__name__)
 
 
 @app.context_processor
-def inject_env() -> dict:
-    """Inject ENV_STATE into all template contexts."""
-    return {"env_state": settings.ENV_STATE}
+def inject_globals() -> dict:
+    """Inject shared variables into all template contexts."""
+    from datetime import datetime
+
+    return {"env_state": settings.ENV_STATE, "current_year": datetime.now().year}
 
 
 @app.route("/inicio")
@@ -77,6 +79,17 @@ def map() -> str:
     """
     logger.info("BL > map() - Rendering map page")
     return render_template("map.html")
+
+
+@app.route("/apoyo")
+def support() -> str:
+    """Render the support/donation page.
+
+    Returns:
+        Rendered HTML of the support page.
+    """
+    logger.info("BL > support() - Rendering support page")
+    return render_template("support.html")
 
 
 @app.route("/app")

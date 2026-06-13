@@ -2,14 +2,120 @@
 {% block head_content %}<title>Amixtli — Datos para un México más limpio</title>{% endblock %}
 
 {% block content %}
+<!-- ── Notice modal ──────────────────────────────────────────── -->
+<div id="notice-backdrop" class="notice-backdrop">
+  <div class="notice-card" role="dialog" aria-modal="true" aria-labelledby="notice-title">
+
+    <div class="notice-header">
+      <div class="notice-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <span class="notice-title" id="notice-title">Aviso importante</span>
+    </div>
+
+    <div class="notice-body">
+      <p>
+        Este mapa muestra reportes de acumulación de basura en lugares no aptos.
+        Amixtli es un proyecto individual que nació para mejorar la cultura ambiental
+        en México en 2024 como parte de un proyecto de tesis. Busca ser un banco de
+        datos ambientales de ayuda para empresas, gobiernos y colectivos, con el que
+        se puedan mejorar las políticas de limpieza de las ciudades.
+      </p>
+    </div>
+
+    <div class="notice-divider"></div>
+
+    <div class="notice-support">
+      <span class="notice-support-title">Ayúdanos a mantener el proyecto</span>
+      <p>
+        Amixtli lo mantiene una sola persona, no una empresa ni un colectivo.
+        No tenemos anuncios ni patrocinadores: el proyecto se sostiene gracias
+        al apoyo y buena fe de quienes lo usan. Tu donativo lo mantiene
+        gratuito y en línea para todos.
+      </p>
+    </div>
+
+    <div class="notice-actions">
+      <button class="btn-dismiss" id="notice-dismiss">
+        Entendido &mdash; ver el mapa
+      </button>
+      <a href="/apoyo" class="btn-support">
+        <i class="fa-solid fa-heart"></i> Apoyar el proyecto
+      </a>
+    </div>
+
+  </div>
+</div>
 
 <div class="hero">
-  <span class="eyebrow">Plataforma de datos ambientales</span>
-  <h1>Información para un México más limpio</h1>
-  <p class="hero-lead">
-    Amixtli recopila y visualiza reportes ciudadanos de residuos sin recolectar
-    para apoyar decisiones informadas sobre la gestión de basura en México.
-  </p>
+  <div class="hero-text">
+    <span class="eyebrow">Plataforma de datos ambientales</span>
+    <h1>Información para un México más limpio</h1>
+    <p class="hero-lead">
+      Amixtli recopila y visualiza reportes ciudadanos de residuos sin recolectar
+      para apoyar decisiones informadas sobre la gestión de basura en México.
+    </p>
+  </div>
+
+  <!-- Animated data map widget -->
+  <div class="hero-visual">
+    <div class="data-map">
+
+      <div class="data-map-grid"></div>
+      <div class="data-scan"></div>
+
+      <!-- Header bar -->
+      <div class="data-map-header">
+        <span class="data-map-title">Mapa de reportes</span>
+        <span class="data-live-dot"></span>
+      </div>
+
+      <!-- Report dots — positions approximate Mexico geography -->
+      <div class="data-dot-wrap" style="top:48%;left:40%">
+        <div class="data-ring"></div><div class="data-ring" style="animation-delay:.9s"></div>
+        <div class="data-dot"></div>
+      </div>
+      <div class="data-dot-wrap" style="top:38%;left:52%">
+        <div class="data-ring"></div><div class="data-ring" style="animation-delay:.6s"></div>
+        <div class="data-dot"></div>
+      </div>
+      <div class="data-dot-wrap" style="top:60%;left:60%">
+        <div class="data-ring"></div>
+        <div class="data-dot data-dot--sm"></div>
+      </div>
+      <div class="data-dot-wrap" style="top:30%;left:44%">
+        <div class="data-ring" style="animation-delay:.3s"></div>
+        <div class="data-dot data-dot--sm"></div>
+      </div>
+      <div class="data-dot-wrap" style="top:55%;left:34%">
+        <div class="data-ring" style="animation-delay:1.2s"></div>
+        <div class="data-dot data-dot--sm"></div>
+      </div>
+      <div class="data-dot-wrap" style="top:44%;left:68%">
+        <div class="data-ring" style="animation-delay:.5s"></div>
+        <div class="data-dot data-dot--sm"></div>
+      </div>
+
+      <!-- Floating stat card -->
+      <div class="data-card data-card--stats">
+        <span class="dc-value">N</span>
+        <span class="dc-label">Reportes · México {{ current_year }}</span>
+      </div>
+
+      <!-- Purpose card -->
+      <div class="data-card data-card--purpose">
+        <i class="fa-solid fa-brain" style="color:var(--accent);font-size:0.7rem;"></i>
+        <span class="dc-label">Entrenamiento IA · Mejora ambiental</span>
+      </div>
+
+    </div>
+
+    <!-- Feature chips below the widget -->
+    <div class="hero-chips">
+      <span class="hero-chip"><i class="fa-solid fa-location-dot"></i> Geolocalización</span>
+      <span class="hero-chip"><i class="fa-solid fa-brain"></i> IA</span>
+      <span class="hero-chip"><i class="fa-solid fa-chart-line"></i> Análisis</span>
+      <span class="hero-chip"><i class="fa-solid fa-database"></i> Datos abiertos</span>
+    </div>
+  </div>
 </div>
 
 <div class="section">
@@ -77,4 +183,31 @@
   </p>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    const backdrop = document.getElementById('notice-backdrop');
+    const dismiss  = document.getElementById('notice-dismiss');
+    const KEY      = 'amixtli_notice_shown';
+
+    // Already seen this session → remove immediately without animation
+    if (sessionStorage.getItem(KEY)) {
+      backdrop.remove();
+      return;
+    }
+
+    function closeNotice() {
+      sessionStorage.setItem(KEY, '1');
+      backdrop.classList.add('hiding');
+      backdrop.addEventListener('animationend', () => backdrop.remove(), { once: true });
+    }
+
+    dismiss.addEventListener('click', closeNotice);
+    backdrop.addEventListener('click', function (e) {
+      if (e.target === backdrop) closeNotice();
+    });
+  }());
+</script>
 {% endblock %}
