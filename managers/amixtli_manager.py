@@ -20,7 +20,9 @@ class AmixtliManager:
         Returns:
             List of report dicts, or empty list on failure.
         """
-        logger.info(f"BL > AmixtliManager.get_reports() - Fetching reports with is_valid={is_valid}")
+        logger.info(
+            f"BL > AmixtliManager.get_reports() - Fetching reports with is_valid={is_valid}"
+        )
         if is_valid is not None:
             params = {"is_valid": is_valid}
             response = requests.get(self.url, params=params)
@@ -31,11 +33,15 @@ class AmixtliManager:
             response = json.loads(response.text)
             reports = response.get("results", [])
         else:
-            logger.warning(f"BL > AmixtliManager.get_reports() - API returned status {response.status_code}")
+            logger.warning(
+                f"BL > AmixtliManager.get_reports() - API returned status {response.status_code}"
+            )
             reports = []
         return reports
 
-    def update_report(self, id_report: str, value_to_update: dict, token: str) -> requests.Response:
+    def update_report(
+        self, id_report: str, value_to_update: dict, token: str
+    ) -> requests.Response:
         """Update a report field via the API.
 
         Args:
@@ -46,7 +52,9 @@ class AmixtliManager:
         Returns:
             The HTTP response from the API.
         """
-        logger.info(f"BL > AmixtliManager.update_report() - Updating report id={id_report}")
+        logger.info(
+            f"BL > AmixtliManager.update_report() - Updating report id={id_report}"
+        )
         headers = {"Authorization": f"Bearer {token}"}
         response = requests.patch(
             f"{self.url}/{id_report}", json=value_to_update, headers=headers

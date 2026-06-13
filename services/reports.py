@@ -12,7 +12,9 @@ class ReportsServices:
             List of tuples: (url_image, labels, comments, city, state, id).
             Capped at 5 items.
         """
-        logger.info("BL > ReportsServices.get_reports_to_validate() - Fetching reports to validate")
+        logger.info(
+            "BL > ReportsServices.get_reports_to_validate() - Fetching reports to validate"
+        )
         docs = amixtli_manager.get_reports(is_valid=False)
         imagenes = []
         for doc in docs:
@@ -28,7 +30,9 @@ class ReportsServices:
                 if len(imagenes) == 5:
                     break
 
-        logger.info(f"BL > ReportsServices.get_reports_to_validate() - Returning {len(imagenes)} reports")
+        logger.info(
+            f"BL > ReportsServices.get_reports_to_validate() - Returning {len(imagenes)} reports"
+        )
         return imagenes
 
     def update_report(self, id_report: str, new_value: dict, token: str) -> object:
@@ -42,7 +46,9 @@ class ReportsServices:
         Returns:
             The HTTP response from the API.
         """
-        logger.info(f"BL > ReportsServices.update_report() - Updating report id={id_report}")
+        logger.info(
+            f"BL > ReportsServices.update_report() - Updating report id={id_report}"
+        )
         response = amixtli_manager.update_report(
             id_report=id_report, value_to_update=new_value, token=token
         )

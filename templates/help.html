@@ -1,39 +1,68 @@
 {% extends "base_generic.html" %}
-{% block head_content %}
-    <title>Ayuda</title>
-{% endblock %}
+{% block head_content %}<title>Ayuda — Amixtli</title>{% endblock %}
 
 {% block content %}
-    <!--Información de ayuda-->
-    <div id="container">
-        <div id="post">
-            <center><h2><strong>Bienvenido a la sección de ayuda</strong></h2></center>
-            <p style="text-align: justify;">Antes de enviarnos tu pregunta al correo en la sección de contácto, por favor
-                revisa las que ya están en la página. Aquí encontraras respuesta a las preguntas: <br>
-            <ul>
-                <li><a href="#p1">¿Cómo puedo apoyar el proyecto de una manera más directa?</a></li>
-            </ul>
+<div class="content-page">
 
-            <!-- Question #1 -->
-            <center><h1><strong><a name = "p1">¿Cómo puedo apoyar el proyecto de una manera más directa?</a></strong></h1></center>
-            <ul>
-                <li>Envia un correo personal al creador del proyecto: <strong><a href="mailto:ladivcr@gmail.com">ladivcr@gmail.com</a></strong></li><br>
-                <p style="text-align: justify;">En el correo describe las razones por las que quieres apoyar al proyecto, de
-                    qué manera quieres apoyarlo, así como las habilidades que consideras serán de beneficio para el proyecto.
-                    No olvides compartirnos qué fue lo que te motivo a colaborar. Es muy importante para nosotros
-                    saber si nuestros intereses están alineados y si podemos aportarte a tu crecimiento como desarrollador.
-                </p>
-            </ul>
+  <div class="page-header">
+    <span class="section-label">Soporte</span>
+    <h1>Ayuda</h1>
+    <p class="page-intro">
+      Antes de enviarnos tu pregunta, revisa si ya hay una respuesta aquí.
+    </p>
+  </div>
 
+  <div class="faq-item">
+    <h3>¿Cómo puedo apoyar el proyecto de manera directa?</h3>
+    <p>
+      Escribe al creador del proyecto:
+      <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>
+    </p>
+    <p>
+      En el correo describe las razones por las que quieres apoyar al proyecto, qué habilidades tienes que consideras pueden servir y
+      de qué manera quieres hacerlo. Es importante saber si nuestros intereses están alineados y cómo podemos nosotros servir a
+      tu crecimiento.
+    </p>
+  </div>
 
-            <p style="text-align: justify;"><strong>Hola usuario, gracias por usar nuestra aplicación.
-                Continuamos desarrollando la aplicación para que cada vez sea más cómoda para ti.</strong></p>
+  <div class="faq-item">
+    <h3>¿Cómo recopilan los datos ambientales?</h3>
+    <p>
+      Mediante nuestra aplicación móvil. Puedes descargarla aquí: <strong>La aplicación se encuentra en mejora y aún no es pública</strong>
+      Los datos visualizados son los obtenidos durante una prueba piloto llevaba a cabo en el año 2024 en el estado de Michoacán.
+    </p>
+  </div>
 
+  <div class="faq-item">
+    <h3>¿Qué hacen con los reportes?</h3>
+    <p>
+      Los reportes capturados a través de la aplicación se utilizan para dos finalidades principales:
+      entrenar modelos de inteligencia artificial para la detección automática de residuos, y generar
+      análisis estadísticos que permitan identificar patrones y zonas críticas de acumulación.
+    </p>
+    <p>
+      Las imágenes y datos asociados son tratados conforme a la legislación mexicana en materia de
+      protección de datos personales. Nunca se comparten con terceros con fines comerciales ni se
+      utilizan para fines distintos a los declarados.
+      Puedes consultar el detalle completo en nuestro
+      <a href="/politica_privacidad" class="text-link">Aviso de Privacidad</a>.
+    </p>
+  </div>
 
-            <p><center><h1>Con mucho cariño, el equipo de Amixtli &hearts;</h1></center></p>
-        </div>
+  <div class="faq-item">
+    <h3>¿Cómo validan la información?</h3>
+    <p>
+      Los reportes enviados a través de la aplicación no se publican de forma inmediata en el mapa. Cada registro pasa por un proceso de validación realizado por nuestros colaboradores para verificar la calidad y consistencia de la información.
+      Este procedimiento nos permite mantener una base de datos confiable y útil para ciudadanos, investigadores, organizaciones y tomadores de decisiones que buscan comprender y atender los problemas relacionados con los residuos en México.
+    </p>
+  </div>
 
-        <div id="footer">&copy Todos los derechos reservados</div>
-    </div>
-    <!-- TERMINA Información de ayuda-->
+  <div style="margin-top:0.3rem; padding-top:2.5rem; ">
+    <p style="font-size:0.9375rem; color:var(--text-secondary);">
+      Continuamos desarrollando la aplicación para que sea más cómoda y eficiente para los usuarios.
+      Con mucho cariño, el equipo de Amixtli.
+    </p>
+  </div>
+
+</div>
 {% endblock %}

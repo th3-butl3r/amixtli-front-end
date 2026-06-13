@@ -1,34 +1,55 @@
 {% extends "base_generic.html" %}
-{% block head_content %}
-  <title>Amixtli</title>
-{% endblock %}
+{% block head_content %}<title>Acceso — Amixtli</title>{% endblock %}
+
 {% block content %}
-    <!--¿Qué es Amixtli?-->
-    <div id="container">
-      <div id="post">
-        <h2>Acceder a la validación de reportes</h2>
-        {% if mensaje_error %}
-            <p style="color: red;">{{ mensaje_error }}</p>
-        {% endif %}
-    <form id="miFormulario" method="post">
-        <label for="string_ingresado">Introduce tu token personal:</label>
-        <input type="text" id="token_personal" name="token_personal" placeholder="i.e. eyJhbGciOiJIU" required><br>
+<div style="min-height: calc(100vh - var(--nav-height) - 120px); display:flex; align-items:center; justify-content:center; padding: 3rem 1.5rem; background: var(--bg);">
+  <div style="max-width:420px; width:100%;">
 
-        <input type="submit" value="Aceptar">
-        <button type="button" onclick="cancelar()">Cancelar</button>
-    </form>
-
-    <script>
-        function cancelar() {
-            // Limpiar el cuadro de texto
-            document.getElementById('token_personal').value = '';
-
-            // Puedes agregar lógica adicional si es necesario
-            alert('Operación cancelada');
-        }
-    </script>
-      </div>
-      <div id="footer"><center><h1>Hecho con mucho amor y Flask &hearts;</h1></center></div>
+    <div style="margin-bottom:2rem;">
+      <span class="section-label">Área restringida</span>
+      <h1 style="font-size:1.625rem; font-weight:700; letter-spacing:-0.025em; margin-bottom:0.4rem;">
+        Validación de reportes
+      </h1>
+      <p style="font-size:0.9rem; color:var(--text-secondary);">
+        Introduce tu token personal para acceder al panel de moderación.
+      </p>
     </div>
-    <!-- TERMINA ¿Qué es Amixtli?-->
+
+    {% if mensaje_error %}
+      <div class="alert-error">
+        <i class="fa-solid fa-circle-exclamation" style="margin-right:0.4rem;"></i>
+        {{ mensaje_error }}
+      </div>
+    {% endif %}
+
+    <div class="form-box">
+      <form id="loginForm" method="post">
+        <div class="form-group">
+          <label class="form-label" for="token_personal">Token personal</label>
+          <input
+            class="form-input"
+            type="text"
+            id="token_personal"
+            name="token_personal"
+            placeholder="eyJhbGciOiJIUzI1NiIsInR5..."
+            required
+          >
+        </div>
+        <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
+          <button type="submit" class="btn-solid" style="flex:1;">
+            Acceder <i class="fa-solid fa-arrow-right" style="font-size:0.8rem;"></i>
+          </button>
+          <button type="button" class="btn-outline" onclick="cancelar()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function cancelar() {
+    document.getElementById('token_personal').value = '';
+  }
+</script>
 {% endblock %}

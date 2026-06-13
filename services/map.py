@@ -1,3 +1,4 @@
+import html as html_escape_lib
 import branca
 import folium
 from loguru import logger
@@ -126,11 +127,12 @@ class MapServices:
         Returns:
             A folium.Html object to use as a marker popup.
         """
-        importance_level = element.get("importanceReport", None)
-        labels = element.get("labels", None)
-        register_date = element.get("created", None)
-        comment = element.get("comments", None)
-        url_image = element.get("uriImage", None)
+        e = html_escape_lib.escape  # alias for brevity
+        importance_level = e(str(element.get("importanceReport", "")))
+        labels = e(str(element.get("labels", "")))
+        register_date = e(str(element.get("created", "")))
+        comment = e(str(element.get("comments", "")))
+        url_image = e(str(element.get("uriImage", "")))
 
         return folium.Html(
             f"""
@@ -158,11 +160,11 @@ class MapServices:
                     </div>
                 </div>
                 <center>
-                    <img src="{url_image}"style="width:270px;height:180px;"/>
+                    <img src="{url_image}" style="width:270px;height:180px;"/>
                 </center>
             </html>
                 """,
-            script=True,
+            script=False,
         )
 
 

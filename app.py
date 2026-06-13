@@ -3,6 +3,7 @@ import json
 
 import jwt
 from flask import Flask
+from flask import abort
 from flask import redirect
 from flask import render_template
 from flask import request
@@ -10,10 +11,15 @@ from flask import url_for
 from loguru import logger
 
 from config.settings import settings
-from services.map import map_services
 from services.reports import reports_services
 
 app = Flask(__name__)
+
+
+@app.context_processor
+def inject_env() -> dict:
+    """Inject ENV_STATE into all template contexts."""
+    return {"env_state": settings.ENV_STATE}
 
 
 @app.route("/inicio")
@@ -64,14 +70,24 @@ def privacy_policy() -> str:
 
 @app.route("/mapa_reportes")
 def map() -> str:
-    """Render the map page with all validated reports.
+    """Render the map page with the interactive globe.
 
     Returns:
         Rendered HTML of the map page.
     """
-    logger.info("BL > map() - Building and rendering map page")
-    map_html = map_services.build_map()
-    return render_template("map.html", map_html=map_html)
+    logger.info("BL > map() - Rendering map page")
+    return render_template("map.html")
+
+
+@app.route("/app")
+def our_app() -> str:
+    """Render the app presentation page.
+
+    Returns:
+        Rendered HTML of the app page.
+    """
+    logger.info("BL > our_app() - Rendering app page")
+    return render_template("app.html")
 
 
 @app.route("/validacion_reportes", methods=["GET", "POST"])
@@ -85,6 +101,11 @@ def mostrar_formulario() -> str:
         Redirect to validate_reports on success, or the login form with an
         error message on failure.
     """
+    if settings.ENV_STATE != "LOCAL":
+        logger.warning(
+            "BL > mostrar_formulario() - Access blocked: not LOCAL environment"
+        )
+        abort(404)
     mensaje_error = None
     if request.method == "POST":
         logger.info("BL > mostrar_formulario() - Processing token login")
@@ -122,6 +143,9 @@ def validate_reports() -> str:
     Returns:
         Rendered HTML of the validate reports page.
     """
+    if settings.ENV_STATE != "LOCAL":
+        logger.warning("BL > validate_reports() - Access blocked: not LOCAL environment")
+        abort(404)
     logger.info("BL > validate_reports() - Rendering reports validation page")
     token_user = request.args.get("token_user", "")
     reports = reports_services.get_reports_to_validate()
@@ -137,10 +161,15 @@ def procesar() -> str:
     Returns:
         Rendered HTML confirmation message page.
     """
+    if settings.ENV_STATE != "LOCAL":
+        logger.warning("BL > procesar() - Access blocked: not LOCAL environment")
+        abort(404)
     token = request.form.get("token")
     accion = request.form.get("accion")
     imagen_id = request.form.get("image_id")
-    logger.info(f"BL > procesar() - Processing action='{accion}' for report id={imagen_id}")
+    logger.info(
+        f"BL > procesar() - Processing action='{accion}' for report id={imagen_id}"
+    )
 
     if accion == "aceptar":
         new_value = {"isValid": True}
@@ -164,7 +193,9 @@ def procesar() -> str:
                     "Parece que algo ha fallado durante la actualización del reporte. Por favor, inténtelo más tarde o contacte al administrador",
                 )
             )
-        logger.error(f"BL > procesar() - Failed to update report id={imagen_id}: {mensaje}")
+        logger.error(
+            f"BL > procesar() - Failed to update report id={imagen_id}: {mensaje}"
+        )
 
     return render_template("mensaje.html", mensaje=mensaje)
 

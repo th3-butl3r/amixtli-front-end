@@ -1,60 +1,29 @@
 repos:
-  - repo: https://github.com/PyCQA/autoflake
-    rev: v1.6.1
-    hooks:
-    - id: autoflake
-      args: ['--in-place', '--remove-all-unused-imports', '--ignore-init-module-imports', '--ignore-pass-statements']
-  - repo: https://github.com/pycqa/isort
-    rev: 5.10.1
-    hooks:
-      - id: isort
-        name: isort (python)
-  - repo: https://github.com/ambv/black
-    rev: 22.3.0
-    hooks:
-      - id: black
-        language_version: python3
-        always_run: false
-        args: [--line-length=88]
-        exclude: .migrations/
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.2.0
+    rev: v4.5.0
     hooks:
-      - id: trailing-whitespace
-        exclude: ^.vscode/|src/staticfiles|deployment/
-      - id: check-added-large-files
-      - id: end-of-file-fixer
-        exclude: ^.vscode/|src/staticfiles|deployment/
       - id: check-ast
-      - id: check-builtin-literals
-      - id: check-docstring-first
+      - id: check-json
+      - id: check-added-large-files
       - id: check-merge-conflict
-      - id: check-yaml
+      - id: check-case-conflict
+      - id: check-docstring-first
       - id: debug-statements
-        exclude: ^.vscode/|src/staticfiles|deployment/
-      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
       - id: fix-encoding-pragma
         args: [--remove]
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.4
-    hooks:
-      - id: bandit
-        args: [--exclude, "/factories/", --skip, "B105"]
-  - repo: https://github.com/pycqa/flake8
-    rev: 3.9.2
-    hooks:
-      - id: flake8
-        exclude: .migrations/
-  - repo: https://github.com/hadialqattan/pycln
-    rev: v1.3.2
-    hooks:
-      - id: pycln
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v1.3.0
-    hooks:
-      - id: conventional-pre-commit
-        stages: [ commit-msg ]
-        args: []
+      - id: detect-private-key
 
-default_language_version:
-  python: python3.9
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+        types: [python]
+        args: ["--line-length=90"]
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.1.14
+    hooks:
+      - id: ruff
