@@ -1,0 +1,116 @@
+{% extends "base_generic.html" %}
+{% block head_content %}<title>Nuestra App — Amixtli</title>{% endblock %}
+
+{% block content %}
+<div class="content-page" style="max-width: 1280px;">
+
+  <div class="page-header">
+    <span class="section-label">Nuestra App</span>
+    <h1>Reporta desde donde estés</h1>
+    <span class="badge-wip"><span class="badge-dot"></span>En desarrollo</span>
+    <p class="page-intro">
+      La aplicación móvil de Amixtli permite a cualquier persona fotografiar y geolocalizar
+      acumulaciones de residuos en su entorno con un par de toques. Cada reporte alimenta
+      la base de datos y contribuye directamente al análisis.
+    </p>
+  </div>
+
+  <div class="app-grid">
+
+    <!-- Phone mockup -->
+    <div class="app-phone-wrap">
+      <div class="phone-mockup">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-map">
+            <div class="map-grid-lines"></div>
+            <div class="scan-line"></div>
+            <div class="phone-marker">
+              <div class="phone-ring r1"></div>
+              <div class="phone-ring r2"></div>
+              <div class="phone-ring r3"></div>
+              <div class="phone-dot"></div>
+            </div>
+          </div>
+          <div class="phone-bottom-bar">
+            <div class="phone-capture-btn">
+              <i class="fa-solid fa-camera"></i>
+            </div>
+            <span class="phone-capture-label">Reportar</span>
+          </div>
+          <div class="phone-card">
+            <i class="fa-solid fa-circle-check" style="color:#34D399; font-size:0.8rem;"></i>
+            <span>Reporte enviado</span>
+          </div>
+        </div>
+        <div class="phone-home-bar"></div>
+      </div>
+    </div>
+
+    <!-- Feature list -->
+    <div class="app-features">
+      <div class="app-feature">
+        <div class="app-feature-icon">
+          <i class="fa-solid fa-camera"></i>
+        </div>
+        <div>
+          <h4>Captura con tu cámara</h4>
+          <p>
+            Fotografía acumulaciones de residuos directamente desde la app. La imagen
+            queda vinculada automáticamente a tu ubicación.
+          </p>
+        </div>
+      </div>
+
+      <div class="app-feature">
+        <div class="app-feature-icon">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <div>
+          <h4>Geolocalización automática</h4>
+          <p>
+            Cada reporte registra las coordenadas exactas del problema sin intervención humana.
+          </p>
+        </div>
+      </div>
+
+      <div class="app-feature">
+        <div class="app-feature-icon">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div>
+          <h4>Análisis por inteligencia artificial</h4>
+          <p>
+            Los reportes alimentan un modelo de IA para la detección y clasificación
+            automática de tipos de residuos.
+          </p>
+        </div>
+      </div>
+
+      <div class="app-feature">
+        <div class="app-feature-icon">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div>
+          <h4>Datos abiertos</h4>
+          <p>
+            La información recopilada es pública y accesible para ciudadanos,
+            investigadores, organizaciones y autoridades.
+          </p>
+        </div>
+      </div>
+
+      <div class="app-notice">
+        <i class="fa-solid fa-circle-info"></i>
+        <p>
+          La aplicación se encuentra en fase de mejora activa tras una prueba piloto
+          realizada en 2024 en Michoacán. Próximamente disponible para descarga pública.
+          Si quieres ser de los primeros en probarla, escríbenos a
+          <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

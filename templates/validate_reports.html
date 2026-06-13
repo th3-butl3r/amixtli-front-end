@@ -1,103 +1,98 @@
 {% extends "base_generic.html" %}
-{% block head_content %}
-    <title>Validación de reportes</title>
-    <!-- Agrega los estilos CSS del carrusel, puedes usar Bootstrap o cualquier otra biblioteca de tu preferencia -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
-    <style>
-
-
-        .carousel-inner img {
-            max-width: 20%;
-            height: auto;
-        }
-
-        .carousel-caption {
-            background-color: rgba(0, 0, 0, 0.4);
-            width: 50%;
-            margin: auto;
-            padding: 10px;
-        }
-
-        .carousel-control-prev-icon:before {
-            content: '❮'; /* Icono para "Anterior" */
-            color: black; /* Cambia el color del icono a blanco */
-            font-size: 50px;
-        }
-
-        .carousel-control-next-icon:before {
-            content: '❯'; /* Icono para "Siguiente" */
-            color: black; /* Cambia el color del icono a blanco */
-            font-size: 50px;
-        }
-
-        input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            border: 2px solid #002d03;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-    </style>
-{% endblock %}
+{% block head_content %}<title>Validación de reportes — Amixtli</title>{% endblock %}
 
 {% block content %}
+<div class="validate-page">
 
-    <!--Apartado sobre el carrusel para validar las imagenes de los reportes-->
-<center>
+  <div style="margin-bottom:2rem;">
+    <span class="section-label">Moderación</span>
+    <h1>Validación de reportes</h1>
+    <p class="subtitle">Revisa cada imagen y confirma si se trata de una acumulación de residuos.</p>
+  </div>
 
-    <div id="carrusel-container" class="container">
-        <div id="carrusel" class="carousel slide" data-interval="false">
-            <!-- Slides -->
-            <div class="carousel-inner">
-                {% for imagen in imagenes %}
-                <form action="/procesar" method="post">
-                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                        <img src="{{ imagen[0] }}" alt="{{ imagen[1] }}" class="d-block w-100">
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <div class="carousel-caption">
-                            <h3>{{ imagen[1] }}</h3>
-                            <p><strong>{{ imagen[3] }} {{ imagen[4] }}</strong><br>{{ imagen[2] }}</p>
-                        </div>
-                    </div>
-                    <input type="hidden" name="image_id" value={{ imagen[5] }}>
-                {% endfor %}
+  {% if imagenes %}
+    <div id="reportCarousel" class="carousel slide" data-bs-ride="false">
+
+      <div class="carousel-inner">
+        {% for imagen in imagenes %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <form action="/procesar" method="post">
+            <input type="hidden" name="token" value="{{ token_user }}">
+            <input type="hidden" name="image_id" value="{{ imagen[5] }}">
+
+            <div class="report-card">
+              <img src="{{ imagen[0] }}" alt="{{ imagen[1] }}" class="report-img">
+              <div class="report-body">
+                {% if imagen[1] %}
+                  <span class="report-tag">{{ imagen[1] }}</span>
+                {% endif %}
+                <p class="report-meta">
+                  <i class="fa-solid fa-location-dot" style="margin-right:0.3rem; color:var(--accent);"></i>
+                  {{ imagen[3] }}{% if imagen[4] %}, {{ imagen[4] }}{% endif %}
+                </p>
+                {% if imagen[2] %}
+                  <p class="report-comment">{{ imagen[2] }}</p>
+                {% endif %}
+              </div>
             </div>
 
-            <!-- Controles -->
-            <a class="carousel-control-prev" href="#carrusel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Anterior</span>
-            </a>
-            <a class="carousel-control-next" href="#carrusel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Siguiente</span>
-            </a>
+            <p class="report-counter">Reporte {{ loop.index }} de {{ imagenes|length }}</p>
+
+            <div class="report-actions">
+              <button type="submit" name="accion" value="aceptar" class="btn-solid">
+                <i class="fa-solid fa-check"></i> Aceptar
+              </button>
+              <button type="submit" name="accion" value="rechazar" class="btn-danger-outline">
+                <i class="fa-solid fa-xmark"></i> Rechazar
+              </button>
+            </div>
+          </form>
         </div>
+        {% endfor %}
+      </div>
+
+      {% if imagenes|length > 1 %}
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem;">
+        <button class="btn-outline" style="padding:0.5rem 1rem; font-size:0.8125rem;"
+                data-bs-target="#reportCarousel" data-bs-slide="prev">
+          <i class="fa-solid fa-chevron-left"></i> Anterior
+        </button>
+        <div class="carousel-nav">
+          {% for imagen in imagenes %}
+          <button class="carousel-dot {% if loop.first %}active{% endif %}"
+                  data-bs-target="#reportCarousel"
+                  data-bs-slide-to="{{ loop.index0 }}"
+                  aria-label="Reporte {{ loop.index }}"></button>
+          {% endfor %}
+        </div>
+        <button class="btn-outline" style="padding:0.5rem 1rem; font-size:0.8125rem;"
+                data-bs-target="#reportCarousel" data-bs-slide="next">
+          Siguiente <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+      {% endif %}
+
     </div>
-    <!-- Recuadro de texto -->
 
-        <strong>¿La imagen se trata de una acumulación de basura?</strong>
-        <br>
-        <br>
-        <!-- <input type="text" name="token" placeholder="Introduce tu token personal"> -->
-        <input type="text" name="token" value="{{ token_user }}" placeholder="Introduce tu token personal" readonly>
-        <br>
-        <br>
-        <!-- Agrega los botones con los iconos utilizando clases de Bootstrap -->
-        <button type="submit" name="accion" value="aceptar" class="btn btn-success"><strong>ACEPTAR</strong></button>
-        <span style="margin-right: 50px;"></span> <!-- Separación de 10px -->
-        <button type="submit" name="accion" value="rechazar" class="btn btn-danger"><strong>RECHAZAR</strong></button>
-    </form>
-</center>
+  {% else %}
+    <div style="text-align:center; padding:4rem 0; color:var(--text-secondary);">
+      <i class="fa-regular fa-circle-check" style="font-size:2.5rem; color:var(--accent); margin-bottom:1rem; display:block;"></i>
+      <p style="font-size:1rem; font-weight:500;">No hay reportes pendientes de validación.</p>
+      <p style="font-size:0.875rem; margin-top:0.35rem;">¡Todo está al día!</p>
+    </div>
+  {% endif %}
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- TERMINA Apartado sobre el carrusel para validar las imagenes de los reportes-->
+</div>
+
+<script>
+  // Sync carousel indicator dots
+  const carousel = document.getElementById('reportCarousel');
+  if (carousel) {
+    carousel.addEventListener('slid.bs.carousel', (e) => {
+      document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === e.to);
+      });
+    });
+  }
+</script>
 {% endblock %}

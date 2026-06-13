@@ -1,17 +1,18 @@
 {% extends "base_generic.html" %}
-{% block head_content %}
-    <title>Validación de reportes</title>
-{% endblock %}
+{% block head_content %}<title>Resultado — Amixtli</title>{% endblock %}
 
 {% block content %}
-    <!--Respuesta del resultado de la actualización del reporte-->
-    <div id="container">
-        <div id="post">
-            <center><h2><strong>Resultado de la actualización del reporte</strong></h2></center>
-            <h1>{{ mensaje }}</h1>
-        </div>
-
-        <div id="footer">&copy Todos los derechos reservados</div>
+<div class="msg-page">
+  <div class="msg-card">
+    <div class="msg-icon">
+      <i class="fa-solid fa-check"></i>
     </div>
-    <!-- Respuesta del resultado de la actualización del reported-->
+    <h2>Reporte actualizado</h2>
+    <p>{{ mensaje }}</p>
+    <a href="/reportes?token_user={{ request.args.get('token_user', '') }}" class="btn-solid" style="margin-right:0.5rem;">
+      Continuar validando
+    </a>
+    <a href="/inicio" class="btn-outline">Ir al inicio</a>
+  </div>
+</div>
 {% endblock %}

@@ -1,12 +1,389 @@
 {% extends "base_generic.html" %}
 {% block head_content %}
-<title>Mapa de reportes</title>
+<title>Mapa de reportes — Amixtli</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  body { overflow: hidden; }
+
+  #map-wrapper {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - var(--nav-height));
+  }
+
+  #map {
+    width: 100%;
+    height: 100%;
+    background: #0d0d14;
+  }
+
+  /* Remove default Leaflet focus outline */
+  .leaflet-container:focus { outline: none; }
+  .leaflet-attribution-flag { display: none !important; }
+  .leaflet-control-attribution {
+    font-size: 0.6rem !important;
+    background: rgba(0,0,0,0.45) !important;
+    color: rgba(255,255,255,0.3) !important;
+    backdrop-filter: blur(6px);
+  }
+  .leaflet-control-attribution a { color: rgba(255,255,255,0.4) !important; }
+  .leaflet-control-zoom {
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    background: rgba(10,12,22,0.75) !important;
+    backdrop-filter: blur(10px);
+  }
+  .leaflet-control-zoom a {
+    color: rgba(255,255,255,0.6) !important;
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  }
+  .leaflet-control-zoom a:hover { color: #fff !important; background: rgba(255,255,255,0.07) !important; }
+
+  /* ── Animated marker ───────────────────────────────── */
+  .report-marker-wrap {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+  }
+
+  .report-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px; left: 1px;
+  }
+
+  .report-dot.unsolved {
+    background: rgba(251, 191, 36, 1);
+    box-shadow: 0 0 8px rgba(251,191,36,0.6), 0 0 3px rgba(255,255,255,0.5);
+  }
+  .report-dot.solved {
+    background: rgba(52, 211, 153, 1);
+    box-shadow: 0 0 8px rgba(52,211,153,0.6), 0 0 3px rgba(255,255,255,0.5);
+  }
+
+  /* Pulsing rings */
+  .report-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .report-ring.unsolved { border: 1px solid rgba(251,191,36,0.7); animation: ringPulse 2.4s ease-out infinite; }
+  .report-ring.solved   { border: 1px solid rgba(52,211,153,0.7);  animation: ringPulse 2.4s ease-out infinite; }
+
+  .report-ring:nth-child(2) { animation-delay: 0s;    }
+  .report-ring:nth-child(3) { animation-delay: 0.8s;  }
+  .report-ring:nth-child(4) { animation-delay: 1.6s;  }
+
+  @keyframes ringPulse {
+    0%   { width: 10px;  height: 10px;  opacity: 0.85; }
+    100% { width: 52px;  height: 52px;  opacity: 0;    }
+  }
+
+  /* ── Info overlay ──────────────────────────────────── */
+  .map-overlay {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    z-index: 1000;
+    background: rgba(10, 12, 22, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    color: #fff;
+    max-width: 220px;
+    font-family: inherit;
+  }
+  .map-overlay h3 {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.01em;
+  }
+  .map-overlay p {
+    font-size: 0.73rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .legend {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.6875rem;
+    color: rgba(255,255,255,0.45);
+  }
+  .legend-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .legend-dot.unsolved { background: rgba(251,191,36,0.95); box-shadow: 0 0 5px rgba(251,191,36,0.5); }
+  .legend-dot.solved   { background: rgba(52,211,153,0.95);  box-shadow: 0 0 5px rgba(52,211,153,0.5); }
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.6625rem;
+    color: rgba(255,255,255,0.28);
+    margin-top: 0.75rem;
+  }
+  .status-dot::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #F5A623;
+    flex-shrink: 0;
+  }
+
+  /* ── Report popup ───────────────────────────────────── */
+  .report-popup {
+    position: absolute;
+    /* left / top set dynamically by JS */
+    width: 280px;
+    background: #16161F;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    z-index: 1001;
+    font-family: inherit;
+    pointer-events: auto;
+  }
+  .report-popup.hidden { display: none; }
+  .report-popup.visible { animation: popupIn 0.22s cubic-bezier(0.34,1.56,0.64,1) both; }
+
+  @keyframes popupIn {
+    from { opacity: 0; transform: translateY(6px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
+  }
+
+  /* Header bar — close button always readable */
+  .popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.45rem 0.6rem 0.45rem 0.85rem;
+    background: #0E0E16;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .popup-header-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+  .popup-close {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.65);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+  }
+  .popup-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+  .popup-img { width: 100%; height: 148px; object-fit: cover; background: #1E1E2C; display: block; }
+  .popup-body { padding: 0.875rem 1rem 1rem; }
+  .popup-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.6rem; }
+  .popup-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #34D399;
+    background: rgba(52,211,153,0.10);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+  }
+  .popup-comment { font-size: 0.8125rem; color: rgba(255,255,255,0.55); line-height: 1.5; margin: 0 0 0.5rem; }
+  .popup-radius {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.28);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 0.55rem;
+    margin-top: 0.4rem;
+  }
+
+  @media (max-width: 600px) {
+    .map-overlay  { max-width: 170px; padding: 0.75rem 0.9rem; }
+    .report-popup { width: calc(100vw - 3rem); }
+  }
+</style>
 {% endblock %}
 
+{% block footer %}{% endblock %}
+
 {% block content %}
-    <div class="embed-responsive embed-responsive-4by3" id="containermap">
-        {{ map_html | safe }}
-        <!--<iframe src="{{ url_for('static', filename='map.html') }}" width="800" height="400"></iframe>-->
-    <!-- <div id="footer">&copy Todos los derechos reservados</div> -->
+<div id="map-wrapper">
+  <div id="map"></div>
+
+  <div class="map-overlay">
+    <h3>Reportes ciudadanos</h3>
+    <p>Presiona un punto para ver el reporte.</p>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot unsolved"></span> Sin resolver</div>
+      <div class="legend-item"><span class="legend-dot solved"></span> Resuelto</div>
     </div>
+    <span class="status-dot">Datos demo &mdash; Supabase próximamente</span>
+  </div>
+
+  <div id="report-popup" class="report-popup hidden">
+    <div class="popup-header">
+      <span class="popup-header-label">Reporte</span>
+      <button class="popup-close" id="popup-close" aria-label="Cerrar">&#x2715;</button>
+    </div>
+    <img id="popup-img" class="popup-img" src="" alt="Reporte">
+    <div class="popup-body">
+      <div class="popup-tags" id="popup-tags"></div>
+      <p class="popup-comment" id="popup-comment"></p>
+      <div class="popup-radius">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+          <line x1="6" y1="6" x2="11" y2="6" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Radio estimado: ~25 m
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const REPORTS = [
+    {
+      lat:      19.515219779142296,
+      lng:     -101.64284404367208,
+      isSolved: false,
+      labels:   ['Plástico', 'Acumulación de basura', 'Otros'],
+      comment:  'Lorem Ipsum',
+      image:    'https://firebasestorage.googleapis.com/v0/b/amixtli-6c338.appspot.com/o/ILY00sMytIZRTxsSujY6F4N4Yi73%2F8f183e8e-8a50-4cd5-a027-14278bb1e9d2_Michoac%C3%A1n_P%C3%A1tzcuaro.png?alt=media&token=6f0a3f52-1a08-42a4-ae91-fc252f413482',
+    }
+  ];
+
+  // ── Map init ─────────────────────────────────────────────────
+  const map = L.map('map', {
+    center: [23.6, -102.5],
+    zoom: 5,
+    zoomControl: true,
+    attributionControl: true,
+  });
+
+  // Dark monochrome tiles — same aesthetic as Kaspersky
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19,
+  }).addTo(map);
+
+  // Move zoom control to bottom-left to avoid overlay overlap
+  map.zoomControl.setPosition('bottomleft');
+
+  // ── Marker factory ───────────────────────────────────────────
+  function makeMarker(d) {
+    const cls = d.isSolved ? 'solved' : 'unsolved';
+    const html = `
+      <div class="report-marker-wrap">
+        <div class="report-ring ${cls}"></div>
+        <div class="report-ring ${cls}"></div>
+        <div class="report-ring ${cls}"></div>
+        <div class="report-dot  ${cls}"></div>
+      </div>`;
+
+    const icon = L.divIcon({
+      className: '',
+      html,
+      iconSize:   [12, 12],
+      iconAnchor: [6, 6],
+    });
+
+    return L.marker([d.lat, d.lng], { icon });
+  }
+
+  // ── Popup logic ───────────────────────────────────────────────
+  const popup   = document.getElementById('report-popup');
+  const popImg  = document.getElementById('popup-img');
+  const popTags = document.getElementById('popup-tags');
+  const popCmnt = document.getElementById('popup-comment');
+  const wrap    = document.getElementById('map-wrapper');
+
+  function positionPopup(lat, lng) {
+    const pt  = map.latLngToContainerPoint([lat, lng]);
+    const pw  = popup.offsetWidth  || 280;
+    const ph  = popup.offsetHeight || 290;
+    const gap = 18; // px between marker edge and popup
+
+    // Prefer right side; flip left when it would overflow
+    let x = pt.x + gap + 6;
+    if (x + pw > wrap.offsetWidth - gap) {
+      x = pt.x - pw - gap - 6;
+    }
+    // Center vertically on the marker, clamped to viewport
+    let y = pt.y - ph / 2;
+    y = Math.max(gap, Math.min(y, wrap.offsetHeight - ph - gap));
+
+    popup.style.left   = x + 'px';
+    popup.style.top    = y + 'px';
+    popup.style.bottom = 'auto';
+    popup.style.right  = 'auto';
+  }
+
+  function showPopup(d) {
+    popImg.src = d.image;
+    popTags.innerHTML = d.labels.map(l => `<span class="popup-tag">${l}</span>`).join('');
+    popCmnt.textContent = d.comment;
+    // Hide first to reset animation, then measure and position
+    popup.classList.remove('visible');
+    popup.classList.add('hidden');
+    requestAnimationFrame(() => {
+      popup.classList.remove('hidden');
+      positionPopup(d.lat, d.lng);
+      popup.classList.add('visible');
+    });
+  }
+
+  document.getElementById('popup-close').addEventListener('click', () => {
+    popup.classList.add('hidden');
+    popup.classList.remove('visible');
+  });
+
+  // Close popup when user pans or zooms the map
+  map.on('movestart zoomstart', () => {
+    popup.classList.add('hidden');
+    popup.classList.remove('visible');
+  });
+
+  // ── Add markers ──────────────────────────────────────────────
+  REPORTS.forEach(d => {
+    makeMarker(d)
+      .addTo(map)
+      .on('click', () => showPopup(d));
+  });
+</script>
 {% endblock %}
