@@ -81,7 +81,15 @@ jobs:
           EOF
 
       - name: Ejecutar tests
-        run: poetry run pytest --cov=app --cov-report=term-missing --cov-report=xml -v
+        run: |
+          poetry run pytest \
+            --cov=app \
+            --cov=services \
+            --cov=managers \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --cov-fail-under=80 \
+            -v
 
       - name: Subir reporte de cobertura
         uses: actions/upload-artifact@v4

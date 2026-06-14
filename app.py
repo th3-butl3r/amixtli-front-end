@@ -103,6 +103,39 @@ def our_app() -> str:
     return render_template("app.html")
 
 
+def _admin_guard() -> None:
+    """Abort 404 unless all admin security conditions are met.
+
+    Conditions checked in order:
+    - ENV_STATE must be LOCAL.
+    - SECRET_KEY must be present and non-empty.
+    - ALLOWED_EMAILS must be present, non-empty, parseable, and contain at
+      least one address.
+
+    Always returns 404 on failure so the routes remain invisible outside LOCAL.
+    """
+    if settings.ENV_STATE != "LOCAL":
+        logger.warning("BL > _admin_guard() - Blocked: environment is not LOCAL")
+        abort(404)
+    if not (settings.SECRET_KEY or "").strip():
+        logger.warning("BL > _admin_guard() - Blocked: SECRET_KEY is not configured")
+        abort(404)
+    raw_emails = (settings.ALLOWED_EMAILS or "").strip()
+    if not raw_emails:
+        logger.warning("BL > _admin_guard() - Blocked: ALLOWED_EMAILS is not configured")
+        abort(404)
+    try:
+        emails = ast.literal_eval(raw_emails)
+    except (ValueError, SyntaxError):
+        logger.warning(
+            "BL > _admin_guard() - Blocked: ALLOWED_EMAILS is not valid JSON list"
+        )
+        abort(404)
+    if not isinstance(emails, list) or not emails:
+        logger.warning("BL > _admin_guard() - Blocked: ALLOWED_EMAILS list is empty")
+        abort(404)
+
+
 @app.route("/validacion_reportes", methods=["GET", "POST"])
 def mostrar_formulario() -> str:
     """Render the JWT login form and validate the submitted token.
@@ -114,11 +147,7 @@ def mostrar_formulario() -> str:
         Redirect to validate_reports on success, or the login form with an
         error message on failure.
     """
-    if settings.ENV_STATE != "LOCAL":
-        logger.warning(
-            "BL > mostrar_formulario() - Access blocked: not LOCAL environment"
-        )
-        abort(404)
+    _admin_guard()
     mensaje_error = None
     if request.method == "POST":
         logger.info("BL > mostrar_formulario() - Processing token login")
@@ -127,6 +156,7 @@ def mostrar_formulario() -> str:
             emails_validos = ast.literal_eval(settings.ALLOWED_EMAILS)
         except (ValueError, SyntaxError):
             emails_validos = []
+        email = None
         try:
             payload = jwt.decode(
                 token_personal, settings.SECRET_KEY, algorithms=["HS256"]
@@ -156,9 +186,7 @@ def validate_reports() -> str:
     Returns:
         Rendered HTML of the validate reports page.
     """
-    if settings.ENV_STATE != "LOCAL":
-        logger.warning("BL > validate_reports() - Access blocked: not LOCAL environment")
-        abort(404)
+    _admin_guard()
     logger.info("BL > validate_reports() - Rendering reports validation page")
     token_user = request.args.get("token_user", "")
     reports = reports_services.get_reports_to_validate()
@@ -174,9 +202,7 @@ def procesar() -> str:
     Returns:
         Rendered HTML confirmation message page.
     """
-    if settings.ENV_STATE != "LOCAL":
-        logger.warning("BL > procesar() - Access blocked: not LOCAL environment")
-        abort(404)
+    _admin_guard()
     token = request.form.get("token")
     accion = request.form.get("accion")
     imagen_id = request.form.get("image_id")

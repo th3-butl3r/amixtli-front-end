@@ -12,8 +12,10 @@ class BaseConfig(BaseSettings):
     PROJECT_NAME: Optional[str] = "Amixtli-front-end"
     ENV_STATE: str = env_file["ENV_STATE"]
     AMIXTLI_API_REPORTS: str = env_file[f"{ENV_STATE.upper()}_AMIXTLI_API_REPORTS"]
-    ALLOWED_EMAILS: str = env_file[f"{ENV_STATE.upper()}_ALLOWED_EMAILS"]
-    SECRET_KEY: str = env_file[f"{ENV_STATE.upper()}_SECRET_KEY"]
+    # Admin credentials are optional by design: if absent the admin routes
+    # return 404 automatically, making them invisible in any non-LOCAL deployment.
+    ALLOWED_EMAILS: Optional[str] = env_file.get(f"{ENV_STATE.upper()}_ALLOWED_EMAILS")
+    SECRET_KEY: Optional[str] = env_file.get(f"{ENV_STATE.upper()}_SECRET_KEY")
 
 
 settings = BaseConfig()
