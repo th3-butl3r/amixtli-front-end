@@ -357,10 +357,138 @@
     margin: 0;
   }
 
+  /* ── Overlay collapse button (mobile only) ──────────────── */
+  .overlay-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .overlay-toggle-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.35);
+    font-size: 0.65rem;
+    cursor: pointer;
+    padding: 0.1rem 0;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+    transition: color 0.15s;
+  }
+
+  /* ── FAB — top reportes en móvil ────────────────────────── */
+  .top-fab {
+    display: none;
+    position: absolute;
+    bottom: 5.5rem;
+    right: 1.25rem;
+    z-index: 1000;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(10,12,22,0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(251,191,36,0.85);
+    font-size: 1.05rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    transition: background 0.15s;
+  }
+  .top-fab:active { background: rgba(25,27,40,0.95); }
+
+  /* ── Backdrop ────────────────────────────────────────────── */
+  .drawer-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1090;
+    background: rgba(0,0,0,0.45);
+  }
+  .drawer-backdrop.open { display: block; }
+
+  /* ── Bottom drawer — top reportes en móvil ───────────────── */
+  .mobile-drawer {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 1100;
+    background: #16161F;
+    border-top: 1px solid rgba(255,255,255,0.09);
+    border-radius: 16px 16px 0 0;
+    max-height: 60vh;
+    overflow: hidden;
+    flex-direction: column;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.6);
+    font-family: inherit;
+  }
+  .mobile-drawer.open { display: flex; animation: sheetUp 0.28s cubic-bezier(0.32,0.72,0,1) both; }
+  .drawer-handle {
+    width: 36px; height: 4px;
+    background: rgba(255,255,255,0.13);
+    border-radius: 2px;
+    margin: 0.65rem auto 0;
+    flex-shrink: 0;
+  }
+  .drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1.1rem 0.6rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0;
+  }
+  .drawer-title { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.7); }
+  .drawer-close {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.5);
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .drawer-list {
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+  }
+
+  @keyframes sheetUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
+  /* ── Mobile overrides ────────────────────────────────────── */
   @media (max-width: 600px) {
-    .map-overlay  { max-width: 170px; padding: 0.75rem 0.9rem; }
-    .report-popup { width: calc(100vw - 3rem); }
-    .top-panel    { display: none; }
+    /* Overlay compacto: header siempre visible, body colapsable */
+    .map-overlay { max-width: calc(100vw - 2.5rem); padding: 0.75rem 1rem; }
+    .overlay-toggle-btn { display: block; }
+    .overlay-body { margin-top: 0.5rem; }
+    .overlay-body.collapsed { display: none; }
+
+    /* Popup → bottom sheet */
+    .report-popup {
+      position: fixed !important;
+      bottom: 0 !important; left: 0 !important; right: 0 !important;
+      top: auto !important;
+      width: 100% !important;
+      border-radius: 16px 16px 0 0;
+      max-height: 78vh;
+      overflow-y: auto;
+    }
+    .report-popup.visible { animation: sheetUp 0.28s cubic-bezier(0.32,0.72,0,1) both; }
+    .popup-img { height: 180px; }
+
+    /* Top panel oculto; reemplazado por FAB + drawer */
+    .top-panel { display: none; }
+    .top-fab   { display: flex; }
   }
 
 </style>
@@ -373,21 +501,28 @@
   <div id="map"></div>
 
   <div class="map-overlay">
-    <h3>Reportes ciudadanos</h3>
-    <p>Presiona un punto para ver el reporte.</p>
-    <div class="legend">
-      <div class="legend-item"><span class="legend-dot unsolved"></span> Sin resolver</div>
-      <div class="legend-item"><span class="legend-dot solved"></span> Resuelto</div>
+    <div class="overlay-header">
+      <div>
+        <h3>Reportes ciudadanos</h3>
+        <span class="status-dot" id="report-count">{{ reports | length }} reporte{{ 's' if reports | length != 1 else '' }} activo{{ 's' if reports | length != 1 else '' }}</span>
+      </div>
+      <button class="overlay-toggle-btn" id="overlay-toggle" aria-label="Expandir opciones">▼</button>
     </div>
-    <span class="status-dot" id="report-count">{{ reports | length }} reporte{{ 's' if reports | length != 1 else '' }} activo{{ 's' if reports | length != 1 else '' }}</span>
-    <div class="state-filter">
-      <label for="state-select">Filtrar por estado</label>
-      <select id="state-select" class="state-select">
-        <option value="">Todos los estados</option>
-        {% for state in states %}
-        <option value="{{ state }}">{{ state }}</option>
-        {% endfor %}
-      </select>
+    <div class="overlay-body" id="overlay-body">
+      <p>Presiona un punto para ver el reporte.</p>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot unsolved"></span> Sin resolver</div>
+        <div class="legend-item"><span class="legend-dot solved"></span> Resuelto</div>
+      </div>
+      <div class="state-filter">
+        <label for="state-select">Filtrar por estado</label>
+        <select id="state-select" class="state-select">
+          <option value="">Todos los estados</option>
+          {% for state in states %}
+          <option value="{{ state }}">{{ state }}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
   </div>
 
@@ -397,6 +532,22 @@
       <button class="top-toggle" id="top-toggle" aria-label="Colapsar">▲</button>
     </div>
     <div class="top-list" id="top-list"></div>
+  </div>
+
+  <!-- FAB visible solo en móvil -->
+  <button class="top-fab" id="top-fab" aria-label="Ver top reportes">⚡</button>
+
+  <!-- Backdrop del drawer -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+
+  <!-- Bottom drawer: top reportes en móvil -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <span class="drawer-title">Top reportes</span>
+      <button class="drawer-close" id="drawer-close" aria-label="Cerrar">&#x2715;</button>
+    </div>
+    <div class="drawer-list" id="drawer-list"></div>
   </div>
 
   <div id="report-popup" class="report-popup hidden">
@@ -460,7 +611,10 @@
   const popBody = document.getElementById('popup-dynamic-body');
   const wrap    = document.getElementById('map-wrapper');
 
+  const isMobile = () => window.innerWidth <= 600;
+
   function positionPopup(lat, lng) {
+    if (isMobile()) return; // CSS posiciona el popup como bottom sheet en móvil
     const pt  = map.latLngToContainerPoint([lat, lng]);
     const pw  = popup.offsetWidth  || 280;
     const ph  = popup.offsetHeight || 290;
@@ -566,10 +720,14 @@
     countEl.textContent = `${n} reporte${s} activo${s}`;
   }
 
-  // ── Top reports panel ─────────────────────────────────────────
+  // ── Top reports panel (desktop) + drawer (móvil) ─────────────
   const topList   = document.getElementById('top-list');
   const topToggle = document.getElementById('top-toggle');
-  let topCollapsed = false;
+  const drList    = document.getElementById('drawer-list');
+  const mDrawer   = document.getElementById('mobile-drawer');
+  const backdrop  = document.getElementById('drawer-backdrop');
+  let topCollapsed  = false;
+  let currentTopData = [];
 
   topToggle.addEventListener('click', () => {
     topCollapsed = !topCollapsed;
@@ -577,12 +735,12 @@
     topToggle.textContent = topCollapsed ? '▼' : '▲';
   });
 
-  function renderTopReports(reports) {
+  function buildTopItems(reports, container) {
     if (!reports.length) {
-      topList.innerHTML = '<p class="top-empty">Sin reportes en este filtro.</p>';
+      container.innerHTML = '<p class="top-empty">Sin reportes en este filtro.</p>';
       return;
     }
-    topList.innerHTML = reports.map((r, i) => `
+    container.innerHTML = reports.map((r, i) => `
       <div class="top-item"
            data-lat="${r.latitude}"
            data-lng="${r.longitude}"
@@ -594,18 +752,49 @@
         </div>
       </div>`).join('');
 
-    topList.querySelectorAll('.top-item').forEach(el => {
+    container.querySelectorAll('.top-item').forEach(el => {
       el.addEventListener('click', () => {
         const lat = parseFloat(el.dataset.lat);
         const lng = parseFloat(el.dataset.lng);
         const id  = el.dataset.id;
+        closeDrawer();
         map.flyTo([lat, lng], 14, { duration: 1.2 });
-        // Open popup after fly animation finishes
         const d = ALL_REPORTS.find(r => String(r.id) === id);
         if (d) setTimeout(() => onMarkerClick(d), 1400);
       });
     });
   }
+
+  function renderTopReports(reports) {
+    currentTopData = reports;
+    buildTopItems(reports, topList);
+  }
+
+  // ── FAB y drawer móvil ────────────────────────────────────────
+  function openDrawer() {
+    buildTopItems(currentTopData, drList);
+    mDrawer.classList.add('open');
+    backdrop.classList.add('open');
+  }
+  function closeDrawer() {
+    mDrawer.classList.remove('open');
+    backdrop.classList.remove('open');
+  }
+
+  document.getElementById('top-fab').addEventListener('click', openDrawer);
+  document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+
+  // ── Overlay toggle (móvil) ────────────────────────────────────
+  const overlayBody   = document.getElementById('overlay-body');
+  const overlayToggle = document.getElementById('overlay-toggle');
+  let overlayCollapsed = false;
+
+  overlayToggle.addEventListener('click', () => {
+    overlayCollapsed = !overlayCollapsed;
+    overlayBody.classList.toggle('collapsed', overlayCollapsed);
+    overlayToggle.textContent = overlayCollapsed ? '▶' : '▼';
+  });
 
   // ── State filter ──────────────────────────────────────────────
   document.getElementById('state-select').addEventListener('change', async (e) => {
