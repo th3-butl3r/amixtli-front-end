@@ -1,0 +1,69 @@
+name: Tests y cobertura
+
+on:
+  push:
+    branches: ["master", "staging", "development"]
+  pull_request:
+    branches: ["master", "staging"]
+
+jobs:
+  tests:
+    name: pytest — cobertura mínima 80 %
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: "latest"
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Caché de dependencias
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
+
+      - name: Instalar dependencias
+        run: poetry install --no-interaction
+
+      - name: Crear config/.env para tests
+        run: |
+          mkdir -p config
+          cat > config/.env <<EOF
+          ENV_STATE=STAGING
+          STAGING_AMIXTLI_API_REPORTS=https://dummy.example.com/api/reports
+          STAGING_ALLOWED_EMAILS=["ci@test.com"]
+          STAGING_SECRET_KEY=ci-secret-key-for-tests-only
+          STAGING_SUPABASE_URL=https://dummy-test.supabase.co
+          STAGING_SUPABASE_KEY=dummy-supabase-key-for-tests-only
+          STAGING_SUPABASE_URL_API=https://dummy-test.supabase.co/rest/v1/reports
+          STAGING_SUPABASE_STORAGE_BUCKET=test_bucket
+          EOF
+
+      - name: Ejecutar tests
+        run: |
+          poetry run pytest \
+            --cov=app \
+            --cov=services \
+            --cov=managers \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --cov-fail-under=80 \
+            -v
+
+      - name: Subir reporte de cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+          retention-days: 7
