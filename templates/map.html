@@ -217,6 +217,10 @@
     padding: 0.15rem 0.5rem;
     border-radius: 3px;
   }
+  .popup-tag--env {
+    color: rgba(251,191,36,0.9);
+    background: rgba(251,191,36,0.10);
+  }
   .popup-comment { font-size: 0.8125rem; color: rgba(255,255,255,0.55); line-height: 1.5; margin: 0 0 0.5rem; }
   .popup-radius {
     display: flex;
@@ -228,10 +232,135 @@
     padding-top: 0.55rem;
     margin-top: 0.4rem;
   }
+  .popup-loading {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: rgba(255,255,255,0.28);
+    font-size: 0.8rem;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── State filter (inside overlay) ────────────────────── */
+  .state-filter { margin-top: 0.75rem; }
+  .state-filter label {
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .state-select {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+    color: rgba(255,255,255,0.72);
+    font-size: 0.68rem;
+    padding: 0.28rem 1.4rem 0.28rem 0.45rem;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='rgba(255,255,255,0.28)'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    transition: border-color 0.15s;
+  }
+  .state-select:focus { border-color: rgba(255,255,255,0.25); }
+  .state-select option { background: #16161F; color: #fff; }
+
+  /* ── Top reports panel ───────────────────────────────── */
+  .top-panel {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 1000;
+    width: 200px;
+    background: rgba(10, 12, 22, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: inherit;
+  }
+  .top-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .top-panel-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: -0.01em;
+  }
+  .top-toggle {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.28);
+    font-size: 0.65rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+  .top-toggle:hover { color: rgba(255,255,255,0.65); }
+  .top-list {
+    max-height: 270px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+  }
+  .top-list::-webkit-scrollbar { width: 3px; }
+  .top-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+  .top-item {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 0.85rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .top-item:last-child { border-bottom: none; }
+  .top-item:hover { background: rgba(255,255,255,0.05); }
+  .top-rank {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: rgba(251,191,36,0.65);
+    width: 14px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .top-info { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; }
+  .top-city {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.68);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .top-score { font-size: 0.6rem; color: rgba(255,255,255,0.28); }
+  .top-empty {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.22);
+    text-align: center;
+    padding: 1.5rem 1rem;
+    margin: 0;
+  }
 
   @media (max-width: 600px) {
     .map-overlay  { max-width: 170px; padding: 0.75rem 0.9rem; }
     .report-popup { width: calc(100vw - 3rem); }
+    .top-panel    { display: none; }
   }
 
 </style>
@@ -250,7 +379,24 @@
       <div class="legend-item"><span class="legend-dot unsolved"></span> Sin resolver</div>
       <div class="legend-item"><span class="legend-dot solved"></span> Resuelto</div>
     </div>
-    <span class="status-dot">Datos demo &mdash; Supabase próximamente</span>
+    <span class="status-dot" id="report-count">{{ reports | length }} reporte{{ 's' if reports | length != 1 else '' }} activo{{ 's' if reports | length != 1 else '' }}</span>
+    <div class="state-filter">
+      <label for="state-select">Filtrar por estado</label>
+      <select id="state-select" class="state-select">
+        <option value="">Todos los estados</option>
+        {% for state in states %}
+        <option value="{{ state }}">{{ state }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="top-panel" id="top-panel">
+    <div class="top-panel-header">
+      <span class="top-panel-title">Top reportes</span>
+      <button class="top-toggle" id="top-toggle" aria-label="Colapsar">▲</button>
+    </div>
+    <div class="top-list" id="top-list"></div>
   </div>
 
   <div id="report-popup" class="report-popup hidden">
@@ -258,18 +404,7 @@
       <span class="popup-header-label">Reporte</span>
       <button class="popup-close" id="popup-close" aria-label="Cerrar">&#x2715;</button>
     </div>
-    <img id="popup-img" class="popup-img" src="" alt="Reporte">
-    <div class="popup-body">
-      <div class="popup-tags" id="popup-tags"></div>
-      <p class="popup-comment" id="popup-comment"></p>
-      <div class="popup-radius">
-        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-          <circle cx="6" cy="6" r="5" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-          <line x1="6" y1="6" x2="11" y2="6" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        Radio estimado: ~25 m
-      </div>
-    </div>
+    <div id="popup-dynamic-body"></div>
   </div>
 </div>
 {% endblock %}
@@ -277,16 +412,8 @@
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-  const REPORTS = [
-    {
-      lat:      19.515219779142296,
-      lng:     -101.64284404367208,
-      isSolved: false,
-      labels:   ['Plástico', 'Acumulación de basura', 'Otros'],
-      comment:  'Lorem Ipsum',
-      image:    'https://firebasestorage.googleapis.com/v0/b/amixtli-6c338.appspot.com/o/ILY00sMytIZRTxsSujY6F4N4Yi73%2F8f183e8e-8a50-4cd5-a027-14278bb1e9d2_Michoac%C3%A1n_P%C3%A1tzcuaro.png?alt=media&token=6f0a3f52-1a08-42a4-ae91-fc252f413482',
-    }
-  ];
+  const ALL_REPORTS  = {{ reports | tojson }};
+  const INIT_TOP     = {{ top_reports | tojson }};
 
   // ── Map init ─────────────────────────────────────────────────
   const map = L.map('map', {
@@ -296,19 +423,20 @@
     attributionControl: true,
   });
 
-  // Dark monochrome tiles — same aesthetic as Kaspersky
   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: 'abcd',
     maxZoom: 19,
   }).addTo(map);
 
-  // Move zoom control to bottom-left to avoid overlay overlap
   map.zoomControl.setPosition('bottomleft');
+
+  // ── Marker layer group (needed for filter clear/rebuild) ─────
+  const markerGroup = L.layerGroup().addTo(map);
 
   // ── Marker factory ───────────────────────────────────────────
   function makeMarker(d) {
-    const cls = d.isSolved ? 'solved' : 'unsolved';
+    const cls  = d.isSolved ? 'solved' : 'unsolved';
     const html = `
       <div class="report-marker-wrap">
         <div class="report-ring ${cls}"></div>
@@ -316,36 +444,31 @@
         <div class="report-ring ${cls}"></div>
         <div class="report-dot  ${cls}"></div>
       </div>`;
+    const icon = L.divIcon({ className: '', html, iconSize: [12, 12], iconAnchor: [6, 6] });
+    return L.marker([d.latitude, d.longitude], { icon });
+  }
 
-    const icon = L.divIcon({
-      className: '',
-      html,
-      iconSize:   [12, 12],
-      iconAnchor: [6, 6],
+  function buildMarkers(reports) {
+    markerGroup.clearLayers();
+    reports.forEach(d => {
+      makeMarker(d).addTo(markerGroup).on('click', () => onMarkerClick(d));
     });
-
-    return L.marker([d.lat, d.lng], { icon });
   }
 
   // ── Popup logic ───────────────────────────────────────────────
   const popup   = document.getElementById('report-popup');
-  const popImg  = document.getElementById('popup-img');
-  const popTags = document.getElementById('popup-tags');
-  const popCmnt = document.getElementById('popup-comment');
+  const popBody = document.getElementById('popup-dynamic-body');
   const wrap    = document.getElementById('map-wrapper');
 
   function positionPopup(lat, lng) {
     const pt  = map.latLngToContainerPoint([lat, lng]);
     const pw  = popup.offsetWidth  || 280;
     const ph  = popup.offsetHeight || 290;
-    const gap = 18; // px between marker edge and popup
+    const gap = 18;
 
     // Prefer right side; flip left when it would overflow
     let x = pt.x + gap + 6;
-    if (x + pw > wrap.offsetWidth - gap) {
-      x = pt.x - pw - gap - 6;
-    }
-    // Center vertically on the marker, clamped to viewport
+    if (x + pw > wrap.offsetWidth - gap) x = pt.x - pw - gap - 6;
     let y = pt.y - ph / 2;
     y = Math.max(gap, Math.min(y, wrap.offsetHeight - ph - gap));
 
@@ -355,36 +478,157 @@
     popup.style.right  = 'auto';
   }
 
-  function showPopup(d) {
-    popImg.src = d.image;
-    popTags.innerHTML = d.labels.map(l => `<span class="popup-tag">${l}</span>`).join('');
-    popCmnt.textContent = d.comment;
-    // Hide first to reset animation, then measure and position
-    popup.classList.remove('visible');
-    popup.classList.add('hidden');
+  // XSS-safe escape for dynamically injected text
+  function esc(str) {
+    if (str == null) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function openPopup(lat, lng) {
+    popup.classList.remove('visible', 'hidden');
     requestAnimationFrame(() => {
       popup.classList.remove('hidden');
-      positionPopup(d.lat, d.lng);
+      positionPopup(lat, lng);
       popup.classList.add('visible');
     });
   }
 
-  document.getElementById('popup-close').addEventListener('click', () => {
+  function closePopup() {
     popup.classList.add('hidden');
     popup.classList.remove('visible');
+  }
+
+  function showLoading(lat, lng) {
+    popBody.innerHTML = '<div class="popup-loading">Cargando…</div>';
+    openPopup(lat, lng);
+  }
+
+  function showDetail(detail, lat, lng) {
+    const rawType = detail.waste_type;
+    const tags = Array.isArray(rawType)
+      ? rawType
+      : (rawType ? String(rawType).split(',') : []);
+
+    const tagsHtml = tags.map(t => `<span class="popup-tag">${esc(t.trim())}</span>`).join('');
+    const envHtml  = detail.environment_type
+      ? `<span class="popup-tag popup-tag--env">${esc(detail.environment_type)}</span>`
+      : '';
+    const hasTags  = tagsHtml || envHtml;
+    const location = [detail.street, detail.city].filter(Boolean).map(esc).join(', ');
+
+    popBody.innerHTML = `
+      ${detail.image_path ? `<img class="popup-img" src="${esc(detail.image_url)}" alt="Reporte" loading="lazy">` : ''}
+      <div class="popup-body">
+        ${hasTags ? `<div class="popup-tags">${tagsHtml}${envHtml}</div>` : ''}
+        ${detail.comment ? `<p class="popup-comment">${esc(detail.comment)}</p>` : ''}
+        ${location ? `
+          <div class="popup-radius">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+              <path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.5 3.5 6.5 3.5 6.5S9.5 7 9.5 4.5C9.5 2.567 7.933 1 6 1z" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+              <circle cx="6" cy="4.5" r="1.2" fill="rgba(255,255,255,0.25)"/>
+            </svg>
+            ${location}
+          </div>` : ''}
+      </div>`;
+
+    positionPopup(lat, lng);
+  }
+
+  function showError(lat, lng) {
+    popBody.innerHTML = '<div class="popup-loading">No se pudo cargar el reporte.</div>';
+    positionPopup(lat, lng);
+  }
+
+  async function onMarkerClick(d) {
+    showLoading(d.latitude, d.longitude);
+    try {
+      const res = await fetch(`/api/reporte/${encodeURIComponent(d.id)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const detail = await res.json();
+      showDetail(detail, d.latitude, d.longitude);
+    } catch (err) {
+      showError(d.latitude, d.longitude);
+      console.error('BL > onMarkerClick() - Failed to load report detail:', err);
+    }
+  }
+
+  document.getElementById('popup-close').addEventListener('click', closePopup);
+  map.on('movestart zoomstart', closePopup);
+
+  // ── Report count label ────────────────────────────────────────
+  const countEl = document.getElementById('report-count');
+  function updateCount(n) {
+    const s = n === 1 ? '' : 's';
+    countEl.textContent = `${n} reporte${s} activo${s}`;
+  }
+
+  // ── Top reports panel ─────────────────────────────────────────
+  const topList   = document.getElementById('top-list');
+  const topToggle = document.getElementById('top-toggle');
+  let topCollapsed = false;
+
+  topToggle.addEventListener('click', () => {
+    topCollapsed = !topCollapsed;
+    topList.style.display = topCollapsed ? 'none' : '';
+    topToggle.textContent = topCollapsed ? '▼' : '▲';
   });
 
-  // Close popup when user pans or zooms the map
-  map.on('movestart zoomstart', () => {
-    popup.classList.add('hidden');
-    popup.classList.remove('visible');
+  function renderTopReports(reports) {
+    if (!reports.length) {
+      topList.innerHTML = '<p class="top-empty">Sin reportes en este filtro.</p>';
+      return;
+    }
+    topList.innerHTML = reports.map((r, i) => `
+      <div class="top-item"
+           data-lat="${r.latitude}"
+           data-lng="${r.longitude}"
+           data-id="${esc(String(r.id))}">
+        <span class="top-rank">${i + 1}</span>
+        <div class="top-info">
+          <span class="top-city">${esc(r.city || r.state || '—')}</span>
+          <span class="top-score">⚡ ${r.importance_report ?? '—'}</span>
+        </div>
+      </div>`).join('');
+
+    topList.querySelectorAll('.top-item').forEach(el => {
+      el.addEventListener('click', () => {
+        const lat = parseFloat(el.dataset.lat);
+        const lng = parseFloat(el.dataset.lng);
+        const id  = el.dataset.id;
+        map.flyTo([lat, lng], 14, { duration: 1.2 });
+        // Open popup after fly animation finishes
+        const d = ALL_REPORTS.find(r => String(r.id) === id);
+        if (d) setTimeout(() => onMarkerClick(d), 1400);
+      });
+    });
+  }
+
+  // ── State filter ──────────────────────────────────────────────
+  document.getElementById('state-select').addEventListener('change', async (e) => {
+    const state = e.target.value || null;
+    closePopup();
+
+    // Client-side marker filter using the state field already in ALL_REPORTS
+    const visible = state ? ALL_REPORTS.filter(d => d.state === state) : ALL_REPORTS;
+    buildMarkers(visible);
+    updateCount(visible.length);
+
+    // Fetch updated top list from server
+    const url = `/api/top_reportes?limit=10${state ? `&state=${encodeURIComponent(state)}` : ''}`;
+    try {
+      const res = await fetch(url);
+      if (res.ok) renderTopReports(await res.json());
+    } catch (err) {
+      console.error('BL > state filter - Failed to fetch top reports:', err);
+    }
   });
 
-  // ── Add markers ──────────────────────────────────────────────
-  REPORTS.forEach(d => {
-    makeMarker(d)
-      .addTo(map)
-      .on('click', () => showPopup(d));
-  });
+  // ── Init ──────────────────────────────────────────────────────
+  buildMarkers(ALL_REPORTS);
+  renderTopReports(INIT_TOP);
 </script>
 {% endblock %}
