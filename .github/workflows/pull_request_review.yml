@@ -78,6 +78,9 @@ jobs:
           STAGING_AMIXTLI_API_REPORTS=${{ secrets.STAGING_AMIXTLI_API_REPORTS }}
           STAGING_ALLOWED_EMAILS=${{ secrets.STAGING_ALLOWED_EMAILS }}
           STAGING_SECRET_KEY=${{ secrets.STAGING_SECRET_KEY }}
+          STAGING_SUPABASE_URL=https://dummy-test.supabase.co
+          STAGING_SUPABASE_KEY=dummy-supabase-key-for-tests-only
+          STAGING_SUPABASE_URL_API=https://dummy-test.supabase.co/rest/v1/reports
           EOF
 
       - name: Ejecutar tests

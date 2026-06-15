@@ -6,8 +6,8 @@ from unittest.mock import MagicMock, patch
 
 import jwt
 
-
 from config.settings import settings
+from managers.supabase_manager import supabase_manager as _sb_manager
 
 # Shared valid credentials used across admin route tests
 _SECRET = "unit-test-secret-32-bytes-padded!!"
@@ -28,13 +28,16 @@ def _local_admin_ctx():
 
 class TestPublicRoutes:
     def test_home_root(self, client):
-        assert client.get("/").status_code == 200
+        with patch.object(_sb_manager, "get_reports_count", return_value=0):
+            assert client.get("/").status_code == 200
 
     def test_home_inicio(self, client):
-        assert client.get("/inicio").status_code == 200
+        with patch.object(_sb_manager, "get_reports_count", return_value=0):
+            assert client.get("/inicio").status_code == 200
 
     def test_home_carto_group(self, client):
-        assert client.get("/carto_group").status_code == 200
+        with patch.object(_sb_manager, "get_reports_count", return_value=0):
+            assert client.get("/carto_group").status_code == 200
 
     def test_contacto(self, client):
         assert client.get("/contacto").status_code == 200
@@ -46,7 +49,17 @@ class TestPublicRoutes:
         assert client.get("/politica_privacidad").status_code == 200
 
     def test_mapa_reportes(self, client):
-        assert client.get("/mapa_reportes").status_code == 200
+        with patch.object(_sb_manager, "get_map_reports", return_value=[]):
+            assert client.get("/mapa_reportes").status_code == 200
+
+    def test_mapa_reportes_passes_reports_to_template(self, client):
+        markers = [
+            {"id": "abc", "latitude": 19.5, "longitude": -101.6, "importanceReport": 3}
+        ]
+        with patch.object(_sb_manager, "get_map_reports", return_value=markers):
+            res = client.get("/mapa_reportes")
+        assert res.status_code == 200
+        assert b'"latitude"' in res.data
 
     def test_app_page(self, client):
         assert client.get("/app").status_code == 200
@@ -57,9 +70,15 @@ class TestPublicRoutes:
     def test_unknown_route(self, client):
         assert client.get("/ruta-inexistente").status_code == 404
 
-    def test_home_renders_current_year(self, client):
-        res = client.get("/")
-        assert str(datetime.now().year).encode() in res.data
+    def test_home_renders_reports_label(self, client):
+        with patch.object(_sb_manager, "get_reports_count", return_value=0):
+            res = client.get("/")
+        assert b"Reportes realizados" in res.data
+
+    def test_home_injects_reports_count(self, client):
+        with patch.object(_sb_manager, "get_reports_count", return_value=42):
+            res = client.get("/")
+        assert b"42" in res.data
 
 
 # ─── Validación de reportes — GET ────────────────────────────────────────────
@@ -378,3 +397,37 @@ class TestProcesar:
                 data={"token": "tok", "accion": "aceptar", "image_id": "1"},
             )
         assert res.status_code == 404
+
+
+# ─── /api/reporte/<id> ────────────────────────────────────────────────────────
+
+
+class TestReporteDetailApi:
+    _DETAIL = {
+        "id": "uuid-123",
+        "image_path": "https://example.com/img.jpg",
+        "street": "Av. Principal",
+        "city": "Morelia",
+        "comment": "Mucha basura acumulada",
+        "waste_type": ["Plástico", "Orgánico"],
+        "environment_type": "Urbano",
+        "importance_report": 5,
+    }
+
+    def test_found_returns_200_with_json(self, client):
+        with patch.object(_sb_manager, "get_report_detail", return_value=self._DETAIL):
+            res = client.get("/api/reporte/uuid-123")
+        assert res.status_code == 200
+        assert res.json["city"] == "Morelia"
+        assert res.json["id"] == "uuid-123"
+
+    def test_not_found_returns_404(self, client):
+        with patch.object(_sb_manager, "get_report_detail", return_value=None):
+            res = client.get("/api/reporte/nonexistent")
+        assert res.status_code == 404
+        assert "error" in res.json
+
+    def test_response_is_json_content_type(self, client):
+        with patch.object(_sb_manager, "get_report_detail", return_value=self._DETAIL):
+            res = client.get("/api/reporte/uuid-123")
+        assert "application/json" in res.content_type
