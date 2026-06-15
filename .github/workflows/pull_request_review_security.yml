@@ -1,0 +1,48 @@
+name: Análisis de seguridad
+
+on:
+  push:
+    branches: ["master", "staging", "development"]
+  pull_request:
+    branches: ["master", "staging"]
+
+jobs:
+  security:
+    name: Bandit y pip-audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar herramientas de seguridad
+        run: pip install bandit pip-audit
+
+      - name: Bandit — análisis estático
+        run: |
+          bandit -r . \
+            --exclude .venv,tests \
+            --severity-level medium \
+            --confidence-level medium \
+            -f json \
+            -o bandit-report.json || true
+          bandit -r . \
+            --exclude .venv,tests \
+            --severity-level medium \
+            --confidence-level medium
+
+      - name: pip-audit — dependencias
+        run: pip-audit --requirement <(pip install poetry && poetry export -f requirements.txt --without-hashes 2>/dev/null) || true
+
+      - name: Subir reporte Bandit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-report
+          path: bandit-report.json
+          retention-days: 7
