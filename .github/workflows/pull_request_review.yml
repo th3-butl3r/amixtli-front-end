@@ -81,6 +81,7 @@ jobs:
           STAGING_SUPABASE_URL=https://dummy-test.supabase.co
           STAGING_SUPABASE_KEY=dummy-supabase-key-for-tests-only
           STAGING_SUPABASE_URL_API=https://dummy-test.supabase.co/rest/v1/reports
+          STAGING_SUPABASE_STORAGE_BUCKET=test_bucket
           EOF
 
       - name: Ejecutar tests

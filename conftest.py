@@ -13,4 +13,5 @@ if not _env_path.exists():
         "LOCAL_SUPABASE_URL=https://dummy-test.supabase.co\n"
         "LOCAL_SUPABASE_KEY=dummy-supabase-key-for-tests-only\n"
         "LOCAL_SUPABASE_URL_API=https://dummy-test.supabase.co/rest/v1/reports\n"
+        "LOCAL_SUPABASE_STORAGE_BUCKET=test_bucket\n"
     )
