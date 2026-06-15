@@ -16,6 +16,12 @@ class BaseConfig(BaseSettings):
     # return 404 automatically, making them invisible in any non-LOCAL deployment.
     ALLOWED_EMAILS: Optional[str] = env_file.get(f"{ENV_STATE.upper()}_ALLOWED_EMAILS")
     SECRET_KEY: Optional[str] = env_file.get(f"{ENV_STATE.upper()}_SECRET_KEY")
+    SUPABASE_URL: str = env_file[f"{ENV_STATE.upper()}_SUPABASE_URL"]
+    SUPABASE_KEY: str = env_file[f"{ENV_STATE.upper()}_SUPABASE_KEY"]
+    SUPABASE_URL_API: str = env_file[f"{ENV_STATE.upper()}_SUPABASE_URL_API"]
+    SUPABASE_STORAGE_BUCKET: str = env_file[
+        f"{ENV_STATE.upper()}_SUPABASE_STORAGE_BUCKET"
+    ]
 
 
 settings = BaseConfig()
