@@ -1,5 +1,5 @@
-import ast
 import json
+from concurrent.futures import ThreadPoolExecutor
 
 import jwt
 from flask import Flask
@@ -16,7 +16,6 @@ from loguru import logger
 from config.settings import settings
 from managers.storage_manager import storage_manager
 from managers.supabase_manager import supabase_manager
-from services.reports import reports_services
 
 app = Flask(__name__)
 
@@ -85,9 +84,13 @@ def map() -> str:
         Rendered HTML of the map page with serialised report markers.
     """
     logger.info("BL > map() - Rendering map page")
-    reports = supabase_manager.get_map_reports()
-    top_reports = supabase_manager.get_top_reports(limit=10)
-    states = supabase_manager.get_available_states()
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        f_reports = pool.submit(supabase_manager.get_map_reports)
+        f_top = pool.submit(supabase_manager.get_top_reports, 10)
+        f_states = pool.submit(supabase_manager.get_available_states)
+        reports = f_reports.result()
+        top_reports = f_top.result()
+        states = f_states.result()
     logger.info(
         f"BL > map() - Passing {len(reports)} markers, {len(top_reports)} top reports, {len(states)} states"
     )
@@ -188,7 +191,7 @@ def _admin_guard() -> None:
         logger.warning("BL > _admin_guard() - Blocked: ALLOWED_EMAILS is not configured")
         abort(404)
     try:
-        emails = ast.literal_eval(raw_emails)
+        emails = json.loads(raw_emails)
     except (ValueError, SyntaxError):
         logger.warning(
             "BL > _admin_guard() - Blocked: ALLOWED_EMAILS is not valid JSON list"
@@ -214,9 +217,13 @@ def mostrar_formulario() -> str:
     mensaje_error = None
     if request.method == "POST":
         logger.info("BL > mostrar_formulario() - Processing token login")
-        token_personal = request.form.get("token_personal")
+        token_personal = (request.form.get("token_personal") or "").strip()
+        if not token_personal:
+            mensaje_error = "Token vacío"
+            logger.warning("BL > mostrar_formulario() - Empty token received")
+            return render_template("login_form.html", mensaje_error=mensaje_error)
         try:
-            emails_validos = ast.literal_eval(settings.ALLOWED_EMAILS)
+            emails_validos = json.loads(settings.ALLOWED_EMAILS)
         except (ValueError, SyntaxError):
             emails_validos = []
         email = None
@@ -228,9 +235,9 @@ def mostrar_formulario() -> str:
         except jwt.ExpiredSignatureError:
             mensaje_error = "Token expirado"
             logger.warning("BL > mostrar_formulario() - Expired token received")
-        except jwt.InvalidTokenError:
+        except jwt.InvalidTokenError as e:
             mensaje_error = "Token inválido"
-            logger.warning("BL > mostrar_formulario() - Invalid token received")
+            logger.warning(f"BL > mostrar_formulario() - Invalid token: {e}")
 
         if email in emails_validos:
             logger.info(f"BL > mostrar_formulario() - Authorized access for {email}")
@@ -251,53 +258,57 @@ def validate_reports() -> str:
     """
     _admin_guard()
     logger.info("BL > validate_reports() - Rendering reports validation page")
-    token_user = request.args.get("token_user", "")
-    reports = reports_services.get_reports_to_validate()
-    return render_template(
-        "validate_reports.html", imagenes=reports, token_user=token_user
-    )
+    raw_reports = supabase_manager.get_pending_reports()
+    for r in raw_reports:
+        ip = r.get("image_path")
+        r["image_url"] = storage_manager.get_image_url(ip) if ip else None
+    logger.info(f"BL > validate_reports() - Passing {len(raw_reports)} pending reports")
+    return render_template("validate_reports.html", reportes=raw_reports)
 
 
 @app.route("/procesar", methods=["POST"])
 def procesar() -> str:
-    """Process an accept or reject action on a report.
+    """Process a moderation action (aceptar / rechazar / eliminar) on a report.
+
+    - aceptar:  sets status to 'aprobado'; report becomes visible on the public map.
+    - rechazar: deletes the DB record; image is kept in storage for model training.
+    - eliminar: deletes both the DB record and the image from storage.
 
     Returns:
         Rendered HTML confirmation message page.
     """
     _admin_guard()
-    token = request.form.get("token")
     accion = request.form.get("accion")
-    imagen_id = request.form.get("image_id")
-    logger.info(
-        f"BL > procesar() - Processing action='{accion}' for report id={imagen_id}"
-    )
+    report_id = request.form.get("report_id")
+    image_path = (request.form.get("image_path") or "").strip()
+    logger.info(f"BL > procesar() - action='{accion}' for id={report_id}")
 
+    ok = False
     if accion == "aceptar":
-        new_value = {"isValid": True}
-    elif accion == "rechazar":
-        new_value = {"isValid": False}
-
-    response = reports_services.update_report(
-        id_report=imagen_id, new_value=new_value, token=token
-    )
-    if response.status_code in [200, 201]:
-        mensaje = "¡El reporte se ha actualizado con éxito! Muchas gracias por validar que el reporte sea un reporte válido y permitirnos mejorar el sistema."
-    else:
-        txt = json.loads(response.text)
-        errors = txt.get("errors", None)
-        if errors is None:
-            mensaje = "Ha ocurrido un error, por favor contacte al administrador"
-        else:
-            mensaje = str(
-                errors.get(
-                    "error",
-                    "Parece que algo ha fallado durante la actualización del reporte. Por favor, inténtelo más tarde o contacte al administrador",
-                )
-            )
-        logger.error(
-            f"BL > procesar() - Failed to update report id={imagen_id}: {mensaje}"
+        waste_type = request.form.get("waste_type") or None
+        env_type = request.form.get("environment_type") or None
+        logger.debug(f"BL > procesar() - waste_type='{waste_type}' env_type='{env_type}'")
+        ok = supabase_manager.approve_report(
+            report_id,
+            waste_type=waste_type,
+            environment_type=env_type,
         )
+        mensaje = "Reporte aprobado. Ya es visible en el mapa público."
+    elif accion == "rechazar":
+        ok = supabase_manager.delete_report(report_id)
+        mensaje = "Reporte rechazado. La imagen se conserva para entrenamiento."
+    elif accion == "eliminar":
+        if image_path:
+            storage_manager.delete_image(image_path)
+        ok = supabase_manager.delete_report(report_id)
+        mensaje = "Reporte y su imagen eliminados permanentemente."
+    else:
+        mensaje = "Acción no reconocida."
+        logger.warning(f"BL > procesar() - Unknown action='{accion}'")
+
+    if not ok and accion in ("aceptar", "rechazar", "eliminar"):
+        mensaje = "Ha ocurrido un error. Por favor inténtalo de nuevo."
+        logger.error(f"BL > procesar() - Failed action='{accion}' for id={report_id}")
 
     return render_template("mensaje.html", mensaje=mensaje)
 

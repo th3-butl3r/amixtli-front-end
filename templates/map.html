@@ -17,6 +17,22 @@
     background: #0d0d14;
   }
 
+  #popup-leader {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: visible;
+  }
+  #popup-leader line {
+    stroke: rgba(255, 255, 255, 0.28);
+    stroke-width: 2;
+    stroke-dasharray: 0 8;
+    stroke-linecap: round;
+  }
+
   /* Remove default Leaflet focus outline */
   .leaflet-container:focus { outline: none; }
   .leaflet-attribution-flag { display: none !important; }
@@ -56,12 +72,16 @@
   }
 
   .report-dot.unsolved {
-    background: rgba(251, 191, 36, 1);
-    box-shadow: 0 0 8px rgba(251,191,36,0.6), 0 0 3px rgba(255,255,255,0.5);
+    background: rgba(239, 68, 68, 1);
+    box-shadow: 0 0 8px rgba(239,68,68,0.6), 0 0 3px rgba(255,255,255,0.5);
   }
   .report-dot.solved {
     background: rgba(52, 211, 153, 1);
     box-shadow: 0 0 8px rgba(52,211,153,0.6), 0 0 3px rgba(255,255,255,0.5);
+  }
+  .report-dot.genesis {
+    background: rgb(235, 239, 241, 1);
+    box-shadow: 0 0 8px rgba(235, 239, 241, 0.7), 0 0 3px rgba(255,255,255,0.5);
   }
 
   /* Pulsing rings */
@@ -76,12 +96,11 @@
     pointer-events: none;
   }
 
-  .report-ring.unsolved { border: 1px solid rgba(251,191,36,0.7); animation: ringPulse 2.4s ease-out infinite; }
+  .report-ring.unsolved { border: 1px solid rgba(239,68,68,0.7); animation: ringPulse 2.4s ease-out infinite; }
   .report-ring.solved   { border: 1px solid rgba(52,211,153,0.7);  animation: ringPulse 2.4s ease-out infinite; }
+  .report-ring.genesis  { border: 1px solid rgb(235, 239, 241, 0.7);;  animation: ringPulse 2.4s ease-out infinite; }
 
-  .report-ring:nth-child(2) { animation-delay: 0s;    }
-  .report-ring:nth-child(3) { animation-delay: 0.8s;  }
-  .report-ring:nth-child(4) { animation-delay: 1.6s;  }
+  .report-ring:nth-child(2) { animation-delay: 0.9s; }
 
   @keyframes ringPulse {
     0%   { width: 10px;  height: 10px;  opacity: 0.85; }
@@ -134,7 +153,7 @@
     border-radius: 50%;
     flex-shrink: 0;
   }
-  .legend-dot.unsolved { background: rgba(251,191,36,0.95); box-shadow: 0 0 5px rgba(251,191,36,0.5); }
+  .legend-dot.unsolved { background: rgba(239,68,68,0.95); box-shadow: 0 0 5px rgba(239,68,68,0.5); }
   .legend-dot.solved   { background: rgba(52,211,153,0.95);  box-shadow: 0 0 5px rgba(52,211,153,0.5); }
   .status-dot {
     display: inline-flex;
@@ -148,7 +167,7 @@
     content: '';
     width: 5px; height: 5px;
     border-radius: 50%;
-    background: #F5A623;
+    background: rgba(239,68,68,0.9);
     flex-shrink: 0;
   }
 
@@ -157,14 +176,18 @@
     position: absolute;
     /* left / top set dynamically by JS */
     width: 280px;
-    background: #16161F;
-    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 10px;
-    overflow: hidden;
     box-shadow: 0 8px 40px rgba(0,0,0,0.6);
     z-index: 1001;
     font-family: inherit;
     pointer-events: auto;
+  }
+  /* Inner wrapper clips image/content to rounded corners */
+  .popup-inner {
+    overflow: hidden;
+    border-radius: 10px;
+    background: #16161F;
+    border: 1px solid rgba(255,255,255,0.08);
   }
   .report-popup.hidden { display: none; }
   .report-popup.visible { animation: popupIn 0.22s cubic-bezier(0.34,1.56,0.64,1) both; }
@@ -232,6 +255,15 @@
     padding-top: 0.55rem;
     margin-top: 0.4rem;
   }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .popup-spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-top-color: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    animation: spin 0.65s linear infinite;
+    flex-shrink: 0;
+  }
   .popup-loading {
     padding: 2rem 1rem;
     text-align: center;
@@ -241,6 +273,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.6rem;
+  }
+  .top-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.22);
   }
 
   /* ── State filter (inside overlay) ────────────────────── */
@@ -335,7 +377,7 @@
   .top-rank {
     font-size: 0.62rem;
     font-weight: 700;
-    color: rgba(251,191,36,0.65);
+    color: rgba(239,68,68,0.75);
     width: 14px;
     text-align: right;
     flex-shrink: 0;
@@ -391,7 +433,7 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255,255,255,0.12);
-    color: rgba(251,191,36,0.85);
+    color: rgba(239,68,68,0.9);
     font-size: 1.05rem;
     cursor: pointer;
     align-items: center;
@@ -499,6 +541,7 @@
 {% block content %}
 <div id="map-wrapper">
   <div id="map"></div>
+  <svg id="popup-leader" aria-hidden="true"></svg>
 
   <div class="map-overlay">
     <div class="overlay-header">
@@ -551,11 +594,13 @@
   </div>
 
   <div id="report-popup" class="report-popup hidden">
-    <div class="popup-header">
-      <span class="popup-header-label">Reporte</span>
-      <button class="popup-close" id="popup-close" aria-label="Cerrar">&#x2715;</button>
+    <div class="popup-inner">
+      <div class="popup-header">
+        <span class="popup-header-label">Reporte</span>
+        <button class="popup-close" id="popup-close" aria-label="Cerrar">&#x2715;</button>
+      </div>
+      <div id="popup-dynamic-body"></div>
     </div>
-    <div id="popup-dynamic-body"></div>
   </div>
 </div>
 {% endblock %}
@@ -587,10 +632,9 @@
 
   // ── Marker factory ───────────────────────────────────────────
   function makeMarker(d) {
-    const cls  = d.isSolved ? 'solved' : 'unsolved';
+    const cls  = d.is_solved ? 'solved' : 'unsolved';
     const html = `
       <div class="report-marker-wrap">
-        <div class="report-ring ${cls}"></div>
         <div class="report-ring ${cls}"></div>
         <div class="report-ring ${cls}"></div>
         <div class="report-dot  ${cls}"></div>
@@ -614,22 +658,28 @@
   const isMobile = () => window.innerWidth <= 600;
 
   function positionPopup(lat, lng) {
-    if (isMobile()) return; // CSS posiciona el popup como bottom sheet en móvil
+    if (isMobile()) return;
     const pt  = map.latLngToContainerPoint([lat, lng]);
     const pw  = popup.offsetWidth  || 280;
     const ph  = popup.offsetHeight || 290;
     const gap = 18;
 
     // Prefer right side; flip left when it would overflow
-    let x = pt.x + gap + 6;
-    if (x + pw > wrap.offsetWidth - gap) x = pt.x - pw - gap - 6;
-    let y = pt.y - ph / 2;
-    y = Math.max(gap, Math.min(y, wrap.offsetHeight - ph - gap));
+    const onRight = (pt.x + gap + 6 + pw) <= (wrap.offsetWidth - gap);
+    const x = onRight ? pt.x + gap + 6 : pt.x - pw - gap - 6;
+    const y = Math.max(gap, Math.min(pt.y - ph / 2, wrap.offsetHeight - ph - gap));
+
+    popup.classList.toggle('popup--right', onRight);
+    popup.classList.toggle('popup--left',  !onRight);
 
     popup.style.left   = x + 'px';
     popup.style.top    = y + 'px';
     popup.style.bottom = 'auto';
     popup.style.right  = 'auto';
+
+    // Arrow tip aligns with the marker's vertical position, clamped inside popup
+    const arrowY = Math.max(16, Math.min(pt.y - y, ph - 16));
+    popup.style.setProperty('--arrow-y', `${arrowY}px`);
   }
 
   // XSS-safe escape for dynamically injected text
@@ -642,22 +692,67 @@
       .replace(/"/g, '&quot;');
   }
 
+  let _openLatLng  = null;
+  let _zoomActive  = false;
+
+  const leaderSvg  = document.getElementById('popup-leader');
+  const leaderLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  leaderSvg.appendChild(leaderLine);
+  leaderLine.style.display = 'none';
+
+  let _leaderRafId = null;
+
+  function _drawLeaderLine() {
+    _leaderRafId = null;
+    if (!_openLatLng || popup.classList.contains('hidden') || isMobile()) {
+      leaderLine.style.display = 'none';
+      return;
+    }
+    const markerPt = map.latLngToContainerPoint([_openLatLng.lat, _openLatLng.lng]);
+    const arrowY   = parseFloat(popup.style.getPropertyValue('--arrow-y')) || popup.offsetHeight / 2;
+
+    let x1;
+    if (popup.classList.contains('popup--right')) {
+      x1 = popup.offsetLeft - 10;
+    } else if (popup.classList.contains('popup--left')) {
+      x1 = popup.offsetLeft + popup.offsetWidth + 10;
+    } else {
+      leaderLine.style.display = 'none';
+      return;
+    }
+    leaderLine.setAttribute('x1', x1);
+    leaderLine.setAttribute('y1', popup.offsetTop + arrowY);
+    leaderLine.setAttribute('x2', markerPt.x);
+    leaderLine.setAttribute('y2', markerPt.y);
+    leaderLine.style.display = '';
+  }
+
+  function updateLeaderLine() {
+    if (_leaderRafId) return;
+    _leaderRafId = requestAnimationFrame(_drawLeaderLine);
+  }
+
   function openPopup(lat, lng) {
+    _openLatLng = { lat, lng };
     popup.classList.remove('visible', 'hidden');
     requestAnimationFrame(() => {
       popup.classList.remove('hidden');
       positionPopup(lat, lng);
       popup.classList.add('visible');
+      updateLeaderLine();
     });
   }
 
   function closePopup() {
+    _openLatLng = null;
+    if (_leaderRafId) { cancelAnimationFrame(_leaderRafId); _leaderRafId = null; }
     popup.classList.add('hidden');
-    popup.classList.remove('visible');
+    popup.classList.remove('visible', 'popup--right', 'popup--left');
+    leaderLine.style.display = 'none';
   }
 
   function showLoading(lat, lng) {
-    popBody.innerHTML = '<div class="popup-loading">Cargando…</div>';
+    popBody.innerHTML = '<div class="popup-loading"><div class="popup-spinner"></div>Cargando…</div>';
     openPopup(lat, lng);
   }
 
@@ -674,6 +769,7 @@
     const hasTags  = tagsHtml || envHtml;
     const location = [detail.street, detail.city].filter(Boolean).map(esc).join(', ');
 
+    const importance = detail.importance_report ?? null;
     popBody.innerHTML = `
       ${detail.image_path ? `<img class="popup-img" src="${esc(detail.image_url)}" alt="Reporte" loading="lazy">` : ''}
       <div class="popup-body">
@@ -687,6 +783,14 @@
             </svg>
             ${location}
           </div>` : ''}
+        ${importance !== null ? `
+          <div class="popup-radius">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+              <circle cx="6" cy="4" r="2" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+              <path d="M2 10c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            Reportado por ${importance} ${importance === 1 ? 'persona' : 'personas'}
+          </div>` : ''}
       </div>`;
 
     positionPopup(lat, lng);
@@ -697,12 +801,19 @@
     positionPopup(lat, lng);
   }
 
+  // Keyed by report id — survives for the duration of the page session.
+  const _detailCache = new Map();
+
   async function onMarkerClick(d) {
     showLoading(d.latitude, d.longitude);
     try {
-      const res = await fetch(`/api/reporte/${encodeURIComponent(d.id)}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const detail = await res.json();
+      let detail = _detailCache.get(d.id);
+      if (!detail) {
+        const res = await fetch(`/api/reporte/${encodeURIComponent(d.id)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        detail = await res.json();
+        _detailCache.set(d.id, detail);
+      }
       showDetail(detail, d.latitude, d.longitude);
     } catch (err) {
       showError(d.latitude, d.longitude);
@@ -711,7 +822,11 @@
   }
 
   document.getElementById('popup-close').addEventListener('click', closePopup);
-  map.on('movestart zoomstart', closePopup);
+  map.on('dblclick', closePopup);
+  map.on('move',      updateLeaderLine);
+  map.on('zoomstart', () => { _zoomActive = true; });
+  map.on('zoomend',   () => { _zoomActive = false; });
+  map.on('zoom',      () => { if (_openLatLng) { positionPopup(_openLatLng.lat, _openLatLng.lng); updateLeaderLine(); } });
 
   // ── Report count label ────────────────────────────────────────
   const countEl = document.getElementById('report-count');
@@ -752,17 +867,17 @@
         </div>
       </div>`).join('');
 
-    container.querySelectorAll('.top-item').forEach(el => {
-      el.addEventListener('click', () => {
-        const lat = parseFloat(el.dataset.lat);
-        const lng = parseFloat(el.dataset.lng);
-        const id  = el.dataset.id;
-        closeDrawer();
-        map.flyTo([lat, lng], 14, { duration: 1.2 });
-        const d = ALL_REPORTS.find(r => String(r.id) === id);
-        if (d) setTimeout(() => onMarkerClick(d), 1400);
-      });
-    });
+    container.onclick = (e) => {
+      const item = e.target.closest('.top-item');
+      if (!item) return;
+      const lat = parseFloat(item.dataset.lat);
+      const lng = parseFloat(item.dataset.lng);
+      const id  = item.dataset.id;
+      closeDrawer();
+      const d = ALL_REPORTS.find(r => String(r.id) === id);
+      map.flyTo([lat, lng], 14, { duration: 1.2 });
+      if (d) map.once('moveend', () => onMarkerClick(d));
+    };
   }
 
   function renderTopReports(reports) {
@@ -806,18 +921,47 @@
     buildMarkers(visible);
     updateCount(visible.length);
 
-    // Fetch updated top list from server
+    topList.innerHTML = '<div class="top-loading"><div class="popup-spinner"></div>Cargando…</div>';
+    e.target.disabled = true;
     const url = `/api/top_reportes?limit=10${state ? `&state=${encodeURIComponent(state)}` : ''}`;
     try {
       const res = await fetch(url);
       if (res.ok) renderTopReports(await res.json());
+      else topList.innerHTML = '<p class="top-empty">Error al cargar.</p>';
     } catch (err) {
+      topList.innerHTML = '<p class="top-empty">Error al cargar.</p>';
       console.error('BL > state filter - Failed to fetch top reports:', err);
+    } finally {
+      e.target.disabled = false;
     }
   });
 
   // ── Init ──────────────────────────────────────────────────────
   buildMarkers(ALL_REPORTS);
   renderTopReports(INIT_TOP);
+
+  // ── Easter egg — Génesis 2:15 ─────────────────────────────────
+  // Marcador fijo en Null Island (0°, 0°). Azul para distinguirlo del resto.
+  (function addGenesisMarker() {
+    const cls  = 'genesis';
+    const html = `
+      <div class="report-marker-wrap">
+        <div class="report-ring ${cls}"></div>
+        <div class="report-ring ${cls}"></div>
+        <div class="report-dot  ${cls}"></div>
+      </div>`;
+    const icon = L.divIcon({ className: '', html, iconSize: [12, 12], iconAnchor: [6, 6] });
+    L.marker([0, 0], { icon }).addTo(map).on('click', () => {
+      openPopup(0, 0);
+      showDetail({
+        waste_type: 'desconocido',
+        environment_type: 'otro',
+        comment: 'Génesis 2:15',
+        image_path: null,
+        street: 'Null Island',
+        city: '0°N 0°E',
+      }, 0, 0);
+    });
+  })();
 </script>
 {% endblock %}

@@ -41,12 +41,10 @@ jobs:
           mkdir -p config
           cat > config/.env <<EOF
           ENV_STATE=STAGING
-          STAGING_AMIXTLI_API_REPORTS=https://dummy.example.com/api/reports
           STAGING_ALLOWED_EMAILS=["ci@test.com"]
           STAGING_SECRET_KEY=ci-secret-key-for-tests-only
           STAGING_SUPABASE_URL=https://dummy-test.supabase.co
           STAGING_SUPABASE_KEY=dummy-supabase-key-for-tests-only
-          STAGING_SUPABASE_URL_API=https://dummy-test.supabase.co/rest/v1/reports
           STAGING_SUPABASE_STORAGE_BUCKET=test_bucket
           EOF
 
