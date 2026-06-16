@@ -874,7 +874,7 @@ img { max-width: 100%; display: block; }
 
 /* ── Support page ───────────────────────────────────────────── */
 .support-page {
-  max-width: 680px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 1.5rem 5rem;
 }
@@ -906,15 +906,23 @@ img { max-width: 100%; display: block; }
   font-size: 1rem;
   color: var(--text-secondary);
   line-height: 1.75;
-  max-width: 520px;
+  max-width: 560px;
   margin: 0 auto;
   text-align: justify;
   hyphens: auto;
 }
 
-/* Allocation card */
+/* Two-column body */
+.support-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 3rem 0 1.5rem;
+  align-items: stretch;
+}
+
+/* Allocation card (left) */
 .support-allocation {
-  margin: 3rem 0;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -947,21 +955,31 @@ img { max-width: 100%; display: block; }
 }
 .allocation-list strong { color: var(--text-primary); font-weight: 600; }
 
-/* Donation options */
-.support-options { display: flex; flex-direction: column; gap: 0; }
-.support-option-block { padding: 2.5rem 0; }
+/* Support options card (right) */
+.support-options-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.support-options { display: flex; flex-direction: column; flex: 1; }
+.support-option-block { padding: 1.75rem 0; }
+.support-option-block:first-child { padding-top: 0; }
+.support-option-block:last-child  { padding-bottom: 0; }
 .support-option-block h2 {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-primary);
   margin: 0.5rem 0 0.65rem;
 }
 .support-option-desc {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: var(--text-secondary);
   line-height: 1.7;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 .support-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
 
@@ -988,6 +1006,29 @@ img { max-width: 100%; display: block; }
   justify-content: center;
 }
 .btn-donate--primary:hover { opacity: 0.88; color: #0A0F0D; }
+.btn-donate--outline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  width: 100%;
+  justify-content: center;
+}
+.btn-donate--outline:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: var(--text-primary);
+}
+.donate-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.donate-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+.donate-hint i { margin-right: 0.25rem; }
 
 /* Tier cards */
 .tier-grid {
@@ -1002,8 +1043,8 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  padding: 1.5rem 1rem;
-  background: var(--bg-elevated);
+  padding: 1.25rem 0.75rem;
+  background: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: 10px;
   text-decoration: none;
@@ -1012,7 +1053,7 @@ img { max-width: 100%; display: block; }
 }
 .tier-card:hover {
   border-color: rgba(255,255,255,0.18);
-  background: var(--bg-raised);
+  background: var(--bg-hover);
 }
 .tier-card--featured {
   border-color: rgba(52,211,153,0.35);
@@ -1028,14 +1069,14 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
-  background: var(--bg);
+  background: var(--bg-elevated);
   border: 1px solid rgba(52,211,153,0.3);
   border-radius: 2rem;
   padding: 0.15rem 0.6rem;
   white-space: nowrap;
 }
 .tier-amount {
-  font-size: 1.625rem;
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--text-primary);
@@ -1058,7 +1099,7 @@ img { max-width: 100%; display: block; }
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem 1.75rem;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
 }
 .transparency-icon {
   width: 32px; height: 32px;
@@ -1087,9 +1128,13 @@ img { max-width: 100%; display: block; }
   margin: 0;
 }
 
+@media (max-width: 768px) {
+  .support-body { grid-template-columns: 1fr; }
+}
 @media (max-width: 600px) {
   .tier-grid { grid-template-columns: 1fr; }
-  .support-allocation { padding: 1.25rem 1.25rem; }
+  .support-allocation,
+  .support-options-card { padding: 1.25rem; }
   .support-hero { padding-top: 3rem; }
 }
 
