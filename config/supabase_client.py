@@ -1,7 +1,11 @@
-from supabase import Client, create_client
+from supabase import Client, ClientOptions, create_client
 from loguru import logger
 
 from config.settings import settings
+
+# Seconds before a query is considered timed out. Supabase free tier can be
+# slow on the first request after inactivity (cold start), so we give it room.
+_TIMEOUT = 20
 
 
 def _build_client() -> Client:
@@ -24,8 +28,14 @@ def _build_client() -> Client:
             "Supabase credentials are required but not set in the environment."
         )
 
-    logger.info("BL > _build_client() - Supabase client initialized")
-    return create_client(url, key)
+    options = ClientOptions(
+        postgrest_client_timeout=_TIMEOUT,
+        storage_client_timeout=_TIMEOUT,
+    )
+    logger.info(
+        f"BL > _build_client() - Supabase client initialized (timeout={_TIMEOUT}s)"
+    )
+    return create_client(url, key, options=options)
 
 
 # Module-level singleton — imported wherever DB access is needed.
