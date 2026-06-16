@@ -18,6 +18,7 @@ _TTL: dict[str, int] = {
     "states": 300,  # 5 min — state list rarely changes
     "top_reports": 120,  # 2 min — ranking shifts slowly
     "count": 600,  # 10 min — home page counter, precision not critical
+    "detail": 300,  # 5 min — approved report fields rarely change
 }
 
 
@@ -41,7 +42,7 @@ def _invalidate(*keys: str) -> None:
 
 
 # Columns fetched on map load — includes state for client-side filtering
-_MAP_FIELDS = "id, latitude, longitude, importance_report, state"
+_MAP_FIELDS = "id, latitude, longitude, importance_report, state, is_solved"
 
 # Columns fetched on marker click — full detail only when the user requests it
 _DETAIL_FIELDS = "id, image_path, street, city, comment, waste_type, environment_type, importance_report"
@@ -251,6 +252,14 @@ class SupabaseManager:
         Returns:
             Dict with full report fields, or None if not found or on error.
         """
+        cache_key = f"detail:{report_id}"
+        hit, cached = _cache_get(cache_key)
+        if hit:
+            logger.info(
+                f"BL > SupabaseManager.get_report_detail() - Cache hit for id={report_id}"
+            )
+            return cached
+
         logger.info(
             f"BL > SupabaseManager.get_report_detail() - Fetching detail for id={report_id}"
         )
@@ -265,6 +274,7 @@ class SupabaseManager:
             )
             detail: Optional[dict] = response.data
             if detail:
+                _cache_set(cache_key, detail)
                 logger.info(
                     f"BL > SupabaseManager.get_report_detail() - Found report id={report_id}"
                 )
@@ -349,8 +359,8 @@ class SupabaseManager:
                     f"BL > SupabaseManager.approve_report() - UPDATE returned no rows for id={report_id}"
                 )
                 return False
-            # Flush read caches so the map reflects the new approval immediately.
-            _invalidate("map_reports", "states", "count")
+            # Flush read caches so the map and detail popup reflect the changes.
+            _invalidate("map_reports", "states", "count", f"detail:{report_id}")
             logger.info(
                 f"BL > SupabaseManager.approve_report() - Approved id={report_id}"
             )
