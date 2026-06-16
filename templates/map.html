@@ -63,6 +63,10 @@
     background: rgba(52, 211, 153, 1);
     box-shadow: 0 0 8px rgba(52,211,153,0.6), 0 0 3px rgba(255,255,255,0.5);
   }
+  .report-dot.genesis {
+    background: rgba(99, 179, 237, 1);
+    box-shadow: 0 0 8px rgba(99,179,237,0.7), 0 0 3px rgba(255,255,255,0.5);
+  }
 
   /* Pulsing rings */
   .report-ring {
@@ -78,6 +82,7 @@
 
   .report-ring.unsolved { border: 1px solid rgba(251,191,36,0.7); animation: ringPulse 2.4s ease-out infinite; }
   .report-ring.solved   { border: 1px solid rgba(52,211,153,0.7);  animation: ringPulse 2.4s ease-out infinite; }
+  .report-ring.genesis  { border: 1px solid rgba(99,179,237,0.7);  animation: ringPulse 2.4s ease-out infinite; }
 
   .report-ring:nth-child(2) { animation-delay: 0s;    }
   .report-ring:nth-child(3) { animation-delay: 0.8s;  }
@@ -819,5 +824,30 @@
   // ── Init ──────────────────────────────────────────────────────
   buildMarkers(ALL_REPORTS);
   renderTopReports(INIT_TOP);
+
+  // ── Easter egg — Génesis 2:15 ─────────────────────────────────
+  // Marcador fijo en Null Island (0°, 0°). Azul para distinguirlo del resto.
+  (function addGenesisMarker() {
+    const cls  = 'genesis';
+    const html = `
+      <div class="report-marker-wrap">
+        <div class="report-ring ${cls}"></div>
+        <div class="report-ring ${cls}"></div>
+        <div class="report-ring ${cls}"></div>
+        <div class="report-dot  ${cls}"></div>
+      </div>`;
+    const icon = L.divIcon({ className: '', html, iconSize: [12, 12], iconAnchor: [6, 6] });
+    L.marker([0, 0], { icon }).addTo(map).on('click', () => {
+      openPopup(0, 0);
+      showDetail({
+        waste_type: 'desconocido',
+        environment_type: 'otro',
+        comment: 'Génesis 2:15',
+        image_path: null,
+        street: 'Null Island',
+        city: '0°N 0°E',
+      }, 0, 0);
+    });
+  })();
 </script>
 {% endblock %}
