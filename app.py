@@ -313,6 +313,17 @@ def procesar() -> str:
     return render_template("mensaje.html", mensaje=mensaje)
 
 
+@app.errorhandler(404)
+def page_not_found(e: Exception) -> tuple:
+    """Render the custom 404 page.
+
+    Returns:
+        Rendered HTML of the 404 page with a 404 status code.
+    """
+    logger.warning(f"BL > page_not_found() - 404 for path={request.path}")
+    return render_template("404.html"), 404
+
+
 if __name__ == "__main__":
     environment = settings.ENV_STATE
     if environment == "LOCAL" or environment == "DEVELOPMENT":
