@@ -20,6 +20,7 @@ class BaseConfig(BaseSettings):
     SUPABASE_STORAGE_BUCKET: str = env_file[
         f"{ENV_STATE.upper()}_SUPABASE_STORAGE_BUCKET"
     ]
+    BUY_ME_A_COFFEE_URL: str = env_file[f"{ENV_STATE.upper()}_BUY_ME_A_COFFEE_URL"]
 
 
 settings = BaseConfig()

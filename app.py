@@ -155,7 +155,7 @@ def support() -> str:
         Rendered HTML of the support page.
     """
     logger.info("BL > support() - Rendering support page")
-    return render_template("support.html")
+    return render_template("support.html", bmac_url=settings.BUY_ME_A_COFFEE_URL)
 
 
 @app.route("/app")
