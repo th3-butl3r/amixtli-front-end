@@ -9,7 +9,7 @@ env_file = dotenv_values("config/.env")
 class BaseConfig(BaseSettings):
     """Global configurations."""
 
-    PROJECT_NAME: Optional[str] = "Amixtli-front-end"
+    PROJECT_NAME: Optional[str] = "NuestoEntorno"
     ENV_STATE: str = env_file["ENV_STATE"]
     # Admin credentials are optional by design: if absent the admin routes
     # return 404 automatically, making them invisible in any non-LOCAL deployment.
