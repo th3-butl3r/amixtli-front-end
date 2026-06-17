@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "amixtli-web"
+name = "NuestroEntorno"
 version = "1.0.0"
 description = "My personal project to the world"
 authors = ["Th3-Butl3r <github-outsider.unknowing582@passinbox.com>"]

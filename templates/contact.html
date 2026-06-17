@@ -1,73 +1,49 @@
 {% extends "base_generic.html" %}
-{% block head_content %}<title>Contacto — Amixtli</title>{% endblock %}
+{% block head_content %}<title>Contacto — NuestroEntorno</title>{% endblock %}
 
 {% block content %}
 <div class="content-page">
 
   <div class="page-header">
-    <span class="section-label">Colaboración</span>
+    <span class="section-label">Hablemos</span>
     <h1>Contacto</h1>
     <p class="page-intro">
-      Amixtli es un proyecto abierto a la comunidad. Si tienes habilidades que
-      pueden sumar —ya sea en desarrollo, datos, diseño o comunicación—
-      nos interesa escucharte.
+      <strong>NuestroEntorno</strong> es un proyecto de una sola persona, abierto a quienes
+      quieran sumarse. Si tienes algo que aportar o simplemente quieres preguntar algo,
+      escríbeme directamente.
     </p>
   </div>
 
-  <div class="contact-list">
-
-    <div class="contact-item">
-      <div class="contact-icon-wrap">
-        <i class="fa-solid fa-code"></i>
-      </div>
-      <div class="contact-item-body">
-        <h4>Contribución técnica</h4>
-        <p>
-          El repositorio del proyecto actualmente no es público. Para colaborar en
-          la parte de código es necesario pasar por una breve entrevista con el equipo,
-          donde evaluaremos si los intereses están alineados y cómo podemos aportarte
-          en tu crecimiento.
-        </p>
-        <p style="margin-top: 0.5rem;">
-          Escríbenos a
-          <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>
-          indicando tu perfil y tu motivación para colaborar.
-        </p>
-      </div>
+  <!-- Email destacado -->
+  <a href="mailto:contacto@bastionlab.com.mx" class="contact-email-card">
+    <div class="contact-email-icon-wrap">
+      <i class="fa-solid fa-envelope"></i>
     </div>
-
-    <div class="contact-item">
-      <div class="contact-icon-wrap">
-        <i class="fa-solid fa-users"></i>
-      </div>
-      <div class="contact-item-body">
-        <h4>Otros perfiles</h4>
-        <p>
-          Si tu aporte no es en código —análisis de datos, diseño, comunicación,
-          gestión ambiental u otros— escríbenos directamente a
-          <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>.
-        </p>
-        <p style="margin-top: 0.5rem;">
-          Cuéntanos de qué manera quieres apoyar el proyecto, qué habilidades tienes
-          y qué te motivó a colaborar.
-        </p>
-      </div>
+    <div class="contact-email-body">
+      <span class="contact-email-label">Escríbeme a</span>
+      <span class="contact-email-address">contacto@bastionlab.com.mx</span>
     </div>
+    <i class="fa-solid fa-arrow-right contact-email-arrow"></i>
+  </a>
 
-    <div class="contact-item">
-      <div class="contact-icon-wrap">
-        <i class="fa-solid fa-envelope"></i>
-      </div>
-      <div class="contact-item-body">
-        <h4>Contacto general</h4>
-        <p>
-          Para cualquier otra consulta sobre el proyecto puedes escribirnos a
-          <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>.
-        </p>
-      </div>
+  <!-- Áreas de colaboración -->
+  <div class="contact-collab">
+    <p class="contact-collab-label">¿En qué puedes colaborar?</p>
+    <div class="contact-chips">
+      <span class="contact-chip"><i class="fa-solid fa-code"></i> Desarrollo</span>
+      <span class="contact-chip"><i class="fa-solid fa-chart-bar"></i> Análisis de datos</span>
+      <span class="contact-chip"><i class="fa-solid fa-pen-ruler"></i> Diseño</span>
+      <span class="contact-chip"><i class="fa-solid fa-bullhorn"></i> Comunicación</span>
+      <span class="contact-chip"><i class="fa-solid fa-leaf"></i> Gestión ambiental</span>
+      <span class="contact-chip"><i class="fa-solid fa-ellipsis"></i> Otro</span>
     </div>
-
   </div>
+
+  <!-- Nota informal -->
+  <p class="contact-note">
+    En tu correo cuéntame brevemente quién eres, qué te motivó a escribir y cómo
+    crees que puedes sumar. No hay un proceso formal, solo una conversación.
+  </p>
 
 </div>
 {% endblock %}
