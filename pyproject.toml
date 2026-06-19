@@ -17,6 +17,7 @@ pydantic-settings = "^2.0.2"
 pyjwt = "^2.8.0"
 loguru = "^0.7.3"
 supabase = "^2.31.0"
+gunicorn = "^26.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -1,0 +1,6 @@
+aws_region = "REGION AWS"
+project_name = "NAME PROJECT"
+github_repository = "NAME REPO GITHUB"
+environment = "ENVIRONMENT DEPLOY NAME: LOCAL, DEVELOPMENT, STAGING, PRODUCTION"
+bucket_name = "Nombre del bucket que almacena el estado de terraform"
+bucket_key = "Key del bucket que almacena el estado de terraform"
