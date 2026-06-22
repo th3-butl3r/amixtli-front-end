@@ -104,10 +104,12 @@ jobs:
             --cluster ${{ secrets.ECS_CLUSTER }} \
             --services ${{ secrets.ECS_SERVICE }}
 
-      - name: Re-asociar Elastic IP al nuevo task
+      - name: Actualizar DNS en Cloudflare
         env:
-          EIP_ALLOC_ID: ${{ secrets.EIP_ALLOCATION_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ZONE_ID:   ${{ secrets.CF_ZONE_ID }}
         run: |
+          # Obtener la IP pública del task recién desplegado
           TASK_ARN=$(aws ecs list-tasks \
             --cluster ${{ secrets.ECS_CLUSTER }} \
             --service-name ${{ secrets.ECS_SERVICE }} \
@@ -119,15 +121,30 @@ jobs:
             --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value' \
             --output text)
 
-          echo "TASK_ARN: $TASK_ARN"
-          echo "ENI: $ENI"
+          PUBLIC_IP=$(aws ec2 describe-network-interfaces \
+            --network-interface-ids "$ENI" \
+            --query 'NetworkInterfaces[0].Association.PublicIp' \
+            --output text)
 
-          aws ec2 associate-address \
-            --allocation-id "$EIP_ALLOC_ID" \
-            --network-interface-id "$ENI" \
-            --allow-reassociation
+          echo "IP del nuevo task: $PUBLIC_IP"
 
-          echo "EIP re-asociada al ENI $ENI"
+          # Actualizar registro A raíz (@)
+          RECORD_ID=$(curl -sf "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records?type=A&name=nuestroentorno.mx" \
+            -H "Authorization: Bearer $CF_API_TOKEN" | jq -r '.result[0].id')
 
+          curl -sf -X PUT "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records/$RECORD_ID" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"type\":\"A\",\"name\":\"@\",\"content\":\"$PUBLIC_IP\",\"proxied\":true,\"ttl\":1}"
 
+          # Actualizar registro A www
+          RECORD_ID_WWW=$(curl -sf "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records?type=A&name=www.nuestroentorno.mx" \
+            -H "Authorization: Bearer $CF_API_TOKEN" | jq -r '.result[0].id')
+
+          curl -sf -X PUT "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records/$RECORD_ID_WWW" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"type\":\"A\",\"name\":\"www\",\"content\":\"$PUBLIC_IP\",\"proxied\":true,\"ttl\":1}"
+
+          echo "DNS actualizado: nuestroentorno.mx → $PUBLIC_IP"
           echo "Deploy completado exitosamente"
