@@ -44,6 +44,7 @@ def health():
 
 
 @app.route("/inicio")
+@app.route("/carto_group")
 @app.route("/")
 def home() -> str:
     """Render the main landing page with the total report count from Supabase.
