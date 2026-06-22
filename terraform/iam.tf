@@ -111,6 +111,17 @@ resource "aws_iam_policy" "github_actions_nuestroentorno" {
           aws_iam_role.ecs_task_nuestroentorno.arn,
         ]
       },
+      {
+        Effect = "Allow"
+        Action = [
+          "ecs:ListTasks",
+          "ecs:DescribeTasks",
+          "ec2:AssociateAddress",
+          "ec2:DescribeAddresses",
+        ]
+        Resource = "*"
+      },
+
     ]
   })
 }

@@ -28,3 +28,13 @@ output "github_actions_role_arn" {
   description = "→ Guarda como secreto AWS_ROLE_ARN en GitHub Actions."
   value       = aws_iam_role.github_actions_nuestroentorno.arn
 }
+
+output "elastic_ip" {
+  description = "IP fija del servidor"
+  value       = aws_eip.nuestroentorno.public_ip
+}
+
+output "eip_allocation_id" {
+  description = "Allocation ID de la EIP (necesario para el pipeline)"
+  value       = aws_eip.nuestroentorno.allocation_id
+}
