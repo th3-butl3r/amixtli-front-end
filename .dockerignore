@@ -1,0 +1,30 @@
+# Control de versiones
+.git
+.gitignore
+
+# Secretos — nunca deben quedar bakeados en la imagen.
+# Se montan en runtime vía volume (docker-compose) o Secrets Manager (producción).
+config/.env
+
+# Cache de Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Herramientas de desarrollo y tests
+tests/
+conftest.py
+.pre-commit-config.yaml
+.coverage
+htmlcov/
+
+# Documentación
+README.md
+CLAUDE.md
+
+# IDE
+.vscode/
+.idea/

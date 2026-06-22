@@ -1,0 +1,107 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: nuestroentorno
+
+jobs:
+  build-and-deploy:
+    name: Construir imagen y desplegar en ECS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Autenticar en AWS via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login en Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build y push de imagen a ECR
+        id: build
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          SHA_TAG: ${{ github.sha }}
+        run: |
+          docker build \
+            --tag "$REGISTRY/$ECR_REPOSITORY:$SHA_TAG" \
+            --tag "$REGISTRY/$ECR_REPOSITORY:latest" \
+            .
+          docker push "$REGISTRY/$ECR_REPOSITORY:$SHA_TAG"
+          docker push "$REGISTRY/$ECR_REPOSITORY:latest"
+          echo "image_uri=$REGISTRY/$ECR_REPOSITORY:$SHA_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Registrar nueva Task Definition y desplegar en ECS
+        env:
+          IMAGE_URI:      ${{ steps.build.outputs.image_uri }}
+          SUPABASE_URL:   ${{ secrets.PRODUCTION_SUPABASE_URL }}
+          SUPABASE_KEY:   ${{ secrets.PRODUCTION_SUPABASE_KEY }}
+          STORAGE_BUCKET: ${{ secrets.PRODUCTION_SUPABASE_STORAGE_BUCKET }}
+          BMAC_URL:       ${{ secrets.PRODUCTION_BUY_ME_A_COFFEE_URL }}
+          ENV_STATE:      ${{ vars.ENV_STATE }}
+        run: |
+          # Obtiene la task definition actual y elimina campos de solo lectura
+          TASK_DEF=$(aws ecs describe-task-definition \
+            --task-definition ${{ secrets.ECS_TASK_FAMILY }} \
+            --query taskDefinition \
+            --output json | jq 'del(
+              .taskDefinitionArn,
+              .revision,
+              .status,
+              .requiresAttributes,
+              .compatibilities,
+              .registeredAt,
+              .registeredBy
+            )')
+
+          # Actualiza la imagen y las variables de entorno
+          NEW_TASK_DEF=$(echo "$TASK_DEF" | jq \
+            --arg image  "$IMAGE_URI" \
+            --arg state  "$ENV_STATE" \
+            --arg url    "$SUPABASE_URL" \
+            --arg key    "$SUPABASE_KEY" \
+            --arg bucket "$STORAGE_BUCKET" \
+            --arg bmac   "$BMAC_URL" \
+            '.containerDefinitions[0].image = $image |
+             .containerDefinitions[0].environment = [
+               {"name": "ENV_STATE",                          "value": $state},
+               {"name": "PRODUCTION_SUPABASE_URL",            "value": $url},
+               {"name": "PRODUCTION_SUPABASE_KEY",            "value": $key},
+               {"name": "PRODUCTION_SUPABASE_STORAGE_BUCKET", "value": $bucket},
+               {"name": "PRODUCTION_BUY_ME_A_COFFEE_URL",     "value": $bmac}
+             ]')
+
+          # Registra la nueva revisión de la task definition
+          NEW_ARN=$(aws ecs register-task-definition \
+            --cli-input-json "$NEW_TASK_DEF" \
+            --query taskDefinition.taskDefinitionArn \
+            --output text)
+
+          echo "Nueva task definition: $NEW_ARN"
+
+          # Actualiza el servicio para usar la nueva revisión
+          aws ecs update-service \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --service ${{ secrets.ECS_SERVICE }} \
+            --task-definition "$NEW_ARN"
+
+          # Espera hasta que el deploy esté estable (~2-5 min)
+          aws ecs wait services-stable \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --services ${{ secrets.ECS_SERVICE }}
+
+          echo "Deploy completado exitosamente"
