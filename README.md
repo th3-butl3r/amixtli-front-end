@@ -1,12 +1,12 @@
-# Amixtli — Plataforma de datos ambientales
+# NuestroEntorno — Plataforma de datos ambientales
 
-Amixtli es una aplicación web que recopila y visualiza reportes ciudadanos de acumulación de residuos en México. Nació en 2024 como proyecto de tesis y busca convertirse en un banco de datos ambientales abiertos para apoyar a empresas, gobiernos y colectivos en la mejora de políticas de limpieza urbana.
+NuestroEntorno recopila y visualiza reportes ciudadanos de acumulación de residuos en México. Nació en 2024 como proyecto de tesis y busca convertirse en un banco de datos ambientales abiertos para apoyar a empresas, gobiernos y colectivos en la mejora de políticas de limpieza urbana.
 
 ---
 
 ## Contexto
 
-En México miles de toneladas de residuos terminan cada día en calles, ríos y áreas naturales. Amixtli parte de una premisa simple: **no hay malas decisiones, solo falta de datos.** Cada reporte ciudadano contribuye a identificar patrones, zonas críticas y oportunidades de mejora que de otro modo permanecerían invisibles.
+En México miles de toneladas de residuos terminan cada día en calles, ríos y áreas naturales. NuestroEntorno parte de una premisa simple: **no hay malas decisiones, solo falta de datos.** Cada reporte ciudadano contribuye a identificar patrones, zonas críticas y oportunidades de mejora que de otro modo permanecerían invisibles.
 
 Los datos recopilados se destinan a:
 
@@ -22,57 +22,110 @@ Los datos recopilados se destinan a:
 |------|-----------|
 | Lenguaje | Python 3.11 |
 | Framework web | Flask 2.x |
-| Configuración | pydantic-settings (variables de entorno) |
-| Cliente HTTP | requests |
+| Configuración | pydantic-settings |
+| Base de datos | Supabase (PostgreSQL) |
+| Almacenamiento | Supabase Storage |
 | Plantillas | Jinja2 |
-| Mapa interactivo | Leaflet.js 1.9.4 + CartoDB Dark Matter |
-| Frontend | Bootstrap 5.3, Font Awesome 6, Inter (Google Fonts) |
+| Mapa interactivo | Leaflet.js 1.9.4 |
 | Gestor de dependencias | Poetry |
 | Contenedores | Docker / docker-compose |
 | Logging | loguru |
-| Linting / formato | black, ruff, isort, flake8, bandit, autoflake |
+| Linting / formato | ruff, black, isort, bandit |
 | Hooks | pre-commit |
+| Infraestructura | Terraform + AWS |
+| CI/CD | GitHub Actions |
 
 ---
 
-## Arquitectura
+## Arquitectura de la aplicación
 
 ```
-amixtli-front-end/
-├── app.py                  # Punto de entrada — rutas Flask (controladores delgados)
-├── config/
-│   ├── .env                # Variables de entorno (no versionado)
-│   └── settings.py         # Singleton de configuración (pydantic-settings)
-├── managers/
-│   └── amixtli_manager.py  # Cliente HTTP hacia la API externa de Amixtli
-├── services/
-│   ├── map.py              # Construcción del mapa con folium
-│   └── reports.py          # Obtención y estructuración de reportes para moderación
-├── templates/              # Plantillas Jinja2
-│   ├── base_generic.html   # Layout base (nav, footer, scripts globales)
-│   ├── index.html          # Página de inicio con animación de datos
-│   ├── map.html            # Mapa interactivo full-screen (Leaflet.js)
-│   ├── app.html            # Presentación de la app móvil
-│   ├── help.html           # Preguntas frecuentes
-│   ├── contact.html        # Contacto y colaboración
-│   ├── privacy_policy.html # Aviso de privacidad (LFPDPPP)
-│   └── support.html        # Página de apoyo / donativo
-├── static/
-│   └── css/styles.css      # Tema oscuro (CSS custom properties)
-├── Dockerfile
-├── docker-compose.yml
-└── pyproject.toml
+app.py              ← Rutas Flask (controladores delgados)
+config/
+  settings.py       ← Singleton de configuración (pydantic-settings)
+  .env              ← Variables de entorno (no versionado)
+managers/
+  supabase_manager.py  ← Operaciones a Supabase (reportes, conteos)
+  storage_manager.py   ← URLs de imágenes en Supabase Storage
+services/
+  map.py            ← Construcción del mapa con Leaflet.js
+templates/          ← Plantillas Jinja2
+static/css/         ← Tema oscuro (CSS custom properties)
 ```
 
 ### Flujo de datos
 
 ```
-Usuario → Flask (app.py) → services/ → managers/amixtli_manager.py → API REST externa
+Usuario → Flask (app.py) → services/ → managers/ → Supabase
                                 ↓
                          Jinja2 template → HTML al navegador
 ```
 
-- **`/mapa_reportes`** — renderiza únicamente reportes con `isValid=True`.
+---
+
+## Infraestructura en AWS
+
+```
+                    ┌─────────────┐
+                    │  Cloudflare │  CDN + WAF + HTTPS
+                    └──────┬──────┘
+                           │ HTTP (solo IPs Cloudflare)
+                    ┌──────▼──────┐
+                    │   AWS ECS   │  Fargate — contenedor Flask/gunicorn
+                    │  (Fargate)  │  0.25 vCPU / 0.5 GB
+                    └──────┬──────┘
+                           │
+              ┌────────────┼────────────┐
+              ▼            ▼            ▼
+         ┌─────────┐  ┌────────┐  ┌──────────┐
+         │ Supabase│  │  ECR   │  │CloudWatch│
+         │(externa)│  │ images │  │   Logs   │
+         └─────────┘  └────────┘  └──────────┘
+```
+
+### Recursos de AWS gestionados con Terraform
+
+| Archivo | Recursos |
+|---------|----------|
+| `ecr.tf` | Repositorio de imágenes Docker + política de ciclo de vida |
+| `iam.tf` | Roles ECS execution, task y GitHub Actions OIDC |
+| `vpc.tf` | VPC, subred pública, Internet Gateway, Route Table, Security Group |
+| `ecs.tf` | Cluster, Task Definition y Service de ECS Fargate |
+| `budget.tf` | Alerta de presupuesto mensual en AWS |
+
+### Costos estimados
+
+| Concepto | Costo/mes |
+|----------|-----------|
+| ECS Fargate (0.25 vCPU / 0.5 GB, 24/7) | ~$9.00 |
+| ECR storage | ~$0.02 |
+| CloudWatch Logs (7 días retención) | ~$0.05 |
+| S3 estado Terraform | ~$0.01 |
+| **Total estimado** | **~$9/mes** |
+
+> Con `use_spot = true` el costo baja a ~$3/mes (Fargate Spot, puede interrumpirse).
+
+---
+
+## CI/CD
+
+El pipeline de GitHub Actions se dispara en cada merge a `master`:
+
+```
+push a master
+      │
+      ▼
+Autenticación AWS (OIDC — sin credenciales estáticas)
+      │
+      ▼
+Build imagen Docker + push a ECR (tags: :latest y :<git-sha>)
+      │
+      ▼
+Registrar nueva Task Definition con imagen + env vars
+      │
+      ▼
+Actualizar ECS Service → esperar deploy estable
+```
 
 ---
 
@@ -87,27 +140,32 @@ Usuario → Flask (app.py) → services/ → managers/amixtli_manager.py → API
 | `/contacto` | Información de contacto y colaboración |
 | `/politica_privacidad` | Aviso de privacidad (LFPDPPP) |
 | `/apoyo` | Información para apoyar el proyecto |
-
+| `/health` | Health check (uso interno / ECS) |
 
 ---
 
-## Configuración
+## Configuración local
 
-Toda la configuración se lee desde `config/.env`. El entorno activo se selecciona con `ENV_STATE` y todas las claves restantes se prefijan con ese valor:
+Toda la configuración se lee desde `config/.env`. El entorno activo se selecciona con `ENV_STATE`:
 
 ```env
 ENV_STATE=LOCAL
 
-LOCAL_AMIXTLI_API_REPORTS=https://tu-api.example.com/reports
-```
+LOCAL_SUPABASE_URL=https://xxx.supabase.co
+LOCAL_SUPABASE_KEY=eyJ...
+LOCAL_SUPABASE_STORAGE_BUCKET=nombre-bucket
+LOCAL_BUY_ME_A_COFFEE_URL=https://buymeacoffee.com/...
 
-Entornos soportados: `LOCAL`, `DEVELOPMENT`, `PRODUCTION`.
+# Opcionales (solo entorno LOCAL para moderación de reportes)
+LOCAL_SECRET_KEY=clave-jwt
+LOCAL_ALLOWED_EMAILS=["admin@ejemplo.com"]
+```
 
 ---
 
 ## Instalación y ejecución
 
-### Requisitos previos
+### Requisitos
 
 - Python 3.11+
 - [Poetry](https://python-poetry.org/)
@@ -128,15 +186,79 @@ cp config/.env.example config/.env   # editar con tus valores
 
 # 4. Ejecutar la aplicación
 python app.py
+# → http://localhost:5000
 ```
-
-La aplicación quedará disponible en `http://localhost:5000`.
 
 ### Docker
 
 ```bash
 docker-compose up --build
+# → http://localhost:8080
 ```
+
+---
+
+## Despliegue con Terraform
+
+### Prerequisitos
+
+- [Terraform](https://www.terraform.io/) >= 1.10
+- AWS CLI configurado con permisos suficientes
+- Bucket S3 para el estado remoto (ver instrucciones abajo)
+
+### Bootstrap del bucket S3 (una sola vez)
+
+```bash
+aws s3api create-bucket --bucket nuestroentorno-tf-state --region us-east-1
+
+aws s3api put-bucket-versioning \
+  --bucket nuestroentorno-tf-state \
+  --versioning-configuration Status=Enabled
+
+aws s3api put-public-access-block \
+  --bucket nuestroentorno-tf-state \
+  --public-access-block-configuration \
+    "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
+```
+
+### Desplegar infraestructura
+
+```bash
+cd terraform
+
+# Copiar y editar variables
+cp mapeo_variables.tfvars.sample terraform.tfvars
+
+# Inicializar (conecta con el backend S3)
+terraform init
+
+# Previsualizar cambios
+terraform plan
+
+# Aplicar
+terraform apply
+```
+
+### Secretos en GitHub Actions
+
+Después de `terraform apply`, configura estos secretos en **Settings → Secrets and variables → Actions**:
+
+| Secreto | Fuente |
+|---------|--------|
+| `AWS_ROLE_ARN` | Output `github_actions_role_arn` |
+| `ECS_CLUSTER` | Output `ecs_cluster_name` |
+| `ECS_SERVICE` | Output `ecs_service_name` |
+| `ECS_TASK_FAMILY` | Output `ecs_task_family` |
+| `PRODUCTION_SUPABASE_URL` | Tu cuenta Supabase |
+| `PRODUCTION_SUPABASE_KEY` | Tu cuenta Supabase |
+| `PRODUCTION_SUPABASE_STORAGE_BUCKET` | Tu cuenta Supabase |
+| `PRODUCTION_BUY_ME_A_COFFEE_URL` | Tu cuenta Buy Me a Coffee |
+
+Y esta variable (no secreto) en la pestaña **Variables**:
+
+| Variable | Valor |
+|----------|-------|
+| `ENV_STATE` | `PRODUCTION` |
 
 ---
 
@@ -145,41 +267,33 @@ docker-compose up --build
 ### Comandos útiles
 
 ```bash
-# Ejecutar tests con cobertura
-pytest --cov=app tests/
+# Tests con cobertura mínima 80%
+poetry run pytest --cov=app --cov=services --cov=managers tests/
 
-# Linting y formato (todos los archivos)
+# Linting y formato
 pre-commit run --all-files
 
-# Instalar hooks de pre-commit
+# Instalar hooks
 pre-commit install
 ```
 
 ### Convenciones de código
 
-- **Type hints** en todas las funciones (`typing`).
+- **Type hints** en todas las funciones.
 - **Docstrings** estilo Google en clases y funciones públicas.
-- **Logging** con `loguru`, formato: `BL > NombreClase.nombre_funcion() - Mensaje`.
+- **Logging** con `loguru`: `BL > NombreClase.nombre_funcion() - Mensaje`.
 - **Credenciales** exclusivamente en `config/.env`, nunca en el código fuente.
 - **Commits** en formato Conventional Commits (validado por pre-commit).
-
-### Hooks de pre-commit configurados
-
-| Hook | Propósito |
-|------|-----------|
-| `black` | Formato de código (line-length 90) |
-| `ruff` | Linting rápido |
-| `check-ast` | Validación de sintaxis Python |
-| `detect-private-key` | Prevención de filtración de secretos |
-| `end-of-file-fixer` | Archivos terminan en nueva línea |
-| `trailing-whitespace` | Elimina espacios sobrantes |
 
 ---
 
 ## Seguridad
 
-- Los datos de la API se escapan con `html.escape()` antes de ser inyectados en HTML para prevenir XSS almacenado.
-- Las credenciales se gestionan exclusivamente mediante variables de entorno.
+- Tráfico de entrada restringido exclusivamente a IPs de Cloudflare (Security Group).
+- Autenticación CI/CD via OIDC — sin credenciales estáticas de AWS en GitHub.
+- Imagen Docker no corre como root.
+- Escaneo de vulnerabilidades automático en cada push a ECR.
+- Credenciales gestionadas exclusivamente mediante variables de entorno.
 
 ---
 
@@ -190,6 +304,7 @@ pre-commit install
 **contacto@bastionlab.com.mx**
 
 El proyecto es mantenido por una sola persona. No tiene anuncios ni patrocinadores. Si lo encuentras útil, considera apoyarlo en [/apoyo](/apoyo).
+
 ---
 
-*Amixtli — Datos para un México más limpio*
+*NuestroEntorno — Datos para un México más limpio*

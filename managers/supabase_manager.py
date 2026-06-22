@@ -393,5 +393,20 @@ class SupabaseManager:
             )
             return False
 
+    def health_db(self):
+        """Check connection with database.
+
+        Returns:
+            True on success, False otherwise
+        """
+        logger.info("BL > SupabaseManager.health_db() - CHECK DB...")
+        try:
+            supabase.table(_TABLE).select("id").limit(1).execute()
+            logger.info("BL > SupabaseManager.health_db() - CHECK DB OK")
+            return True
+        except Exception as exc:
+            logger.error(f"BL > SupabaseManager.health_db() - CHECK ERROR: {exc}")
+            return False
+
 
 supabase_manager = SupabaseManager()

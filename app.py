@@ -28,6 +28,21 @@ def inject_globals() -> dict:
     return {"env_state": settings.ENV_STATE, "current_year": datetime.now().year}
 
 
+@app.route("/health")
+def health():
+    try:
+        result = supabase_manager.health_db()
+        if result is True:
+            return jsonify({"status": "Online", "db": "Connected"}), 200
+        else:
+            return jsonify({"status": "Error", "db": "Connection Fail"}), 400
+    except Exception as e:
+        return (
+            jsonify({"status": "Error", "db": "Connection Fail", "detail": str(e)}),
+            503,
+        )
+
+
 @app.route("/inicio")
 @app.route("/carto_group")
 @app.route("/")

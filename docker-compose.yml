@@ -1,7 +1,16 @@
-version: '3.4'
-
 services:
   nuestro_entorno_front_end:
     build: .
     ports:
-      - 5000:5000
+      - "8080:8080"
+    volumes:
+      # Monta config/ en modo solo lectura para que el .env nunca quede
+      # bakeado en la imagen; los secretos viven solo en el host.
+      - ./config:/app/config:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
