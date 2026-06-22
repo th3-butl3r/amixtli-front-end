@@ -104,4 +104,27 @@ jobs:
             --cluster ${{ secrets.ECS_CLUSTER }} \
             --services ${{ secrets.ECS_SERVICE }}
 
+      - name: Re-asociar Elastic IP al nuevo task
+        env:
+          EIP_ALLOC_ID: ${{ secrets.EIP_ALLOCATION_ID }}
+        run: |
+          TASK_ARN=$(aws ecs list-tasks \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --service-name ${{ secrets.ECS_SERVICE }} \
+            --query 'taskArns[0]' --output text)
+
+          ENI=$(aws ecs describe-tasks \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --tasks "$TASK_ARN" \
+            --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value' \
+            --output text)
+
+          aws ec2 associate-address \
+            --allocation-id "$EIP_ALLOC_ID" \
+            --network-interface-id "$ENI" \
+            --allow-reassociation
+
+          echo "EIP re-asociada al ENI $ENI"
+
+
           echo "Deploy completado exitosamente"
