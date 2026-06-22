@@ -117,6 +117,7 @@ resource "aws_iam_policy" "github_actions_nuestroentorno" {
           "ecs:ListTasks",
           "ecs:DescribeTasks",
           "ec2:AssociateAddress",
+          "ec2:DisassociateAddress",
           "ec2:DescribeAddresses",
         ]
         Resource = "*"

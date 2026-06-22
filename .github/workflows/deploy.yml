@@ -119,6 +119,9 @@ jobs:
             --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value' \
             --output text)
 
+          echo "TASK_ARN: $TASK_ARN"
+          echo "ENI: $ENI"
+
           aws ec2 associate-address \
             --allocation-id "$EIP_ALLOC_ID" \
             --network-interface-id "$ENI" \
