@@ -32,3 +32,16 @@ variable "bucket_key" {
   type        = string
   description = "Key del bucket donde se almacena el estado de terraform"
 }
+
+variable "use_spot" {
+  type        = bool
+  default     = false
+  description = "true = Fargate Spot (70% más barato, puede interrumpirse). false = Fargate normal (siempre disponible)."
+
+}
+
+
+variable "alert_email" {
+  type        = string
+  description = "Email donde llegan las alertas de presupuesto"
+}

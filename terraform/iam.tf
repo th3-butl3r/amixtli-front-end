@@ -1,35 +1,38 @@
+# ── 1. Execution Role — ECS lo usa para descargar la imagen de ECR ──
+# Equivale al antiguo "apprunner-ecr-role" pero para ECS.
 # ─────────────────────────────────────────────────────────────────
-# iam.tf — Rol para que App Runner descargue imágenes de ECR
+# iam.tf — Rol para que ECS descargue imágenes de ECR
 # ─────────────────────────────────────────────────────────────────
-resource "aws_iam_role" "apprunner_ecr_nuestroentorno" {
-  name = "${var.project_name}-apprunner-ecr-role"
+resource "aws_iam_role" "ecs_execution_nuestroentorno" {
+  name = "${var.project_name}-ecs-execution-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
       Effect    = "Allow"
       Action    = "sts:AssumeRole"
-      Principal = { Service = "build.apprunner.amazonaws.com" }
+      Principal = { Service = "ecs-tasks.amazonaws.com" }
     }]
   })
 }
 
-resource "aws_iam_role_policy_attachment" "apprunner_ecr_nuestroentorno" {
-  role       = aws_iam_role.apprunner_ecr_nuestroentorno.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
+resource "aws_iam_role_policy_attachment" "ecs_execution_nuestroentorno" {
+  role       = aws_iam_role.ecs_execution_nuestroentorno.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# ── 2. Rol para el contenedor en runtime ─────────────────────────
+# ── 2. Task Role — lo usa el contenedor en runtime ────────────────
+# Vacío por ahora. Se amplía si la app necesita acceder a S3, SQS, etc.
 
-resource "aws_iam_role" "apprunner_instance_nuestroentorno" {
-  name = "${var.project_name}-apprunner-instance-role"
+resource "aws_iam_role" "ecs_task_nuestroentorno" {
+  name = "${var.project_name}-ecs-task-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
       Effect    = "Allow"
       Action    = "sts:AssumeRole"
-      Principal = { Service = "tasks.apprunner.amazonaws.com" }
+      Principal = { Service = "ecs-tasks.amazonaws.com" }
     }]
   })
 }
@@ -69,6 +72,7 @@ resource "aws_iam_policy" "github_actions_nuestroentorno" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
+      # Push de imágenes a ECR
       {
         Effect   = "Allow"
         Action   = "ecr:GetAuthorizationToken"
@@ -87,10 +91,25 @@ resource "aws_iam_policy" "github_actions_nuestroentorno" {
         ]
         Resource = aws_ecr_repository.page_nuestroentorno.arn
       },
+      # Desplegar nueva versión en ECS
       {
-        Effect   = "Allow"
-        Action   = ["apprunner:UpdateService", "apprunner:DescribeService"]
-        Resource = "*"  # Se reemplazará con el ARN de App Runner en el siguiente paso
+        Effect = "Allow"
+        Action = [
+          "ecs:RegisterTaskDefinition",
+          "ecs:DescribeTaskDefinition",
+          "ecs:UpdateService",
+          "ecs:DescribeServices",
+        ]
+        Resource = "*"
+      },
+      # Necesario para que ECS pueda asumir los roles de execution y task
+      {
+        Effect = "Allow"
+        Action = "iam:PassRole"
+        Resource = [
+          aws_iam_role.ecs_execution_nuestroentorno.arn,
+          aws_iam_role.ecs_task_nuestroentorno.arn,
+        ]
       },
     ]
   })
