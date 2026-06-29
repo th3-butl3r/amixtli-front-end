@@ -384,3 +384,21 @@ class TestDeleteReport:
         with patch("managers.supabase_manager.supabase", mock_sb):
             result = supabase_manager.delete_report("2")
         assert result is False
+
+
+# ─── health_db ────────────────────────────────────────────────────────────────
+
+
+class TestHealthDb:
+    def test_returns_true_when_query_succeeds(self):
+        mock_sb, _ = _fluent_mock(data=[{"id": "1"}])
+        with patch("managers.supabase_manager.supabase", mock_sb):
+            result = supabase_manager.health_db()
+        assert result is True
+
+    def test_returns_false_on_exception(self):
+        mock_sb = MagicMock()
+        mock_sb.table.side_effect = Exception("connection refused")
+        with patch("managers.supabase_manager.supabase", mock_sb):
+            result = supabase_manager.health_db()
+        assert result is False
