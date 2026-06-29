@@ -40,6 +40,7 @@ class BaseConfig(BaseSettings):
     SUPABASE_KEY: str = _get(f"{_ENV_STATE.upper()}_SUPABASE_KEY")
     SUPABASE_STORAGE_BUCKET: str = _get(f"{_ENV_STATE.upper()}_SUPABASE_STORAGE_BUCKET")
     BUY_ME_A_COFFEE_URL: str = _get(f"{_ENV_STATE.upper()}_BUY_ME_A_COFFEE_URL")
+    SENTRY_DSN: Optional[str] = _get_optional(f"{_ENV_STATE.upper()}_SENTRY_DSN")
 
 
 settings = BaseConfig()

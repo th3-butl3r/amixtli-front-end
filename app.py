@@ -2,6 +2,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 
 import jwt
+import sentry_sdk
 from flask import Flask
 from flask import Response
 from flask import abort
@@ -12,10 +13,23 @@ from flask import render_template
 from flask import request
 from flask import url_for
 from loguru import logger
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 from config.settings import settings
 from managers.storage_manager import storage_manager
 from managers.supabase_manager import supabase_manager
+
+if settings.SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=settings.SENTRY_DSN,
+        integrations=[FlaskIntegration()],
+        environment=settings.ENV_STATE.lower(),
+        # Captura el 10 % de las transacciones para monitoreo de rendimiento
+        traces_sample_rate=0.1,
+        # Sin datos personales: IPs y emails no se envían a Sentry
+        send_default_pii=False,
+    )
+    logger.info("BL > sentry_sdk.init() - Sentry initialized")
 
 app = Flask(__name__)
 
