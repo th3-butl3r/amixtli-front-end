@@ -1,17 +1,12 @@
-import json
 from concurrent.futures import ThreadPoolExecutor
 
-import jwt
 import sentry_sdk
 from flask import Flask
 from flask import Response
-from flask import abort
 from flask import jsonify
 from flask import make_response
-from flask import redirect
 from flask import render_template
 from flask import request
-from flask import url_for
 from loguru import logger
 from sentry_sdk.integrations.flask import FlaskIntegration
 
@@ -196,150 +191,6 @@ def our_app() -> str:
     """
     logger.info("BL > our_app() - Rendering app page")
     return render_template("app.html")
-
-
-def _admin_guard() -> None:
-    """Abort 404 unless all admin security conditions are met.
-
-    Conditions checked in order:
-    - ENV_STATE must be LOCAL.
-    - SECRET_KEY must be present and non-empty.
-    - ALLOWED_EMAILS must be present, non-empty, parseable, and contain at
-      least one address.
-
-    Always returns 404 on failure so the routes remain invisible outside LOCAL.
-    """
-    if settings.ENV_STATE != "LOCAL":
-        logger.warning("BL > _admin_guard() - Blocked: environment is not LOCAL")
-        abort(404)
-    if not (settings.SECRET_KEY or "").strip():
-        logger.warning("BL > _admin_guard() - Blocked: SECRET_KEY is not configured")
-        abort(404)
-    raw_emails = (settings.ALLOWED_EMAILS or "").strip()
-    if not raw_emails:
-        logger.warning("BL > _admin_guard() - Blocked: ALLOWED_EMAILS is not configured")
-        abort(404)
-    try:
-        emails = json.loads(raw_emails)
-    except (ValueError, SyntaxError):
-        logger.warning(
-            "BL > _admin_guard() - Blocked: ALLOWED_EMAILS is not valid JSON list"
-        )
-        abort(404)
-    if not isinstance(emails, list) or not emails:
-        logger.warning("BL > _admin_guard() - Blocked: ALLOWED_EMAILS list is empty")
-        abort(404)
-
-
-@app.route("/validacion_reportes", methods=["GET", "POST"])
-def mostrar_formulario() -> str:
-    """Render the JWT login form and validate the submitted token.
-
-    On POST, decodes the JWT and checks the email against ALLOWED_EMAILS.
-    On success redirects to the reports validation page.
-
-    Returns:
-        Redirect to validate_reports on success, or the login form with an
-        error message on failure.
-    """
-    _admin_guard()
-    mensaje_error = None
-    if request.method == "POST":
-        logger.info("BL > mostrar_formulario() - Processing token login")
-        token_personal = (request.form.get("token_personal") or "").strip()
-        if not token_personal:
-            mensaje_error = "Token vacío"
-            logger.warning("BL > mostrar_formulario() - Empty token received")
-            return render_template("login_form.html", mensaje_error=mensaje_error)
-        try:
-            emails_validos = json.loads(settings.ALLOWED_EMAILS)
-        except (ValueError, SyntaxError):
-            emails_validos = []
-        email = None
-        try:
-            payload = jwt.decode(
-                token_personal, settings.SECRET_KEY, algorithms=["HS256"]
-            )
-            email = payload.get("email", None)
-        except jwt.ExpiredSignatureError:
-            mensaje_error = "Token expirado"
-            logger.warning("BL > mostrar_formulario() - Expired token received")
-        except jwt.InvalidTokenError as e:
-            mensaje_error = "Token inválido"
-            logger.warning(f"BL > mostrar_formulario() - Invalid token: {e}")
-
-        if email in emails_validos:
-            logger.info(f"BL > mostrar_formulario() - Authorized access for {email}")
-            return redirect(url_for("validate_reports", token_user=token_personal))
-        else:
-            mensaje_error = "El token no es válido. Contacta con el administrador si aún no tienes tu token personal."
-            logger.warning("BL > mostrar_formulario() - Unauthorized email in token")
-
-    return render_template("login_form.html", mensaje_error=mensaje_error)
-
-
-@app.route("/reportes")
-def validate_reports() -> str:
-    """Render the report moderation page for authorized admins.
-
-    Returns:
-        Rendered HTML of the validate reports page.
-    """
-    _admin_guard()
-    logger.info("BL > validate_reports() - Rendering reports validation page")
-    raw_reports = supabase_manager.get_pending_reports()
-    for r in raw_reports:
-        ip = r.get("image_path")
-        r["image_url"] = storage_manager.get_image_url(ip) if ip else None
-    logger.info(f"BL > validate_reports() - Passing {len(raw_reports)} pending reports")
-    return render_template("validate_reports.html", reportes=raw_reports)
-
-
-@app.route("/procesar", methods=["POST"])
-def procesar() -> str:
-    """Process a moderation action (aceptar / rechazar / eliminar) on a report.
-
-    - aceptar:  sets status to 'aprobado'; report becomes visible on the public map.
-    - rechazar: deletes the DB record; image is kept in storage for model training.
-    - eliminar: deletes both the DB record and the image from storage.
-
-    Returns:
-        Rendered HTML confirmation message page.
-    """
-    _admin_guard()
-    accion = request.form.get("accion")
-    report_id = request.form.get("report_id")
-    image_path = (request.form.get("image_path") or "").strip()
-    logger.info(f"BL > procesar() - action='{accion}' for id={report_id}")
-
-    ok = False
-    if accion == "aceptar":
-        waste_type = request.form.get("waste_type") or None
-        env_type = request.form.get("environment_type") or None
-        logger.debug(f"BL > procesar() - waste_type='{waste_type}' env_type='{env_type}'")
-        ok = supabase_manager.approve_report(
-            report_id,
-            waste_type=waste_type,
-            environment_type=env_type,
-        )
-        mensaje = "Reporte aprobado. Ya es visible en el mapa público."
-    elif accion == "rechazar":
-        ok = supabase_manager.delete_report(report_id)
-        mensaje = "Reporte rechazado. La imagen se conserva para entrenamiento."
-    elif accion == "eliminar":
-        if image_path:
-            storage_manager.delete_image(image_path)
-        ok = supabase_manager.delete_report(report_id)
-        mensaje = "Reporte y su imagen eliminados permanentemente."
-    else:
-        mensaje = "Acción no reconocida."
-        logger.warning(f"BL > procesar() - Unknown action='{accion}'")
-
-    if not ok and accion in ("aceptar", "rechazar", "eliminar"):
-        mensaje = "Ha ocurrido un error. Por favor inténtalo de nuevo."
-        logger.error(f"BL > procesar() - Failed action='{accion}' for id={report_id}")
-
-    return render_template("mensaje.html", mensaje=mensaje)
 
 
 @app.errorhandler(404)
