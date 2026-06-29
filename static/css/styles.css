@@ -1463,6 +1463,471 @@ img { max-width: 100%; display: block; }
 }
 .footer-privacy:hover { color: var(--text-secondary); border-color: var(--text-muted); }
 
+/* ── Crisis scroll section ───────────────────────────────────── */
+.crisis-scroll {
+  position: relative;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Fondo sticky que permanece mientras el contenido hace scroll */
+.crisis-bg {
+  position: sticky;
+  top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+  overflow: hidden;
+  pointer-events: none;
+  background: #06060E;
+}
+
+/* Silueta humana centrada, se hunde bajo la basura */
+.crisis-person {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(200px, 34vw);
+  height: auto;
+  z-index: 2;
+  opacity: 0.45;
+}
+
+/* Montón de basura: slide up desde el fondo a medida que aumenta --trash-level */
+.trash-pile {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  transform: translateY(calc((1 - var(--trash-level, 0)) * 100%));
+  will-change: transform;
+}
+
+/* Borde ondulado superior del montón */
+.trash-wave {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: 100px;
+  z-index: 1;
+}
+
+/* Cuerpo relleno del montón de basura */
+.trash-body {
+  position: absolute;
+  top: 88px;
+  left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 50% 35% at 20% 55%, rgba(38,54,20,0.7) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 45% at 80% 35%, rgba(22,36,14,0.55) 0%, transparent 65%),
+    radial-gradient(ellipse 25% 25% at 55% 75%, rgba(46,62,22,0.5) 0%, transparent 60%),
+    linear-gradient(to top, #080E05 0%, #1C2A12 30%, #243318 60%, #1A2710 100%);
+}
+
+/* Overlay de gradiente para legibilidad del texto sobre el fondo */
+.crisis-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background:
+    linear-gradient(to right,
+      rgba(14,14,22,0.97) 0%,
+      rgba(14,14,22,0.52) 40%,
+      rgba(14,14,22,0.52) 60%,
+      rgba(14,14,22,0.97) 100%
+    ),
+    linear-gradient(to bottom,
+      rgba(14,14,22,0.55) 0%,
+      rgba(14,14,22,0.08) 25%,
+      rgba(14,14,22,0.08) 75%,
+      rgba(14,14,22,0.65) 100%
+    );
+}
+
+/* Contenido de stats encima del fondo sticky */
+.crisis-stats {
+  position: relative;
+  z-index: 10;
+  margin-top: calc(-100vh + var(--nav-height));
+  padding-bottom: 8rem;
+}
+
+.crisis-stats-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Intro */
+.crisis-intro {
+  padding-top: 16vh;
+  padding-bottom: 8vh;
+  max-width: 520px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.crisis-intro.revealed { opacity: 1; transform: none; }
+
+.crisis-intro h2 {
+  font-size: clamp(1.875rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+  margin: 0.6rem 0 1rem;
+}
+
+.crisis-intro-lead {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* Tarjetas de estadísticas */
+.crisis-stat {
+  padding: 7vh 0;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.crisis-stat.revealed { opacity: 1; transform: none; }
+
+.crisis-stat-card {
+  max-width: 480px;
+  background: rgba(14,14,22,0.76);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 2rem 2.25rem;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.stat-left  .crisis-stat-card { margin-right: auto; }
+.stat-right .crisis-stat-card { margin-left: auto;  }
+
+.stat-number {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.stat-number--lg { font-size: clamp(2.25rem, 5.5vw, 4rem); }
+
+.stat-unit {
+  font-size: 0.28em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  vertical-align: 0.3em;
+  margin-left: 0.4em;
+}
+
+.stat-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+  margin-bottom: 0.85rem;
+}
+
+.stat-context {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  border-left: 2px solid rgba(52,211,153,0.38);
+  padding-left: 0.85rem;
+  margin: 0;
+  text-align: justify;
+  hyphens: auto;
+}
+.stat-context strong { color: var(--text-primary); }
+
+/* Aclaración de alcance del dato (ej. "Dato nacional") */
+.stat-scope {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+/* Cita de fuente al pie de cada tarjeta */
+.stat-source {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-style: normal;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  line-height: 1.5;
+}
+.stat-source i { font-size: 0.6rem; margin-top: 0.2rem; flex-shrink: 0; }
+.stat-source a {
+  color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.stat-source a:hover { color: var(--accent); border-color: rgba(52,211,153,0.4); }
+
+/* Islas de plástico — clímax centrado */
+.crisis-islands {
+  padding: 14vh 0 10vh;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.crisis-islands.revealed { opacity: 1; transform: none; }
+
+.islands-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.islands-giant-number {
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  color: var(--accent);
+  line-height: 1;
+  text-shadow: 0 0 80px rgba(52,211,153,0.22);
+}
+
+.islands-giant-unit {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: -0.01em;
+  margin-bottom: 3.5rem;
+  margin-top: 0.25rem;
+}
+
+/* Barras comparativas */
+.islands-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+  text-align: left;
+}
+
+.ibar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ibar-label {
+  width: 130px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.ibar-track {
+  flex: 1;
+  height: 20px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ibar-fill {
+  height: 100%;
+  border-radius: 3px;
+  width: 0;
+  transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+}
+.crisis-islands.revealed .ibar-fill { width: var(--w); }
+
+.ibar-fill--mx    { background: rgba(255,255,255,0.18); }
+.ibar-fill--trash { background: linear-gradient(90deg, var(--accent-hover), var(--accent)); }
+
+.ibar-value {
+  width: 90px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.islands-context {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.85;
+  text-align: justify;
+  hyphens: auto;
+}
+.islands-context strong { color: var(--text-primary); }
+
+/* Puente narrativo datos → consecuencias */
+.crisis-bridge {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 6vh 0 2vh;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.crisis-bridge.revealed { opacity: 1; transform: none; }
+
+.bridge-lead {
+  font-size: clamp(1.125rem, 2.2vw, 1.4rem);
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.1rem;
+}
+.bridge-lead strong { color: var(--accent); }
+.bridge-muted { color: var(--text-muted); }
+
+.bridge-body {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.85;
+  margin: 0;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Consecuencias de vertederos ilegales */
+.crisis-problems {
+  padding: 6vh 0;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.crisis-problems.revealed { opacity: 1; transform: none; }
+
+.crisis-problems-title {
+  font-size: clamp(1.375rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0.6rem 0 2.5rem;
+}
+
+.problems-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.problem-card {
+  background: rgba(14,14,22,0.76);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 1.75rem 2rem;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.problem-card--highlight {
+  border-color: rgba(52,211,153,0.2);
+  background: rgba(52,211,153,0.04);
+}
+
+.problem-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.problem-card h4 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.problem-card p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0;
+  text-align: justify;
+  hyphens: auto;
+}
+.problem-card p strong { color: var(--text-primary); }
+
+@media (max-width: 640px) {
+  .problems-grid { grid-template-columns: 1fr; }
+  .problem-card  { padding: 1.5rem; }
+}
+
+/* CTA final */
+.crisis-cta {
+  padding: 6vh 0 4vh;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.crisis-cta.revealed { opacity: 1; transform: none; }
+
+.crisis-cta > p {
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto 2rem;
+}
+.crisis-cta > p strong { color: var(--text-primary); }
+
+.crisis-cta-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Crisis responsive ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .crisis-intro { padding-top: 12vh; max-width: 100%; }
+  .crisis-stat-card { padding: 1.5rem; }
+  .stat-number { font-size: clamp(2.5rem, 12vw, 4rem); }
+  .stat-left .crisis-stat-card,
+  .stat-right .crisis-stat-card { margin: 0; }
+  .ibar-label { width: 100px; font-size: 0.7rem; }
+  .ibar-value { width: 72px; font-size: 0.7rem; }
+  .crisis-person { width: min(140px, 42vw); }
+}
+
+@media (max-width: 480px) {
+  .ibar { flex-wrap: wrap; gap: 0.4rem; }
+  .ibar-label { width: auto; text-align: left; }
+  .ibar-track { flex-basis: 100%; }
+  .ibar-value { margin-left: auto; }
+}
+
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .section-grid { grid-template-columns: 1fr; gap: 3rem; }
