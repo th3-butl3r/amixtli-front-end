@@ -288,7 +288,7 @@
 
       <!-- CTA -->
       <div class="crisis-cta" data-reveal>
-        <p>Cada reporte en <strong>NuestroEntorno</strong> convierte lo invisible en dato. Es la primera acción posible.</p>
+        <p>Cada reporte en <strong>NuestroEntorno</strong> convierte lo invisible en datos. Un reporte a la vez.</p>
         <div class="crisis-cta-actions">
           <a href="/mapa_reportes" class="btn-solid">Ver el mapa</a>
           <a href="/app" class="btn-outline">Descargar la app</a>
@@ -391,6 +391,27 @@
       { threshold: 0.12 }
     );
     revealEls.forEach(function (el) { obs.observe(el); });
+  }());
+</script>
+<script>
+  /* Barra de islas de plástico: se llena conforme el elemento llega al centro */
+  (function () {
+    var trashFill = document.querySelector('.ibar-fill--trash');
+    var islands   = document.querySelector('.crisis-islands');
+    if (!trashFill || !islands) return;
+
+    function updateIslandsBar() {
+      var rect     = islands.getBoundingClientRect();
+      var elCenter = rect.top + rect.height / 2;
+      var vc       = window.innerHeight / 2;
+      /* progress = 0 cuando el centro del elemento está en el borde inferior
+         progress = 1 cuando llega al centro exacto de la pantalla        */
+      var progress = Math.max(0, Math.min(1, 2 - elCenter / vc));
+      trashFill.style.width = (progress * 100) + '%';
+    }
+
+    window.addEventListener('scroll', updateIslandsBar, { passive: true });
+    updateIslandsBar();
   }());
 </script>
 {% endblock %}

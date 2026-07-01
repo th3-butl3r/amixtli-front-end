@@ -1860,12 +1860,17 @@ img { max-width: 100%; display: block; }
   height: 100%;
   border-radius: 3px;
   width: 0;
-  transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
 }
-.crisis-islands.revealed .ibar-fill { width: var(--w); }
-
-.ibar-fill--mx    { background: rgba(255,255,255,0.18); }
-.ibar-fill--trash { background: linear-gradient(90deg, var(--accent-hover), var(--accent)); }
+/* La barra de México es referencia fija, siempre visible */
+.ibar-fill--mx {
+  background: rgba(255,255,255,0.18);
+  width: var(--w);
+}
+/* La barra de basura se anima via JS según el scroll */
+.ibar-fill--trash {
+  background: linear-gradient(90deg, var(--accent-hover), var(--accent));
+  will-change: width;
+}
 
 .ibar-value {
   width: 90px;
