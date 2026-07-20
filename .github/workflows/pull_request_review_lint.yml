@@ -1,10 +1,10 @@
 name: Lint y formato
 
 on:
-  push:
-    branches: ["master", "staging", "development"]
+  # push:
+  #   branches: ["master", "staging", "development"]
   pull_request:
-    branches: ["master", "staging"]
+    branches: ["master", "staging", "development"]
 
 jobs:
   lint:
