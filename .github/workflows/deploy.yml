@@ -37,7 +37,9 @@ jobs:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           SHA_TAG: ${{ github.sha }}
         run: |
+          docker pull "$REGISTRY/$ECR_REPOSITORY:latest" || true
           docker build \
+            --cache-from "$REGISTRY/$ECR_REPOSITORY:latest" \
             --tag "$REGISTRY/$ECR_REPOSITORY:$SHA_TAG" \
             --tag "$REGISTRY/$ECR_REPOSITORY:latest" \
             .

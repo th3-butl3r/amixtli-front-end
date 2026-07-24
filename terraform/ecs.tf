@@ -56,10 +56,11 @@ resource "aws_ecs_task_definition" "nuestroentorno" {
 
 # ── Service ───────────────────────────────────────────────────────
 resource "aws_ecs_service" "nuestroentorno" {
-  name            = var.project_name
-  cluster         = aws_ecs_cluster.nuestroentorno.id
-  task_definition = aws_ecs_task_definition.nuestroentorno.arn
-  desired_count   = 1
+  name                   = var.project_name
+  cluster                = aws_ecs_cluster.nuestroentorno.id
+  task_definition        = aws_ecs_task_definition.nuestroentorno.arn
+  desired_count          = 1
+  force_new_deployment   = true
 
   capacity_provider_strategy {
     capacity_provider = var.use_spot ? "FARGATE_SPOT" : "FARGATE"
