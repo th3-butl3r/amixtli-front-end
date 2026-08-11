@@ -1,0 +1,59 @@
+name: Health Check & Auto-recovery
+
+on:
+  schedule:
+    # Una vez cada hora
+    - cron: '0 * * * *'
+  workflow_dispatch: # permite lanzarlo manualmente desde GitHub
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  health-check:
+    name: Verificar salud y recuperar si está caída
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verificar endpoint /health
+        id: check
+        run: |
+          STATUS=$(curl -sf -o /dev/null -w "%{http_code}" --max-time 15 \
+            https://nuestroentorno.mx/health || echo "000")
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          echo "HTTP status: $STATUS"
+          if [ "$STATUS" = "200" ]; then
+            echo "up=true"  >> "$GITHUB_OUTPUT"
+          else
+            echo "up=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Página activa — sin acción necesaria
+        if: steps.check.outputs.up == 'true'
+        run: echo "nuestroentorno.mx responde correctamente (HTTP 200). Nada que hacer."
+
+      # Los pasos de recuperación solo corren si la página está caída
+      - name: Autenticar en AWS via OIDC
+        if: steps.check.outputs.up == 'false'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Forzar nuevo deployment en ECS
+        if: steps.check.outputs.up == 'false'
+        run: |
+          echo "nuestroentorno.mx no responde (HTTP ${{ steps.check.outputs.status }})."
+          echo "Iniciando recuperación automática..."
+
+          aws ecs update-service \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --service  ${{ secrets.ECS_SERVICE }} \
+            --force-new-deployment \
+            --region   ${{ env.AWS_REGION }}
+
+          echo "Recuperación iniciada. ECS levantará el task de reemplazo en ~1-2 min."
