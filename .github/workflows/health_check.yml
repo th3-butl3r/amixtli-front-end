@@ -56,4 +56,63 @@ jobs:
             --force-new-deployment \
             --region   ${{ env.AWS_REGION }}
 
-          echo "Recuperación iniciada. ECS levantará el task de reemplazo en ~1-2 min."
+          # Espera a que el task nuevo esté corriendo antes de obtener su IP
+          aws ecs wait services-stable \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --services ${{ secrets.ECS_SERVICE }} \
+            --region  ${{ env.AWS_REGION }}
+
+          echo "Task estable. Actualizando DNS en Cloudflare..."
+
+      - name: Actualizar DNS en Cloudflare
+        if: steps.check.outputs.up == 'false'
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ZONE_ID:   ${{ secrets.CF_ZONE_ID }}
+        run: |
+          # Obtener la IP pública del task recién levantado
+          TASK_ARN=$(aws ecs list-tasks \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --service-name ${{ secrets.ECS_SERVICE }} \
+            --region ${{ env.AWS_REGION }} \
+            --query 'taskArns[0]' --output text)
+
+          ENI=$(aws ecs describe-tasks \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --tasks "$TASK_ARN" \
+            --region ${{ env.AWS_REGION }} \
+            --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value' \
+            --output text)
+
+          PUBLIC_IP=$(aws ec2 describe-network-interfaces \
+            --network-interface-ids "$ENI" \
+            --region ${{ env.AWS_REGION }} \
+            --query 'NetworkInterfaces[0].Association.PublicIp' \
+            --output text)
+
+          echo "Nueva IP del task: $PUBLIC_IP"
+
+          # Actualizar registro A raíz (@)
+          RECORD_ID=$(curl -sf \
+            "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records?type=A&name=nuestroentorno.mx" \
+            -H "Authorization: Bearer $CF_API_TOKEN" | jq -r '.result[0].id')
+
+          curl -sf -X PUT \
+            "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records/$RECORD_ID" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"type\":\"A\",\"name\":\"@\",\"content\":\"$PUBLIC_IP\",\"proxied\":true,\"ttl\":1}"
+
+          # Actualizar registro A www
+          RECORD_ID_WWW=$(curl -sf \
+            "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records?type=A&name=www.nuestroentorno.mx" \
+            -H "Authorization: Bearer $CF_API_TOKEN" | jq -r '.result[0].id')
+
+          curl -sf -X PUT \
+            "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records/$RECORD_ID_WWW" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"type\":\"A\",\"name\":\"www\",\"content\":\"$PUBLIC_IP\",\"proxied\":true,\"ttl\":1}"
+
+          echo "DNS actualizado: nuestroentorno.mx → $PUBLIC_IP"
+          echo "Recuperación completada."
