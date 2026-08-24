@@ -19,6 +19,7 @@ loguru = "^0.7.3"
 supabase = "^2.31.0"
 gunicorn = "^26.0.0"
 sentry-sdk = "^2.63.0"
+flask-babel = "^4.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

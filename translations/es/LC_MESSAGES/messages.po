@@ -1,0 +1,1204 @@
+# Spanish translations for NuestroEntorno.
+# Copyright (C) 2026 Bastion Lab
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: NuestroEntorno\n"
+"POT-Creation-Date: 2026-08-24 13:37-0600\n"
+"PO-Revision-Date: 2026-08-24 13:37-0600\n"
+"Language: es\n"
+"Language-Team: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: templates/404.html:2
+msgid "Page not found"
+msgstr "Página no encontrada"
+
+#: templates/404.html:14
+msgid "This page doesn't exist"
+msgstr "Esta página no existe"
+
+#: templates/404.html:16
+msgid ""
+"The link may have changed or the address may be misspelled. You can go "
+"back to the home page or explore the report map."
+msgstr ""
+"Es posible que el enlace haya cambiado o que la dirección esté mal "
+"escrita. Puedes volver al inicio o explorar el mapa de reportes."
+
+#: templates/404.html:21
+msgid "Go home"
+msgstr "Ir al inicio"
+
+#: templates/404.html:24 templates/index.html:280
+msgid "See the map"
+msgstr "Ver el mapa"
+
+#: templates/app.html:2 templates/app.html:8 templates/base_generic.html:37
+msgid "Our App"
+msgstr "Nuestra App"
+
+#: templates/app.html:9
+msgid "Report from anywhere"
+msgstr "Reporta desde donde estés"
+
+#: templates/app.html:10
+msgid "Beta · In validation"
+msgstr "Beta · En validación"
+
+#: templates/app.html:12
+msgid ""
+"The <strong>NuestroEntorno</strong> mobile app lets anyone photograph and"
+" geolocate waste accumulations in their environment with a couple of "
+"taps. Each report feeds the database and contributes directly to "
+"analysis."
+msgstr ""
+"La aplicación móvil de <strong>NuestroEntorno</strong> permite a "
+"cualquier persona fotografiar y geolocalizar acumulaciones de residuos "
+"en su entorno con un par de toques. Cada reporte alimenta la base de "
+"datos y contribuye directamente al análisis."
+
+#: templates/app.html:37 templates/map.html:599
+msgid "Report"
+msgstr "Reporte"
+
+#: templates/app.html:41
+msgid "Report sent"
+msgstr "Reporte enviado"
+
+#: templates/app.html:55
+msgid "Capture with your camera"
+msgstr "Captura con tu cámara"
+
+#: templates/app.html:57
+msgid ""
+"Photograph waste accumulations directly from the app. The image is "
+"automatically linked to your location."
+msgstr ""
+"Fotografía acumulaciones de residuos directamente desde la app. La "
+"imagen queda vinculada automáticamente a tu ubicación."
+
+#: templates/app.html:67
+msgid "Automatic geolocation"
+msgstr "Geolocalización automática"
+
+#: templates/app.html:69
+msgid ""
+"Each report records the exact coordinates of the problem without human "
+"intervention."
+msgstr ""
+"Cada reporte registra las coordenadas exactas del problema sin "
+"intervención humana."
+
+#: templates/app.html:79
+msgid "Artificial intelligence analysis"
+msgstr "Análisis por inteligencia artificial"
+
+#: templates/app.html:81
+msgid ""
+"Reports feed an AI model for automatic detection and classification of "
+"waste types."
+msgstr ""
+"Los reportes alimentan un modelo de IA para la detección y "
+"clasificación automática de tipos de residuos."
+
+#: templates/app.html:91
+msgid "Open data"
+msgstr "Datos abiertos"
+
+#: templates/app.html:93
+msgid ""
+"The information collected is public and accessible to citizens, "
+"researchers, organizations and authorities."
+msgstr ""
+"La información recopilada es pública y accesible para ciudadanos, "
+"investigadores, organizaciones y autoridades."
+
+#: templates/app.html:103
+msgid "Offline mode"
+msgstr "Sin conexión"
+
+#: templates/app.html:105
+msgid ""
+"If you don't have mobile data or WiFi, you can keep reporting. Reports "
+"are saved to your device and sent automatically as soon as you regain "
+"connectivity."
+msgstr ""
+"Si no tienes datos móviles o WiFi, puedes seguir reportando. Los "
+"reportes se guardan en tu dispositivo y se envían automáticamente en "
+"cuanto recuperas la conexión."
+
+#: templates/app.html:115
+msgid "Privacy by design"
+msgstr "Privacidad por diseño"
+
+#: templates/app.html:117
+msgid ""
+"You don't need an account to report. We don't collect personal data, so "
+"your identity is never part of a report. Because the best way to protect "
+"users' personal information is not to collect it."
+msgstr ""
+"No necesitas una cuenta para reportar. No solicitamos datos personales, "
+"por lo que tu identidad nunca forma parte de un reporte. Porque la mejor "
+"forma de proteger la información personal de los usuarios es no "
+"recopilarla."
+
+#: templates/app.html:125
+msgid "Validator Program"
+msgstr "Programa de validadores"
+
+#: templates/app.html:128
+msgid ""
+"The app is in active beta. We're looking for people to test it in the "
+"field and help us improve it before the public launch."
+msgstr ""
+"La app está en beta activa. Buscamos personas que la prueben en campo "
+"y nos ayuden a mejorarla antes del lanzamiento público."
+
+#: templates/app.html:135
+msgid "Join the group"
+msgstr "Regístrate en el grupo"
+
+#: templates/app.html:136
+msgid ""
+"Go to the distribution link, enter your Gmail address and you'll receive "
+"a Firebase invitation in your inbox."
+msgstr ""
+"Entra al enlace de distribución, introduce tu correo de Gmail y "
+"recibirás una invitación de Firebase en tu bandeja de entrada."
+
+#: templates/app.html:142
+msgid "Let us know by email"
+msgstr "Avísanos por correo"
+
+#: templates/app.html:143
+msgid ""
+"Once registered, write to us at <a "
+"href=\"mailto:contacto@bastionlab.com.mx\" class=\"text-"
+"link\">contacto@bastionlab.com.mx</a> with the Gmail you used. The group "
+"is limited and the APK is not sent automatically."
+msgstr ""
+"Una vez registrado, escríbenos a <a "
+"href=\"mailto:contacto@bastionlab.com.mx\" class=\"text-"
+"link\">contacto@bastionlab.com.mx</a> con el Gmail que usaste. El grupo "
+"es limitado y el APK no se envía de forma automática."
+
+#: templates/app.html:149
+msgid "Receive the APK and test"
+msgstr "Recibe el APK y prueba"
+
+#: templates/app.html:150
+msgid ""
+"We verify your access and send you the APK. Install it, use it in the "
+"field and tell us what you found."
+msgstr ""
+"Validamos tu acceso y te enviamos el APK. Instálalo, úsalo en campo "
+"y cuéntanos qué encontraste."
+
+#: templates/app.html:157
+msgid ""
+"Registering in the Firebase group <strong>does not send the APK "
+"automatically</strong>. You must write to us by email so we can send it "
+"to you."
+msgstr ""
+"Registrarte en el grupo de Firebase <strong>no envía el APK "
+"automáticamente</strong>. Es necesario que nos escribas al correo para "
+"que podamos enviártelo."
+
+#: templates/app.html:164
+msgid "Join the distribution group"
+msgstr "Entrar al grupo de distribución"
+
+#: templates/base_generic.html:6
+msgid "Environmental data collection to propose solutions"
+msgstr "Recolección de datos medioambientales para plantear soluciones"
+
+#: templates/base_generic.html:8 templates/base_generic.html:10
+#: templates/base_generic.html:14
+msgid ""
+"Citizen platform that visualizes waste reports in Mexico to support "
+"informed environmental decisions."
+msgstr ""
+"Plataforma ciudadana que visualiza reportes de residuos en México para "
+"apoyar decisiones ambientales informadas."
+
+#: templates/base_generic.html:31
+msgid "Open menu"
+msgstr "Abrir menú"
+
+#: templates/base_generic.html:35
+msgid "Home"
+msgstr "Inicio"
+
+#: templates/base_generic.html:36
+msgid "Map"
+msgstr "Mapa"
+
+#: templates/base_generic.html:38 templates/help.html:2 templates/help.html:9
+msgid "Help"
+msgstr "Ayuda"
+
+#: templates/base_generic.html:39 templates/contact.html:2
+#: templates/contact.html:9 templates/privacy_policy.html:132
+msgid "Contact"
+msgstr "Contacto"
+
+#: templates/base_generic.html:45 templates/help.html:8
+msgid "Support"
+msgstr "Apoyar"
+
+#: templates/base_generic.html:56
+msgid "Data for a cleaner Mexico — Made with lots of love and code"
+msgstr "Datos para un México más limpio — Hecho con mucho amor y código"
+
+#: templates/base_generic.html:57 templates/help.html:50
+#: templates/privacy_policy.html:2 templates/support.html:102
+msgid "Privacy Notice"
+msgstr "Aviso de privacidad"
+
+#: templates/contact.html:8
+msgid "Let's Talk"
+msgstr "Hablemos"
+
+#: templates/contact.html:11
+msgid ""
+"<strong>NuestroEntorno</strong> is a one-person project, open to those "
+"who want to join. If you have something to contribute or simply want to "
+"ask something, write to me directly."
+msgstr ""
+"<strong>NuestroEntorno</strong> es un proyecto de una sola persona, "
+"abierto a quienes quieran sumarse. Si tienes algo que aportar o "
+"simplemente quieres preguntar algo, escríbeme directamente."
+
+#: templates/contact.html:21
+msgid "Write to me at"
+msgstr "Escríbeme a"
+
+#: templates/contact.html:29
+msgid "How can you contribute?"
+msgstr "¿En qué puedes colaborar?"
+
+#: templates/contact.html:31
+msgid "Development"
+msgstr "Desarrollo"
+
+#: templates/contact.html:32
+msgid "Data Analysis"
+msgstr "Análisis de datos"
+
+#: templates/contact.html:33
+msgid "Design"
+msgstr "Diseño"
+
+#: templates/contact.html:34
+msgid "Communication"
+msgstr "Comunicación"
+
+#: templates/contact.html:35
+msgid "Environmental Management"
+msgstr "Gestión ambiental"
+
+#: templates/contact.html:36
+msgid "Other"
+msgstr "Otro"
+
+#: templates/contact.html:42
+msgid ""
+"In your email, briefly tell me who you are, what motivated you to write, "
+"and how you think you can contribute. There is no formal process, just a "
+"conversation between two people."
+msgstr ""
+"En tu correo cuéntame brevemente quién eres, qué te motivó a escribir "
+"y cómo crees que puedes sumar. No hay un proceso formal, solo una "
+"conversación entre dos personas."
+
+#: templates/help.html:11
+msgid "Before sending us your question, check if there is already an answer here."
+msgstr "Antes de enviarnos tu pregunta, revisa si ya hay una respuesta aquí."
+
+#: templates/help.html:15
+msgid "Table of contents"
+msgstr "Tabla de contenido"
+
+#: templates/help.html:16
+msgid "On this page"
+msgstr "En esta página"
+
+#: templates/help.html:18 templates/help.html:26
+msgid "How can I support the project directly?"
+msgstr "¿Cómo puedo apoyar el proyecto de manera directa?"
+
+#: templates/help.html:19 templates/help.html:37
+msgid "How do you collect environmental data?"
+msgstr "¿Cómo recopilan los datos ambientales?"
+
+#: templates/help.html:20 templates/help.html:44
+msgid "What do you do with the reports?"
+msgstr "¿Qué hacen con los reportes?"
+
+#: templates/help.html:21 templates/help.html:55
+msgid "How do you validate the information?"
+msgstr "¿Cómo validan la información?"
+
+#: templates/help.html:28
+msgid "Write to the project creator:"
+msgstr "Escribe al creador del proyecto:"
+
+#: templates/help.html:32
+msgid ""
+"In your email, describe why you want to support the project, what skills "
+"you have that you think could be useful, and how you want to do it. It is"
+" important to know if our interests are aligned and how we can serve your"
+" growth."
+msgstr ""
+"En el correo describe las razones por las que quieres apoyar al proyecto, "
+"qué habilidades tienes que consideras pueden servir y de qué manera "
+"quieres hacerlo. Es importante saber si nuestros intereses están "
+"alineados y cómo podemos nosotros servir a tu crecimiento."
+
+#: templates/help.html:39
+msgid ""
+"Through our mobile app. You can download it here: <strong>The app is "
+"under development and is not yet public.</strong> The data shown was "
+"obtained during a pilot test carried out in 2024 in the state of "
+"Michoacán, with support from the Ecology Department of Pátzcuaro, Mich."
+msgstr ""
+"Mediante nuestra aplicación móvil. Puedes descargarla aquí: "
+"<strong>La aplicación se encuentra en mejora y aún no es pública.</strong> "
+"Los datos visualizados son los obtenidos durante una prueba piloto "
+"llevada a cabo en el año 2024 en el estado de Michoacán, con apoyo de "
+"la dirección de Ecología de Pátzcuaro, Mich."
+
+#: templates/help.html:46
+msgid ""
+"Reports captured through the app are used for two main purposes: training"
+" artificial intelligence models for automatic waste detection, and "
+"generating statistical analyses to identify patterns and critical "
+"accumulation zones."
+msgstr ""
+"Los reportes capturados a través de la aplicación se utilizan para dos "
+"finalidades principales: entrenar modelos de inteligencia artificial para "
+"la detección automática de residuos, y generar análisis estadísticos que "
+"permitan identificar patrones y zonas críticas de acumulación."
+
+#: templates/help.html:49
+msgid ""
+"The images and associated data are handled in accordance with Mexican "
+"personal data protection legislation. They are never shared with third "
+"parties for commercial purposes or used for purposes other than those "
+"declared. You can see the full details in our"
+msgstr ""
+"Las imágenes y datos asociados son tratados conforme a la legislación "
+"mexicana en materia de protección de datos personales. Nunca se "
+"comparten con terceros con fines comerciales ni se utilizan para fines "
+"distintos a los declarados. Puedes consultar el detalle completo en "
+"nuestro"
+
+#: templates/help.html:57
+msgid ""
+"Reports submitted through the app are not published immediately on the "
+"map. Each record goes through a validation process carried out by our "
+"collaborators to verify the quality and consistency of the information. "
+"This procedure allows us to maintain a reliable and useful database for "
+"citizens, researchers, organizations and decision-makers seeking to "
+"understand and address waste-related problems in Mexico."
+msgstr ""
+"Los reportes enviados a través de la aplicación no se publican de forma "
+"inmediata en el mapa. Cada registro pasa por un proceso de validación "
+"realizado por nuestros colaboradores para verificar la calidad y "
+"consistencia de la información. Este procedimiento nos permite mantener "
+"una base de datos confiable y útil para ciudadanos, investigadores, "
+"organizaciones y tomadores de decisiones que buscan comprender y atender "
+"los problemas relacionados con los residuos en México."
+
+#: templates/help.html:63
+msgid ""
+"We continue developing the app to make it more comfortable and efficient "
+"for users. With much love, the <strong>NuestroEntorno</strong> team."
+msgstr ""
+"Continuamos desarrollando la aplicación para que sea más cómoda y "
+"eficiente para los usuarios. Con mucho cariño, el equipo de "
+"<strong>NuestroEntorno</strong>."
+
+#: templates/index.html:2
+msgid "Data for a cleaner Mexico"
+msgstr "Datos para un México más limpio"
+
+#: templates/index.html:11
+msgid "Important Notice"
+msgstr "Aviso importante"
+
+#: templates/index.html:16
+msgid ""
+"This map shows reports of waste accumulation in unsuitable locations. "
+"<strong>NuestroEntorno</strong> is an individual project born to improve "
+"environmental culture in Mexico in 2023 as part of a thesis project. It "
+"aims to be an environmental data bank to help businesses, governments and"
+" collectives improve city cleaning policies."
+msgstr ""
+"Este mapa muestra reportes de acumulación de basura en lugares no aptos. "
+"<strong>NuestroEntorno</strong> es un proyecto individual que nació para "
+"mejorar la cultura ambiental en México en 2023 como parte de un proyecto "
+"de tesis. Busca ser un banco de datos ambientales de ayuda para empresas, "
+"gobiernos y colectivos, con el que se puedan mejorar las políticas de "
+"limpieza de las ciudades."
+
+#: templates/index.html:23
+msgid "Help us keep the project running"
+msgstr "Ayúdanos a mantener el proyecto"
+
+#: templates/index.html:25
+msgid ""
+"<strong>NuestroEntorno</strong> is maintained by a single person, not a "
+"company or collective. We have no ads or sponsors: the project is "
+"sustained by the support and goodwill of those who use it. Your donation "
+"keeps it free and online for everyone."
+msgstr ""
+"<strong>NuestroEntorno</strong> lo mantiene una sola persona, no una "
+"empresa ni un colectivo. No tenemos anuncios ni patrocinadores: el "
+"proyecto se sostiene gracias al apoyo y buena fe de quienes lo usan. "
+"Tu donativo lo mantiene gratuito y en línea para todos."
+
+#: templates/index.html:31
+msgid "Got it &mdash; see the map"
+msgstr "Entendido &mdash; ver el mapa"
+
+#: templates/index.html:34 templates/support.html:2 templates/support.html:82
+msgid "Support the project"
+msgstr "Apoyar el proyecto"
+
+#: templates/index.html:43
+msgid "Environmental Data Platform"
+msgstr "Plataforma de datos ambientales"
+
+#: templates/index.html:44
+msgid "Information for a cleaner Mexico"
+msgstr "Información para un México más limpio"
+
+#: templates/index.html:46
+msgid ""
+"<strong>NuestroEntorno</strong> collects and visualizes citizen reports "
+"of uncollected waste to support informed decisions about waste management"
+" in Mexico."
+msgstr ""
+"<strong>NuestroEntorno</strong> recopila y visualiza reportes ciudadanos "
+"de residuos sin recolectar para apoyar decisiones informadas sobre la "
+"gestión de basura en México."
+
+#: templates/index.html:59
+msgid "Report Map"
+msgstr "Mapa de reportes"
+
+#: templates/index.html:92
+msgid "Reports submitted"
+msgstr "Reportes realizados"
+
+#: templates/index.html:98
+msgid "AI Training · Environmental Improvement"
+msgstr "Entrenamiento IA · Mejora ambiental"
+
+#: templates/index.html:105
+msgid "Geolocation"
+msgstr "Geolocalización"
+
+#: templates/index.html:106
+msgid "AI"
+msgstr "IA"
+
+#: templates/index.html:107
+msgid "Analysis"
+msgstr "Análisis"
+
+#: templates/index.html:108
+msgid "Open Data"
+msgstr "Datos abiertos"
+
+#: templates/index.html:147
+msgid "The Problem"
+msgstr "El problema"
+
+#: templates/index.html:148
+msgid "The Numbers We Don't See"
+msgstr "Los números que no vemos"
+
+#: templates/index.html:149
+msgid ""
+"The waste crisis in Mexico is present every day. Here are some data "
+"points about the problem we face:"
+msgstr ""
+"La crisis de residuos en México está presente cada día. Estos son "
+"algunos datos del problema que tenemos:"
+
+#: templates/index.html:155 templates/index.html:173 templates/index.html:186
+#: templates/index.html:199
+msgid "day"
+msgstr "día"
+
+#: templates/index.html:157
+msgid "of waste collected per day in Mexico during 2022"
+msgstr "de basura se recolectaron al día en México durante 2022"
+
+#: templates/index.html:158
+msgid "National average · 32 states · Collected waste only"
+msgstr "Promedio nacional · 32 estados · Solo residuos recolectados"
+
+#: templates/index.html:161
+msgid ""
+"Equivalent to <strong>862 grams per person per day</strong>. Half of all "
+"waste collected in the country comes from just 6 states: Mexico City, "
+"State of Mexico, Jalisco, Veracruz, Nuevo León and Guanajuato. "
+"Additionally, <strong>150 municipalities had no collection "
+"service</strong> — in those places, burning garbage was the most common "
+"practice."
+msgstr ""
+"Equivale a <strong>862 gramos por persona al día</strong>. La mitad de "
+"toda la basura recolectada en el país proviene de solo 6 estados: Ciudad "
+"de México, Estado de México, Jalisco, Veracruz, Nuevo León y Guanajuato. "
+"Además, <strong>150 municipios no contaban con servicio de "
+"recolección</strong> — en esos lugares, quemar la basura era la práctica "
+"más común."
+
+#: templates/index.html:165 templates/index.html:178
+msgid "Source:"
+msgstr "Fuente:"
+
+#: templates/index.html:165
+msgid "INEGI — Cuentame, Environment (2022)"
+msgstr "INEGI — Cuentame, Medio Ambiente (2022)"
+
+#: templates/index.html:174
+msgid "generated daily by the state of Michoacán"
+msgstr "genera el estado de Michoacán al día"
+
+#: templates/index.html:175
+msgid ""
+"Of the total generated in the state, <strong>less than 2&#37; is effectively "
+"recycled</strong>. The rest is deposited, burned or abandoned without "
+"treatment."
+msgstr ""
+"Del total generado en el estado, <strong>menos del 2&#37; se recicla "
+"efectivamente</strong>. El resto se deposita, quema o abandona sin "
+"tratamiento."
+
+#: templates/index.html:178
+msgid "Michoacán Ministry of Environment"
+msgstr "Secretaría de Medio Ambiente de Michoacán"
+
+#: templates/index.html:187
+msgid "in Pátzcuaro, only 64 reach the landfill"
+msgstr "en Pátzcuaro, solo 64 llegan al basurero"
+
+#: templates/index.html:188
+msgid ""
+"<strong>36 daily tons</strong> don't reach any treatment system: they end"
+" up in clandestine dumps, water bodies or streets. Pátzcuaro was the site"
+" of our 2024 pilot test."
+msgstr ""
+"<strong>36 toneladas diarias</strong> no llegan a ningún sistema de "
+"tratamiento: van a tiraderos clandestinos, cuerpos de agua o calles. "
+"Pátzcuaro fue la sede de nuestra prueba piloto en 2024."
+
+#: templates/index.html:191 templates/index.html:204
+msgid ""
+"Official communication, Ecology Department, Municipality of Pátzcuaro "
+"(2024)"
+msgstr "Comunicado, Dirección de Ecología, H. Ayuntamiento de Pátzcuaro (2024)"
+
+#: templates/index.html:200
+msgid "generated on average by each resident of Pátzcuaro"
+msgstr "genera en promedio cada habitante de Pátzcuaro"
+
+#: templates/index.html:201
+msgid ""
+"Less than a kilogram. A bag, a bottle, a package. But multiplied by every"
+" person, every day, it is the accumulation you experience in your "
+"surroundings."
+msgstr ""
+"Menos de un kilo. Una bolsa, una botella, un empaque. Pero multiplicado "
+"por cada persona, cada día, es la acumulación que vives en tu entorno."
+
+#: templates/index.html:211
+msgid "The five oceanic plastic islands"
+msgstr "Las cinco islas de plástico oceánico"
+
+#: templates/index.html:213
+msgid "km² of combined surface area"
+msgstr "km² de superficie combinada"
+
+#: templates/index.html:217
+msgid "Mexico"
+msgstr "México"
+
+#: templates/index.html:224
+msgid "Plastic Islands"
+msgstr "Islas de plástico"
+
+#: templates/index.html:233
+msgid ""
+"The problem is not a single plastic \"island\" floating in the ocean, but"
+" five large accumulation zones where millions of plastic fragments "
+"concentrate due to ocean currents. Together, <strong>they cover an area "
+"equivalent to more than eight times Mexico, making cleanup extremely "
+"difficult and putting entire ecosystems at risk</strong>."
+msgstr ""
+"El problema no es una sola \"isla\" de plástico flotando en el océano, "
+"sino cinco grandes zonas de acumulación donde millones de fragmentos de "
+"plástico se concentran por efecto de las corrientes marinas. En conjunto, "
+"<strong>abarcan una superficie equivalente a más de ocho veces México, "
+"haciendo su limpieza extremadamente difícil y poniendo en riesgo "
+"ecosistemas enteros</strong>."
+
+#: templates/index.html:239
+msgid ""
+"The data describes what <span class=\"bridge-muted\">gets "
+"collected</span>. What <strong>NuestroEntorno</strong> maps is what "
+"<strong>nobody went to look for</strong>."
+msgstr ""
+"Los datos describen lo que se <span class=\"bridge-muted\">logra "
+"recoger</span>. Lo que <strong>NuestroEntorno</strong> mapea es lo que "
+"<strong>nadie fue a buscar</strong>."
+
+#: templates/index.html:240
+msgid ""
+"Waste that never reached the garbage truck. Trash dumped in an empty lot,"
+" a ravine or a riverbank. Accumulations in places where municipal "
+"services never arrive and that, therefore, don't appear in any official "
+"statistics. Those are the points we document, and they are not harmless. "
+"They are active hotspots of damage to the people and surroundings of "
+"those who live nearby."
+msgstr ""
+"Residuos que no llegaron al camión de limpieza. Basura volcada en un "
+"baldío, una barranca o la orilla de un río. Acumulaciones en lugares "
+"donde el servicio municipal nunca llega y que, por tanto, no entran en "
+"ninguna estadística oficial. Esos puntos son los que documentamos y no "
+"son inofensivos. Son focos activos de daño para las personas y el entorno "
+"de quienes viven cerca."
+
+#: templates/index.html:245
+msgid "Consequences"
+msgstr "Consecuencias"
+
+#: templates/index.html:246
+msgid "What illegal dumps generate"
+msgstr "Lo que generan los vertederos ilegales"
+
+#: templates/index.html:251
+msgid "Infection Hotspots"
+msgstr "Focos de infección"
+
+#: templates/index.html:252
+msgid ""
+"The accumulation of organic waste attracts rats, mosquitoes and flies "
+"that spread diseases directly in the spaces where we live."
+msgstr ""
+"La acumulación de residuos orgánicos atrae ratas, mosquitos y moscas "
+"que propagan enfermedades directamente en los espacios donde vivimos."
+
+#: templates/index.html:257
+msgid "Fire Hazard"
+msgstr "Peligro de combustión"
+
+#: templates/index.html:258
+msgid ""
+"Dry waste and gas accumulation create conditions for spontaneous or "
+"deliberate fires that are difficult to control."
+msgstr ""
+"Los residuos secos y la acumulación de gases generan condiciones para "
+"incendios espontáneos o provocados que son difíciles de controlar."
+
+#: templates/index.html:263
+msgid "Toxic Gases"
+msgstr "Gases contaminantes"
+
+#: templates/index.html:264
+msgid ""
+"Decomposition releases methane, CO₂ and toxic compounds (greenhouse "
+"gases) that degrade air quality in nearby areas."
+msgstr ""
+"La descomposición libera metano, CO₂ y compuestos tóxicos (gases de "
+"efecto invernadero) que degradan la calidad del aire en las zonas "
+"cercanas."
+
+#: templates/index.html:269
+msgid "Aquifer Contamination"
+msgstr "Contaminación de acuíferos"
+
+#: templates/index.html:270
+msgid ""
+"Leachates (toxic liquids from waste) seep into the soil and reach "
+"underground aquifers. <strong>Much of the water we consume daily comes "
+"from there.</strong>"
+msgstr ""
+"Los lixiviados (líquidos tóxicos del residuo), se filtran al suelo y "
+"alcanzan los mantos acuíferos subterráneos. <strong>Gran parte del agua "
+"que consumimos a diario proviene de ahí.</strong>"
+
+#: templates/index.html:278
+msgid ""
+"Every report in <strong>NuestroEntorno</strong> turns the invisible into "
+"data. One report at a time."
+msgstr ""
+"Cada reporte en <strong>NuestroEntorno</strong> convierte lo invisible "
+"en datos. Un reporte a la vez."
+
+#: templates/index.html:281
+msgid "Download the app"
+msgstr "Descargar la app"
+
+#: templates/map.html:549
+msgid "Citizen Reports"
+msgstr "Reportes ciudadanos"
+
+#: templates/map.html:550 templates/map.html:620
+msgid "active report"
+msgstr "reporte activo"
+
+#: templates/map.html:550 templates/map.html:621
+msgid "active reports"
+msgstr "reportes activos"
+
+#: templates/map.html:552
+msgid "Expand options"
+msgstr "Expandir opciones"
+
+#: templates/map.html:555
+msgid "Click a point to see the report."
+msgstr "Presiona un punto para ver el reporte."
+
+#: templates/map.html:557
+msgid "Unsolved"
+msgstr "Sin resolver"
+
+#: templates/map.html:558
+msgid "Solved"
+msgstr "Resuelto"
+
+#: templates/map.html:561
+msgid "Filter by state"
+msgstr "Filtrar por estado"
+
+#: templates/map.html:563
+msgid "All states"
+msgstr "Todos los estados"
+
+#: templates/map.html:574 templates/map.html:590
+msgid "Top reports"
+msgstr "Top reportes"
+
+#: templates/map.html:575
+msgid "Collapse"
+msgstr "Colapsar"
+
+#: templates/map.html:581
+msgid "See top reports"
+msgstr "Ver top reportes"
+
+#: templates/map.html:591 templates/map.html:600
+msgid "Close"
+msgstr "Cerrar"
+
+#: templates/map.html:616
+msgid "Loading…"
+msgstr "Cargando…"
+
+#: templates/map.html:617
+msgid "Could not load the report."
+msgstr "No se pudo cargar el reporte."
+
+#: templates/map.html:618
+msgid "No reports in this filter."
+msgstr "Sin reportes en este filtro."
+
+#: templates/map.html:619
+msgid "Error loading."
+msgstr "Error al cargar."
+
+#: templates/map.html:622
+msgid "Reported by"
+msgstr "Reportado por"
+
+#: templates/map.html:623
+msgid "person"
+msgstr "persona"
+
+#: templates/map.html:624
+msgid "people"
+msgstr "personas"
+
+#: templates/privacy_policy.html:8
+msgid "Legal"
+msgstr "Legal"
+
+#: templates/privacy_policy.html:9
+msgid "Comprehensive Privacy Notice"
+msgstr "Aviso de Privacidad Integral"
+
+#: templates/privacy_policy.html:11
+msgid ""
+"In compliance with Article 16 of the Mexican Constitution and Articles "
+"11, 12, 13, 14, 15 and other applicable provisions of the LFPDPPP "
+"(Mexican Federal Law on Personal Data Protection Held by Private "
+"Parties)."
+msgstr ""
+"En cumplimiento con lo dispuesto por el artículo 16, segundo párrafo de "
+"la Constitución Política de los Estados Unidos Mexicanos y los artículos "
+"11, 12, 13, 14, 15 y demás aplicables de la LFPDPPP."
+
+#: templates/privacy_policy.html:21
+msgid "Data Controller"
+msgstr "Responsable del tratamiento"
+
+#: templates/privacy_policy.html:24
+msgid ""
+"is responsible for the processing, safekeeping and protection of your "
+"personal data in accordance with the applicable regulatory framework."
+msgstr ""
+"es responsable del tratamiento, resguardo y protección de sus datos "
+"personales conforme a lo establecido en el marco normativo aplicable."
+
+#: templates/privacy_policy.html:31
+msgid "Personal data collected"
+msgstr "Datos personales recabados"
+
+#: templates/privacy_policy.html:34
+msgid "Image and security data:"
+msgstr "Datos de imagen y seguridad:"
+
+#: templates/privacy_policy.html:35
+msgid ""
+"photographs, video recordings or images captured through the "
+"<strong>NuestroEntorno</strong> app."
+msgstr ""
+"fotografías, videograbaciones o imágenes capturadas a través de la "
+"aplicación <strong>NuestroEntorno</strong>."
+
+#: templates/privacy_policy.html:41
+msgid "Primary purposes"
+msgstr "Finalidades necesarias"
+
+#: templates/privacy_policy.html:42
+msgid ""
+"The images collected will be used for the following primary purposes, "
+"necessary for service improvement:"
+msgstr ""
+"Las imágenes recabadas serán utilizadas para las siguientes finalidades "
+"primarias, necesarias para la mejora del servicio:"
+
+#: templates/privacy_policy.html:44
+msgid "Training an artificial intelligence model for waste detection."
+msgstr "Entrenamiento de modelo de inteligencia artificial para la detección de residuos."
+
+#: templates/privacy_policy.html:49
+msgid "Secondary purposes"
+msgstr "Finalidades secundarias"
+
+#: templates/privacy_policy.html:51
+msgid "Preparation of reports and statistical analysis."
+msgstr "Elaboración de reportes y análisis estadístico."
+
+#: templates/privacy_policy.html:54
+msgid ""
+"If you do not wish your data to be processed for these secondary "
+"purposes, you may express your refusal by sending an email to"
+msgstr ""
+"Si usted no desea que sus datos sean tratados para estas finalidades "
+"secundarias, puede manifestar su negativa enviando un correo electrónico a"
+
+#: templates/privacy_policy.html:56
+msgid "Refusal will not be grounds for denying the services you request."
+msgstr "La negativa no será motivo para negarle los servicios que solicita."
+
+#: templates/privacy_policy.html:63
+msgid "Guiding principles"
+msgstr "Principios rectores"
+
+#: templates/privacy_policy.html:65
+msgid ""
+"The processing of personal data at <strong>NuestroEntorno</strong> is "
+"governed by the principles of lawfulness, consent, information, quality, "
+"purpose, loyalty, proportionality, security and accountability, "
+"guaranteeing respect for privacy and human rights."
+msgstr ""
+"El tratamiento de datos personales en <strong>NuestroEntorno</strong> se "
+"rige por los principios de licitud, consentimiento, información, calidad, "
+"finalidad, lealtad, proporcionalidad, seguridad y responsabilidad, "
+"garantizando el respeto a la privacidad y a los derechos humanos."
+
+#: templates/privacy_policy.html:70
+msgid "Data transfers"
+msgstr "Transferencia de datos"
+
+#: templates/privacy_policy.html:72
+msgid "Your personal data may be shared with the following entities:"
+msgstr "Sus datos personales podrán ser compartidos con las siguientes entidades:"
+
+#: templates/privacy_policy.html:78
+msgid ""
+"as a database and cloud storage provider. Supabase processes data on "
+"Amazon Web Services (AWS) infrastructure. This transfer is necessary for "
+"the operation of the service and does not require your additional "
+"consent."
+msgstr ""
+"como proveedor de base de datos y almacenamiento en la nube. Supabase "
+"procesa los datos en infraestructura de Amazon Web Services (AWS). Esta "
+"transferencia es necesaria para el funcionamiento del servicio y no "
+"requiere de su consentimiento adicional."
+
+#: templates/privacy_policy.html:85
+msgid "Cookies and tracking technologies"
+msgstr "Cookies y tecnologías de rastreo"
+
+#: templates/privacy_policy.html:86
+msgid "We do not use non-essential cookies or tracking technologies."
+msgstr "No utilizamos cookies ni tecnologías de rastreo no esenciales."
+
+#: templates/privacy_policy.html:90
+msgid "Security measures"
+msgstr "Medidas de seguridad"
+
+#: templates/privacy_policy.html:92
+msgid ""
+"<strong>NuestroEntorno</strong> has implemented administrative, technical"
+" and physical security measures in accordance with the LFPDPPP, "
+"including:"
+msgstr ""
+"<strong>NuestroEntorno</strong> ha implementado medidas de seguridad "
+"administrativas, técnicas y físicas conforme a la LFPDPPP, que incluyen:"
+
+#: templates/privacy_policy.html:95
+msgid "Passwords and secure authentication."
+msgstr "Contraseñas y autenticación segura."
+
+#: templates/privacy_policy.html:96
+msgid "Data encryption in transit and at rest."
+msgstr "Cifrado de datos en tránsito y en reposo."
+
+#: templates/privacy_policy.html:97
+msgid "Role-based access control."
+msgstr "Acceso restringido por roles."
+
+#: templates/privacy_policy.html:104
+msgid "ARCO Rights"
+msgstr "Derechos ARCO"
+
+#: templates/privacy_policy.html:106
+msgid ""
+"You have the right to access, rectify, cancel or oppose the processing of"
+" your personal data in accordance with Articles 22 to 27 of the LFPDPPP. "
+"To exercise these rights, send a request to"
+msgstr ""
+"Usted tiene derecho a acceder, rectificar, cancelar u oponerse al "
+"tratamiento de sus datos personales conforme a los artículos 22 al 27 "
+"de la LFPDPPP. Para ejercer estos derechos, envíe una solicitud a"
+
+#: templates/privacy_policy.html:108
+msgid "or come directly to our address."
+msgstr "o acuda directamente a nuestro domicilio."
+
+#: templates/privacy_policy.html:110
+msgid "Your request must include:"
+msgstr "Su solicitud deberá contener:"
+
+#: templates/privacy_policy.html:112
+msgid "Full name and contact method for our response (email or address)."
+msgstr ""
+"Nombre completo y medio para comunicarle la respuesta (correo electrónico "
+"o domicilio)."
+
+#: templates/privacy_policy.html:113
+msgid ""
+"Clear and precise description of the data over which you wish to exercise"
+" your rights."
+msgstr ""
+"Descripción clara y precisa de los datos sobre los que desea ejercer "
+"sus derechos."
+
+#: templates/privacy_policy.html:114
+msgid ""
+"Copy of a valid official ID of the owner or, where applicable, of their "
+"legal representative with the document proving such representation."
+msgstr ""
+"Copia de identificación oficial vigente del titular o, en su caso, de su "
+"representante legal con el documento que acredite dicha representación."
+
+#: templates/privacy_policy.html:117
+msgid "will respond within a maximum period of"
+msgstr "dará respuesta en un término máximo de"
+
+#: templates/privacy_policy.html:118
+msgid "20 business days"
+msgstr "20 días hábiles"
+
+#: templates/privacy_policy.html:123
+msgid "Changes to this notice"
+msgstr "Modificaciones al aviso"
+
+#: templates/privacy_policy.html:125
+msgid ""
+"We reserve the right to modify or update this Privacy Notice. Any changes"
+" will be notified through the <strong>NuestroEntorno</strong> platform or"
+" by email to registered users."
+msgstr ""
+"Nos reservamos el derecho de modificar o actualizar este Aviso de "
+"Privacidad. Cualquier cambio será notificado a través de la plataforma "
+"<strong>NuestroEntorno</strong> o mediante correo electrónico a los "
+"usuarios registrados."
+
+#: templates/privacy_policy.html:134
+msgid "Email:"
+msgstr "Correo:"
+
+#: templates/privacy_policy.html:135
+msgid "Address: N/A"
+msgstr "Domicilio: N/A"
+
+#: templates/privacy_policy.html:140
+msgid "Version 1.0"
+msgstr "Versión 1.0"
+
+#: templates/privacy_policy.html:140
+msgid "June 2026"
+msgstr "Junio 2026"
+
+#: templates/privacy_policy.html:141
+msgid ""
+"Ley Federal de Protección de Datos Personales en Posesión de los "
+"Particulares (LFPDPPP)"
+msgstr ""
+"Ley Federal de Protección de Datos Personales en Posesión de los "
+"Particulares (LFPDPPP)"
+
+#: templates/support.html:12
+msgid "Help us keep<br>the project online"
+msgstr "Ayúdanos a mantener<br>el proyecto en línea"
+
+#: templates/support.html:14
+msgid ""
+"<strong>NuestroEntorno</strong> has no ads or sponsors. Every point on "
+"the map, every citizen report, every tracked dump, has a real cost. It is"
+" sustained by <strong>a single person</strong> with the support of those "
+"who believe in the project. Your support keeps it free and available for "
+"the entire community."
+msgstr ""
+"<strong>NuestroEntorno</strong> no tiene anuncios ni patrocinadores. Cada "
+"punto en el mapa, cada reporte ciudadano, cada basurero rastreado, tiene "
+"un costo real. Lo sostiene <strong>una sola persona</strong> con el apoyo "
+"de quienes creen en el proyecto. Tu apoyo lo mantiene gratuito y "
+"disponible para toda la comunidad."
+
+#: templates/support.html:23
+msgid "Where does your support go?"
+msgstr "¿A dónde va tu apoyo?"
+
+#: templates/support.html:28
+msgid "Server and hosting:"
+msgstr "Servidor y hosting:"
+
+#: templates/support.html:29
+msgid "keep the site available 24/7 without interruptions."
+msgstr "mantener el sitio disponible 24/7 sin interrupciones."
+
+#: templates/support.html:35
+msgid "Database:"
+msgstr "Base de datos:"
+
+#: templates/support.html:36
+msgid "store and serve reports in real time."
+msgstr "almacenar y servir los reportes en tiempo real."
+
+#: templates/support.html:42
+msgid "AI moderation:"
+msgstr "Moderación con IA:"
+
+#: templates/support.html:43
+msgid "filter false or low-quality reports."
+msgstr "filtrar reportes falsos o de baja calidad."
+
+#: templates/support.html:49
+msgid "Domain:"
+msgstr "Dominio:"
+
+#: templates/support.html:50
+msgid "the address where the project lives on the internet."
+msgstr "la dirección donde vive el proyecto en internet."
+
+#: templates/support.html:56
+msgid "Mobile app:"
+msgstr "Aplicación móvil:"
+
+#: templates/support.html:57
+msgid ""
+"maintenance, improvements and ongoing development of the app that "
+"citizens use to report directly from the field."
+msgstr ""
+"mantenimiento, mejoras y desarrollo continuo de la app con la que los "
+"ciudadanos reportan directamente desde el campo."
+
+#: templates/support.html:63
+msgid "Development and new features:"
+msgstr "Desarrollo y nuevas funciones:"
+
+#: templates/support.html:64
+msgid ""
+"fund the research and work to build better tools and continue growing the"
+" platform."
+msgstr ""
+"financiar la investigación y el trabajo para construir mejores "
+"herramientas y seguir creciendo la plataforma."
+
+#: templates/support.html:74
+msgid "How to support"
+msgstr "Cómo apoyar"
+
+#: templates/support.html:75
+msgid "Support with the amount you choose"
+msgstr "Apoya con el monto que tú elijas"
+
+#: templates/support.html:77
+msgid ""
+"A one-time contribution with no strings attached, or enable monthly "
+"support to guarantee the continuity of the project. You can cancel "
+"whenever you want."
+msgstr ""
+"Una sola vez sin compromisos, o activa el apoyo mensual para garantizar "
+"la continuidad del proyecto. Puedes cancelar cuando quieras."
+
+#: templates/support.html:85
+msgid ""
+"For monthly support, enable the <strong>Make it monthly</strong> option "
+"on the support page."
+msgstr ""
+"Para el apoyo mensual, activa la opción <strong>Hazlo mensual</strong> "
+"en la página de apoyo."
+
+#: templates/support.html:99
+msgid "Transparency"
+msgstr "Transparencia"
+
+#: templates/support.html:101
+msgid ""
+"<strong>NuestroEntorno</strong> is an independent project run and managed"
+" by a single person. Support received is used "
+"<strong>exclusively</strong> for the operational costs the platform "
+"requires: infrastructure, data storage, domain and development tools. "
+"There is no legal entity or company behind the project, and user "
+"information is handled in accordance with the"
+msgstr ""
+"<strong>NuestroEntorno</strong> es un proyecto independiente realizado y "
+"administrado por una sola persona. Los apoyos recibidos se destinan "
+"<strong>exclusivamente</strong> a los costos operativos que demanda la "
+"plataforma: infraestructura, almacenamiento de datos, dominio y "
+"herramientas de desarrollo. No existe ninguna persona jurídica ni empresa "
+"detrás del proyecto, y la información de los usuarios es tratada conforme al"
+
+#: templates/support.html:105
+msgid ""
+"If you have questions about where your support goes or want to learn more"
+" about the state of the project, write to us at"
+msgstr ""
+"Si tienes dudas sobre el destino de tu apoyo o quieres conocer más sobre "
+"el estado del proyecto, escríbenos a"

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ current_lang }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Recolección de datos medioambientales para plantear soluciones">
+  <meta name="description" content="{{ _('Environmental data collection to propose solutions') }}">
   <meta name="author" content="Bastion Lab">
-  <meta name="description" content="Plataforma ciudadana que visualiza reportes de residuos en México para apoyar decisiones ambientales informadas.">
+  <meta name="description" content="{{ _('Citizen platform that visualizes waste reports in Mexico to support informed environmental decisions.') }}">
   <meta property="og:title" content="NuestroEntorno">
-  <meta property="og:description" content="Plataforma ciudadana que visualiza reportes de residuos en México para apoyar decisiones ambientales informadas.">
+  <meta property="og:description" content="{{ _('Citizen platform that visualizes waste reports in Mexico to support informed environmental decisions.') }}">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="NuestroEntorno">
-  <meta name="twitter:description" content="Plataforma ciudadana que visualiza reportes de residuos en México para apoyar decisiones ambientales informadas.">
+  <meta name="twitter:description" content="{{ _('Citizen platform that visualizes waste reports in Mexico to support informed environmental decisions.') }}">
 
   {% block head_content %}{% endblock %}
 
@@ -22,22 +22,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script>(function(){var t=localStorage.getItem('ne-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
 
   <nav class="site-nav">
     <div class="nav-inner">
       <a class="nav-brand" href="/"><strong>NuestroEntorno</strong></a>
-      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+      <button class="nav-toggle" id="navToggle" aria-label="{{ _('Open menu') }}">
         <i class="fa-solid fa-bars"></i>
       </button>
       <ul class="nav-links" id="navLinks">
-        <li><a href="/inicio">Inicio</a></li>
-        <li><a href="/mapa_reportes">Mapa</a></li>
-        <li><a href="/app">Nuestra App</a></li>
-        <li><a href="/ayuda">Ayuda</a></li>
-        <li><a href="/contacto">Contacto</a></li>
-        <li><a href="/apoyo" class="nav-support"><i class="fa-solid fa-heart"></i> Apoyar</a></li>
+        <li><a href="/inicio">{{ _('Home') }}</a></li>
+        <li><a href="/mapa_reportes">{{ _('Map') }}</a></li>
+        <li><a href="/app">{{ _('Our App') }}</a></li>
+        <li><a href="/ayuda">{{ _('Help') }}</a></li>
+        <li><a href="/contacto">{{ _('Contact') }}</a></li>
+        <li class="lang-switch">
+          <a href="/lang/es" {% if current_lang == 'es' %}class="lang-active"{% endif %} aria-label="Español">ES</a>
+          <span class="lang-sep">|</span>
+          <a href="/lang/en" {% if current_lang == 'en' %}class="lang-active"{% endif %} aria-label="English">EN</a>
+        </li>
+        <li class="theme-toggle-wrap">
+          <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+            <i id="themeIcon" class="fas fa-sun"></i>
+          </button>
+        </li>
+        <li><a href="/apoyo" class="nav-support"><i class="fa-solid fa-heart"></i> {{ _('Support') }}</a></li>
       </ul>
     </div>
   </nav>
@@ -48,8 +59,8 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <span class="footer-brand"><strong>NuestroEntorno</strong></span>
-      <p>Datos para un México más limpio &mdash; Hecho con mucho amor y código</p>
-      <a href="/politica_privacidad" class="footer-privacy">Aviso de privacidad</a>
+      <p>{{ _('Data for a cleaner Mexico — Made with lots of love and code') }}</p>
+      <a href="/politica_privacidad" class="footer-privacy">{{ _('Privacy Notice') }}</a>
     </div>
   </footer>
   {% endblock %}
@@ -58,6 +69,23 @@
     const toggle = document.getElementById('navToggle');
     const links  = document.getElementById('navLinks');
     if (toggle) toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+    (function() {
+      var btn  = document.getElementById('themeToggle');
+      var icon = document.getElementById('themeIcon');
+      function syncIcon(theme) {
+        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      }
+      var current = document.documentElement.getAttribute('data-theme') || 'dark';
+      syncIcon(current);
+      btn.addEventListener('click', function() {
+        var cur  = document.documentElement.getAttribute('data-theme') || 'dark';
+        var next = cur === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('ne-theme', next);
+        syncIcon(next);
+      });
+    })();
   </script>
   {% block scripts %}{% endblock %}
 </body>

@@ -1,5 +1,5 @@
 {% extends "base_generic.html" %}
-{% block head_content %}<title>NuestroEntorno — Datos para un México más limpio</title>{% endblock %}
+{% block head_content %}<title>NuestroEntorno — {{ _('Data for a cleaner Mexico') }}</title>{% endblock %}
 
 {% block content %}
 <!-- ── Notice modal ──────────────────────────────────────────── -->
@@ -8,37 +8,30 @@
 
     <div class="notice-header">
       <div class="notice-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-      <span class="notice-title" id="notice-title">Aviso importante</span>
+      <span class="notice-title" id="notice-title">{{ _('Important Notice') }}</span>
     </div>
 
     <div class="notice-body">
       <p>
-        Este mapa muestra reportes de acumulación de basura en lugares no aptos.
-        <strong>NuestroEntorno</strong> es un proyecto individual que nació para mejorar la cultura ambiental
-        en México en 2023 como parte de un proyecto de tesis. Busca ser un banco de
-        datos ambientales de ayuda para empresas, gobiernos y colectivos, con el que
-        se puedan mejorar las políticas de limpieza de las ciudades.
+        {{ _('This map shows reports of waste accumulation in unsuitable locations. <strong>NuestroEntorno</strong> is an individual project born to improve environmental culture in Mexico in 2023 as part of a thesis project. It aims to be an environmental data bank to help businesses, governments and collectives improve city cleaning policies.') | safe }}
       </p>
     </div>
 
     <div class="notice-divider"></div>
 
     <div class="notice-support">
-      <span class="notice-support-title">Ayúdanos a mantener el proyecto</span>
+      <span class="notice-support-title">{{ _('Help us keep the project running') }}</span>
       <p>
-        <strong>NuestroEntorno</strong> lo mantiene una sola persona, no una empresa ni un colectivo.
-        No tenemos anuncios ni patrocinadores: el proyecto se sostiene gracias
-        al apoyo y buena fe de quienes lo usan. Tu donativo lo mantiene
-        gratuito y en línea para todos.
+        {{ _('<strong>NuestroEntorno</strong> is maintained by a single person, not a company or collective. We have no ads or sponsors: the project is sustained by the support and goodwill of those who use it. Your donation keeps it free and online for everyone.') | safe }}
       </p>
     </div>
 
     <div class="notice-actions">
       <button class="btn-dismiss" id="notice-dismiss">
-        Entendido &mdash; ver el mapa
+        {{ _('Got it &mdash; see the map') | safe }}
       </button>
       <a href="/apoyo" class="btn-support">
-        <i class="fa-solid fa-heart"></i> Apoyar el proyecto
+        <i class="fa-solid fa-heart"></i> {{ _('Support the project') }}
       </a>
     </div>
 
@@ -47,11 +40,10 @@
 
 <div class="hero">
   <div class="hero-text">
-    <span class="eyebrow">Plataforma de datos ambientales</span>
-    <h1>Información para un México más limpio</h1>
+    <span class="eyebrow">{{ _('Environmental Data Platform') }}</span>
+    <h1>{{ _('Information for a cleaner Mexico') }}</h1>
     <p class="hero-lead">
-      <strong>NuestroEntorno</strong> recopila y visualiza reportes ciudadanos de residuos sin recolectar
-      para apoyar decisiones informadas sobre la gestión de basura en México.
+      {{ _('<strong>NuestroEntorno</strong> collects and visualizes citizen reports of uncollected waste to support informed decisions about waste management in Mexico.') | safe }}
     </p>
   </div>
 
@@ -64,7 +56,7 @@
 
       <!-- Header bar -->
       <div class="data-map-header">
-        <span class="data-map-title">Mapa de reportes</span>
+        <span class="data-map-title">{{ _('Report Map') }}</span>
         <span class="data-live-dot"></span>
       </div>
 
@@ -97,23 +89,23 @@
       <!-- Floating stat card -->
       <div class="data-card data-card--stats">
         <span class="dc-value" id="reports-counter">0</span>
-        <span class="dc-label">Reportes realizados</span>
+        <span class="dc-label">{{ _('Reports submitted') }}</span>
       </div>
 
       <!-- Purpose card -->
       <div class="data-card data-card--purpose">
         <i class="fa-solid fa-brain" style="color:var(--accent);font-size:0.7rem;"></i>
-        <span class="dc-label">Entrenamiento IA · Mejora ambiental</span>
+        <span class="dc-label">{{ _('AI Training · Environmental Improvement') }}</span>
       </div>
 
     </div>
 
     <!-- Feature chips below the widget -->
     <div class="hero-chips">
-      <span class="hero-chip"><i class="fa-solid fa-location-dot"></i> Geolocalización</span>
-      <span class="hero-chip"><i class="fa-solid fa-brain"></i> IA</span>
-      <span class="hero-chip"><i class="fa-solid fa-chart-line"></i> Análisis</span>
-      <span class="hero-chip"><i class="fa-solid fa-database"></i> Datos abiertos</span>
+      <span class="hero-chip"><i class="fa-solid fa-location-dot"></i> {{ _('Geolocation') }}</span>
+      <span class="hero-chip"><i class="fa-solid fa-brain"></i> {{ _('AI') }}</span>
+      <span class="hero-chip"><i class="fa-solid fa-chart-line"></i> {{ _('Analysis') }}</span>
+      <span class="hero-chip"><i class="fa-solid fa-database"></i> {{ _('Open Data') }}</span>
     </div>
   </div>
 </div>
@@ -152,29 +144,25 @@
     <div class="crisis-stats-inner">
 
       <div class="crisis-intro" data-reveal>
-        <p class="section-label">El problema</p>
-        <h2>Los números que no vemos</h2>
-        <p class="crisis-intro-lead">La crisis de residuos en México está presente cada día. Estos son algunos datos del problema que tenemos:</p>
+        <p class="section-label">{{ _('The Problem') }}</p>
+        <h2>{{ _("The Numbers We Don't See") }}</h2>
+        <p class="crisis-intro-lead">{{ _('The waste crisis in Mexico is present every day. Here are some data points about the problem we face:') }}</p>
       </div>
 
       <!-- Stat 1: México -->
       <div class="crisis-stat stat-left" data-reveal>
         <div class="crisis-stat-card">
-          <div class="stat-number stat-number--lg">108,146<span class="stat-unit">ton/día</span></div>
+          <div class="stat-number stat-number--lg">108,146<span class="stat-unit">ton/{{ _('day') }}</span></div>
           <div class="stat-label">
-            de basura se recolectaron al día en México durante 2022
-            <span class="stat-scope">Promedio nacional · 32 estados · Solo residuos recolectados</span>
+            {{ _('of waste collected per day in Mexico during 2022') }}
+            <span class="stat-scope">{{ _('National average · 32 states · Collected waste only') }}</span>
           </div>
           <p class="stat-context">
-            Equivale a <strong>862 gramos por persona al día</strong>. La mitad de toda la basura
-            recolectada en el país proviene de solo 6 estados: Ciudad de México, Estado de México,
-            Jalisco, Veracruz, Nuevo León y Guanajuato. Además,
-            <strong>150 municipios no contaban con servicio de recolección,</strong>
-            en esos lugares, quemar la basura era la práctica más común.
+            {{ _('Equivalent to <strong>862 grams per person per day</strong>. Half of all waste collected in the country comes from just 6 states: Mexico City, State of Mexico, Jalisco, Veracruz, Nuevo León and Guanajuato. Additionally, <strong>150 municipalities had no collection service</strong> — in those places, burning garbage was the most common practice.') | safe }}
           </p>
           <cite class="stat-source">
             <i class="fa-solid fa-link"></i>
-            Fuente: <a href="https://cuentame.inegi.org.mx/descubre/geografia/medio_ambiente/" target="_blank" rel="noopener noreferrer">INEGI — Cuentame, Medio Ambiente (2022)</a>
+            {{ _('Source:') }} <a href="https://cuentame.inegi.org.mx/descubre/geografia/medio_ambiente/" target="_blank" rel="noopener noreferrer">{{ _('INEGI — Cuentame, Environment (2022)') }}</a>
           </cite>
         </div>
       </div>
@@ -182,12 +170,12 @@
       <!-- Stat 2: Michoacán -->
       <div class="crisis-stat stat-right" data-reveal>
         <div class="crisis-stat-card">
-          <div class="stat-number">4,400<span class="stat-unit">ton/día</span></div>
-          <div class="stat-label">genera el estado de Michoacán al día</div>
-          <p class="stat-context">Del total generado en el estado, <strong>menos del 2% se recicla efectivamente</strong>. El resto se deposita, quema o abandona sin tratamiento.</p>
+          <div class="stat-number">4,400<span class="stat-unit">ton/{{ _('day') }}</span></div>
+          <div class="stat-label">{{ _('generated daily by the state of Michoacán') }}</div>
+          <p class="stat-context">{{ _('Of the total generated in the state, <strong>less than 2&#37; is effectively recycled</strong>. The rest is deposited, burned or abandoned without treatment.') | safe }}</p>
           <cite class="stat-source">
             <i class="fa-solid fa-link"></i>
-            Fuente: <a href="https://medioambiente.michoacan.gob.mx" target="_blank" rel="noopener noreferrer">Secretaría de Medio Ambiente de Michoacán</a>
+            {{ _('Source:') }} <a href="https://medioambiente.michoacan.gob.mx" target="_blank" rel="noopener noreferrer">{{ _('Michoacán Ministry of Environment') }}</a>
           </cite>
         </div>
       </div>
@@ -195,12 +183,12 @@
       <!-- Stat 3: Pátzcuaro -->
       <div class="crisis-stat stat-left" data-reveal>
         <div class="crisis-stat-card">
-          <div class="stat-number">100<span class="stat-unit">ton/día</span></div>
-          <div class="stat-label">en Pátzcuaro, solo 64 llegan al basurero</div>
-          <p class="stat-context"><strong>36 toneladas diarias</strong> no llegan a ningún sistema de tratamiento: van a tiraderos clandestinos, cuerpos de agua o calles. Pátzcuaro fue la sede de nuestra prueba piloto en 2024.</p>
+          <div class="stat-number">100<span class="stat-unit">ton/{{ _('day') }}</span></div>
+          <div class="stat-label">{{ _('in Pátzcuaro, only 64 reach the landfill') }}</div>
+          <p class="stat-context">{{ _("<strong>36 daily tons</strong> don't reach any treatment system: they end up in clandestine dumps, water bodies or streets. Pátzcuaro was the site of our 2024 pilot test.") | safe }}</p>
           <cite class="stat-source">
             <i class="fa-solid fa-comment-dots"></i>
-            Comunicado, Dirección de Ecología, H. Ayuntamiento de Pátzcuaro (2024)
+            {{ _('Official communication, Ecology Department, Municipality of Pátzcuaro (2024)') }}
           </cite>
         </div>
       </div>
@@ -208,32 +196,32 @@
       <!-- Stat 4: ciudadano -->
       <div class="crisis-stat stat-right" data-reveal>
         <div class="crisis-stat-card">
-          <div class="stat-number">800<span class="stat-unit">g/día</span></div>
-          <div class="stat-label">genera en promedio cada habitante de Pátzcuaro</div>
-          <p class="stat-context">Menos de un kilo. Una bolsa, una botella, un empaque. Pero multiplicado por cada persona, cada día, es la acumulación que vives en tu entorno.</p>
+          <div class="stat-number">800<span class="stat-unit">g/{{ _('day') }}</span></div>
+          <div class="stat-label">{{ _('generated on average by each resident of Pátzcuaro') }}</div>
+          <p class="stat-context">{{ _('Less than a kilogram. A bag, a bottle, a package. But multiplied by every person, every day, it is the accumulation you experience in your surroundings.') }}</p>
           <cite class="stat-source">
             <i class="fa-solid fa-comment-dots"></i>
-            Comunicado, Dirección de Ecología, H. Ayuntamiento de Pátzcuaro (2024)
+            {{ _('Official communication, Ecology Department, Municipality of Pátzcuaro (2024)') }}
           </cite>
         </div>
       </div>
 
       <!-- Islas de plástico — clímax -->
       <div class="crisis-islands" data-reveal>
-        <div class="islands-eyebrow"><a href="https://www.gaceta.unam.mx/islas-de-plastico-un-triste-y-preocupante-paisaje/">Las cinco islas de plástico oceánico</a></div>
+        <div class="islands-eyebrow"><a href="https://www.gaceta.unam.mx/islas-de-plastico-un-triste-y-preocupante-paisaje/">{{ _('The five oceanic plastic islands') }}</a></div>
         <div class="islands-giant-number">~16 M</div>
-        <div class="islands-giant-unit">km² de superficie combinada</div>
+        <div class="islands-giant-unit">{{ _('km² of combined surface area') }}</div>
 
         <div class="islands-bars">
           <div class="ibar">
-            <span class="ibar-label">México</span>
+            <span class="ibar-label">{{ _('Mexico') }}</span>
             <div class="ibar-track">
               <div class="ibar-fill ibar-fill--mx" style="--w: 12.3%"></div>
             </div>
             <span class="ibar-value">1.96 M km²</span>
           </div>
           <div class="ibar">
-            <span class="ibar-label">Islas de plástico</span>
+            <span class="ibar-label">{{ _('Plastic Islands') }}</span>
             <div class="ibar-track">
               <div class="ibar-fill ibar-fill--trash" style="--w: 100%"></div>
             </div>
@@ -242,47 +230,44 @@
         </div>
 
         <p class="islands-context">
-          El problema no es una sola “isla” de plástico flotando en el océano, sino cinco grandes zonas de acumulación donde
-          millones de fragmentos de plástico se concentran por efecto de las corrientes marinas.
-          En conjunto, <strong>abarcan una superficie equivalente a más de ocho veces México, haciendo su limpieza extremadamente difícil y
-          poniendo en riesgo ecosistemas enteros</strong>.
+          {{ _('The problem is not a single plastic "island" floating in the ocean, but five large accumulation zones where millions of plastic fragments concentrate due to ocean currents. Together, <strong>they cover an area equivalent to more than eight times Mexico, making cleanup extremely difficult and putting entire ecosystems at risk</strong>.') | safe }}
         </p>
       </div>
 
       <!-- Puente narrativo: datos → consecuencias -->
       <div class="crisis-bridge" data-reveal>
-        <p class="bridge-lead">Los datos describen lo que se <span class="bridge-muted">logra recoger</span>. Lo que <strong>NuestroEntorno</strong> mapea es lo que <strong>nadie fue a buscar</strong>.</p>
-        <p class="bridge-body">Residuos que no llegaron al camión de limpieza. Basura volcada en un baldío, una barranca o la orilla de un río. Acumulaciones en lugares donde el servicio municipal nunca llega y que, por tanto, no entran en ninguna estadística oficial. Esos puntos son los que documentamos y no son inofensivos. Son focos activos de daño para las personas y el entorno de quienes viven cerca.</p>
+        <p class="bridge-lead">{{ _('The data describes what <span class="bridge-muted">gets collected</span>. What <strong>NuestroEntorno</strong> maps is what <strong>nobody went to look for</strong>.') | safe }}</p>
+        <p class="bridge-body">{{ _("Waste that never reached the garbage truck. Trash dumped in an empty lot, a ravine or a riverbank. Accumulations in places where municipal services never arrive and that, therefore, don't appear in any official statistics. Those are the points we document, and they are not harmless. They are active hotspots of damage to the people and surroundings of those who live nearby.") }}</p>
       </div>
 
       <!-- Consecuencias de los vertederos ilegales -->
       <div class="crisis-problems" data-reveal>
-        <p class="section-label" style="text-align:center">Consecuencias</p>
-        <h2 class="crisis-problems-title">Lo que generan los vertederos ilegales</h2>
+        <p class="section-label" style="text-align:center">{{ _('Consequences') }}</p>
+        <h2 class="crisis-problems-title">{{ _('What illegal dumps generate') }}</h2>
         <div class="problems-grid">
 
           <div class="problem-card">
             <div class="problem-icon"><i class="fa-solid fa-virus"></i></div>
-            <h4>Focos de infección</h4>
-            <p>La acumulación de residuos orgánicos atrae ratas, mosquitos y moscas que propagan enfermedades directamente en los espacios donde vivimos.</p>
+            <h4>{{ _('Infection Hotspots') }}</h4>
+            <p>{{ _('The accumulation of organic waste attracts rats, mosquitoes and flies that spread diseases directly in the spaces where we live.') }}</p>
           </div>
 
           <div class="problem-card">
             <div class="problem-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
-            <h4>Peligro de combustión</h4>
-            <p>Los residuos secos y la acumulación de gases generan condiciones para incendios espontáneos o provocados que son difíciles de controlar.</p>
+            <h4>{{ _('Fire Hazard') }}</h4>
+            <p>{{ _('Dry waste and gas accumulation create conditions for spontaneous or deliberate fires that are difficult to control.') }}</p>
           </div>
 
           <div class="problem-card">
             <div class="problem-icon"><i class="fa-solid fa-smog"></i></div>
-            <h4>Gases contaminantes</h4>
-            <p>La descomposición libera metano, CO₂ y compuestos tóxicos (gases de efecto invernadero) que degradan la calidad del aire en las zonas cercanas.</p>
+            <h4>{{ _('Toxic Gases') }}</h4>
+            <p>{{ _('Decomposition releases methane, CO₂ and toxic compounds (greenhouse gases) that degrade air quality in nearby areas.') }}</p>
           </div>
 
           <div class="problem-card problem-card--highlight">
             <div class="problem-icon"><i class="fa-solid fa-droplet"></i></div>
-            <h4>Contaminación de acuíferos</h4>
-            <p>Los lixiviados (líquidos tóxicos del residuo), se filtran al suelo y alcanzan los mantos acuíferos subterráneos. <strong>Gran parte del agua que consumimos a diario proviene de ahí.</strong></p>
+            <h4>{{ _('Aquifer Contamination') }}</h4>
+            <p>{{ _('Leachates (toxic liquids from waste) seep into the soil and reach underground aquifers. <strong>Much of the water we consume daily comes from there.</strong>') | safe }}</p>
           </div>
 
         </div>
@@ -290,10 +275,10 @@
 
       <!-- CTA -->
       <div class="crisis-cta" data-reveal>
-        <p>Cada reporte en <strong>NuestroEntorno</strong> convierte lo invisible en datos. Un reporte a la vez.</p>
+        <p>{{ _('Every report in <strong>NuestroEntorno</strong> turns the invisible into data. One report at a time.') | safe }}</p>
         <div class="crisis-cta-actions">
-          <a href="/mapa_reportes" class="btn-solid">Ver el mapa</a>
-          <a href="/app" class="btn-outline">Descargar la app</a>
+          <a href="/mapa_reportes" class="btn-solid">{{ _('See the map') }}</a>
+          <a href="/app" class="btn-outline">{{ _('Download the app') }}</a>
         </div>
       </div>
 
