@@ -36,6 +36,9 @@ RUN pip install --no-cache-dir -r requirements.txt && \
 # Código fuente (config/.env excluido por .dockerignore)
 COPY . .
 
+# Compila los catálogos de traducción (.po → .mo)
+RUN pybabel compile -d translations
+
 USER appuser
 
 EXPOSE 8080
