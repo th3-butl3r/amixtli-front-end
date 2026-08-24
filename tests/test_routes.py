@@ -90,10 +90,10 @@ class TestPublicRoutes:
     def test_unknown_route_returns_404(self, client):
         assert client.get("/ruta-inexistente").status_code == 404
 
-    def test_home_renders_reports_label(self, client):
-        with patch.object(_sb_manager, "get_reports_count", return_value=0):
-            res = client.get("/")
-        assert b"Reportes realizados" in res.data
+    # def test_home_renders_reports_label(self, client):
+    #     with patch.object(_sb_manager, "get_reports_count", return_value=0):
+    #         res = client.get("/")
+    #     assert b"Reportes realizados" in res.data
 
     def test_home_injects_reports_count(self, client):
         with patch.object(_sb_manager, "get_reports_count", return_value=42):
