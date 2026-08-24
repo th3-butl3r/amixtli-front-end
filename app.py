@@ -38,11 +38,14 @@ babel = Babel()
 
 
 def _get_locale() -> str:
-    """Return the active UI locale from the session (defaults to Spanish)."""
-    return session.get("lang", "es")
+    """Return the manually selected UI locale — always 'es' or 'en', never auto-detected."""
+    lang = session.get("lang")
+    return lang if lang in ("es", "en") else "es"
 
 
-babel.init_app(app, locale_selector=_get_locale)
+# default_locale='es' ensures Spanish even if the selector ever returns None.
+# Accept-Language headers are intentionally ignored: language choice is manual only.
+babel.init_app(app, locale_selector=_get_locale, default_locale="es")
 
 
 @app.context_processor
