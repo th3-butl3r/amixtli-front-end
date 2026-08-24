@@ -225,3 +225,33 @@ class TestReporteDetailApi:
         ):
             client.get("/api/reporte/uuid-123")
         mock_url.assert_not_called()
+
+
+# ─── /lang/<code> ────────────────────────────────────────────────────────────
+
+
+class TestSetLanguage:
+    def test_valid_es_sets_session_and_redirects(self, client):
+        res = client.get("/lang/es")
+        assert res.status_code == 302
+        with client.session_transaction() as sess:
+            assert sess["lang"] == "es"
+
+    def test_valid_en_sets_session_and_redirects(self, client):
+        res = client.get("/lang/en")
+        assert res.status_code == 302
+        with client.session_transaction() as sess:
+            assert sess["lang"] == "en"
+
+    def test_invalid_code_does_not_set_session(self, client):
+        client.get("/lang/fr")
+        with client.session_transaction() as sess:
+            assert "lang" not in sess
+
+    def test_redirects_to_referrer_when_present(self, client):
+        res = client.get("/lang/en", headers={"Referer": "http://localhost/ayuda"})
+        assert res.headers["Location"] == "http://localhost/ayuda"
+
+    def test_redirects_to_root_when_no_referrer(self, client):
+        res = client.get("/lang/es")
+        assert res.headers["Location"] == "/"

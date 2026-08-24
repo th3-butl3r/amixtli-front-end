@@ -240,7 +240,7 @@ def page_not_found(e: Exception) -> tuple:
     return render_template("404.html"), 404
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     environment = settings.ENV_STATE
     if environment == "LOCAL" or environment == "DEVELOPMENT":
         app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)  # nosec
