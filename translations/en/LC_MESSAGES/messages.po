@@ -1,0 +1,1025 @@
+# English translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-08-24 13:37-0600\n"
+"PO-Revision-Date: 2026-08-24 13:37-0600\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: templates/404.html:2
+msgid "Page not found"
+msgstr ""
+
+#: templates/404.html:14
+msgid "This page doesn't exist"
+msgstr ""
+
+#: templates/404.html:16
+msgid ""
+"The link may have changed or the address may be misspelled. You can go "
+"back to the home page or explore the report map."
+msgstr ""
+
+#: templates/404.html:21
+msgid "Go home"
+msgstr ""
+
+#: templates/404.html:24 templates/index.html:280
+msgid "See the map"
+msgstr ""
+
+#: templates/app.html:2 templates/app.html:8 templates/base_generic.html:37
+msgid "Our App"
+msgstr ""
+
+#: templates/app.html:9
+msgid "Report from anywhere"
+msgstr ""
+
+#: templates/app.html:10
+msgid "Beta · In validation"
+msgstr ""
+
+#: templates/app.html:12
+msgid ""
+"The <strong>NuestroEntorno</strong> mobile app lets anyone photograph and"
+" geolocate waste accumulations in their environment with a couple of "
+"taps. Each report feeds the database and contributes directly to "
+"analysis."
+msgstr ""
+
+#: templates/app.html:37 templates/map.html:599
+msgid "Report"
+msgstr ""
+
+#: templates/app.html:41
+msgid "Report sent"
+msgstr ""
+
+#: templates/app.html:55
+msgid "Capture with your camera"
+msgstr ""
+
+#: templates/app.html:57
+msgid ""
+"Photograph waste accumulations directly from the app. The image is "
+"automatically linked to your location."
+msgstr ""
+
+#: templates/app.html:67
+msgid "Automatic geolocation"
+msgstr ""
+
+#: templates/app.html:69
+msgid ""
+"Each report records the exact coordinates of the problem without human "
+"intervention."
+msgstr ""
+
+#: templates/app.html:79
+msgid "Artificial intelligence analysis"
+msgstr ""
+
+#: templates/app.html:81
+msgid ""
+"Reports feed an AI model for automatic detection and classification of "
+"waste types."
+msgstr ""
+
+#: templates/app.html:91
+msgid "Open data"
+msgstr ""
+
+#: templates/app.html:93
+msgid ""
+"The information collected is public and accessible to citizens, "
+"researchers, organizations and authorities."
+msgstr ""
+
+#: templates/app.html:103
+msgid "Offline mode"
+msgstr ""
+
+#: templates/app.html:105
+msgid ""
+"If you don't have mobile data or WiFi, you can keep reporting. Reports "
+"are saved to your device and sent automatically as soon as you regain "
+"connectivity."
+msgstr ""
+
+#: templates/app.html:115
+msgid "Privacy by design"
+msgstr ""
+
+#: templates/app.html:117
+msgid ""
+"You don't need an account to report. We don't collect personal data, so "
+"your identity is never part of a report. Because the best way to protect "
+"users' personal information is not to collect it."
+msgstr ""
+
+#: templates/app.html:125
+msgid "Validator Program"
+msgstr ""
+
+#: templates/app.html:128
+msgid ""
+"The app is in active beta. We're looking for people to test it in the "
+"field and help us improve it before the public launch."
+msgstr ""
+
+#: templates/app.html:135
+msgid "Join the group"
+msgstr ""
+
+#: templates/app.html:136
+msgid ""
+"Go to the distribution link, enter your Gmail address and you'll receive "
+"a Firebase invitation in your inbox."
+msgstr ""
+
+#: templates/app.html:142
+msgid "Let us know by email"
+msgstr ""
+
+#: templates/app.html:143
+msgid ""
+"Once registered, write to us at <a "
+"href=\"mailto:contacto@bastionlab.com.mx\" class=\"text-"
+"link\">contacto@bastionlab.com.mx</a> with the Gmail you used. The group "
+"is limited and the APK is not sent automatically."
+msgstr ""
+
+#: templates/app.html:149
+msgid "Receive the APK and test"
+msgstr ""
+
+#: templates/app.html:150
+msgid ""
+"We verify your access and send you the APK. Install it, use it in the "
+"field and tell us what you found."
+msgstr ""
+
+#: templates/app.html:157
+msgid ""
+"Registering in the Firebase group <strong>does not send the APK "
+"automatically</strong>. You must write to us by email so we can send it "
+"to you."
+msgstr ""
+
+#: templates/app.html:164
+msgid "Join the distribution group"
+msgstr ""
+
+#: templates/base_generic.html:6
+msgid "Environmental data collection to propose solutions"
+msgstr ""
+
+#: templates/base_generic.html:8 templates/base_generic.html:10
+#: templates/base_generic.html:14
+msgid ""
+"Citizen platform that visualizes waste reports in Mexico to support "
+"informed environmental decisions."
+msgstr ""
+
+#: templates/base_generic.html:31
+msgid "Open menu"
+msgstr ""
+
+#: templates/base_generic.html:35
+msgid "Home"
+msgstr ""
+
+#: templates/base_generic.html:36
+msgid "Map"
+msgstr ""
+
+#: templates/base_generic.html:38 templates/help.html:2 templates/help.html:9
+msgid "Help"
+msgstr ""
+
+#: templates/base_generic.html:39 templates/contact.html:2
+#: templates/contact.html:9 templates/privacy_policy.html:132
+msgid "Contact"
+msgstr ""
+
+#: templates/base_generic.html:45 templates/help.html:8
+msgid "Support"
+msgstr ""
+
+#: templates/base_generic.html:56
+msgid "Data for a cleaner Mexico — Made with lots of love and code"
+msgstr ""
+
+#: templates/base_generic.html:57 templates/help.html:50
+#: templates/privacy_policy.html:2 templates/support.html:102
+msgid "Privacy Notice"
+msgstr ""
+
+#: templates/contact.html:8
+msgid "Let's Talk"
+msgstr ""
+
+#: templates/contact.html:11
+msgid ""
+"<strong>NuestroEntorno</strong> is a one-person project, open to those "
+"who want to join. If you have something to contribute or simply want to "
+"ask something, write to me directly."
+msgstr ""
+
+#: templates/contact.html:21
+msgid "Write to me at"
+msgstr ""
+
+#: templates/contact.html:29
+msgid "How can you contribute?"
+msgstr ""
+
+#: templates/contact.html:31
+msgid "Development"
+msgstr ""
+
+#: templates/contact.html:32
+msgid "Data Analysis"
+msgstr ""
+
+#: templates/contact.html:33
+msgid "Design"
+msgstr ""
+
+#: templates/contact.html:34
+msgid "Communication"
+msgstr ""
+
+#: templates/contact.html:35
+msgid "Environmental Management"
+msgstr ""
+
+#: templates/contact.html:36
+msgid "Other"
+msgstr ""
+
+#: templates/contact.html:42
+msgid ""
+"In your email, briefly tell me who you are, what motivated you to write, "
+"and how you think you can contribute. There is no formal process, just a "
+"conversation between two people."
+msgstr ""
+
+#: templates/help.html:11
+msgid "Before sending us your question, check if there is already an answer here."
+msgstr ""
+
+#: templates/help.html:15
+msgid "Table of contents"
+msgstr ""
+
+#: templates/help.html:16
+msgid "On this page"
+msgstr ""
+
+#: templates/help.html:18 templates/help.html:26
+msgid "How can I support the project directly?"
+msgstr ""
+
+#: templates/help.html:19 templates/help.html:37
+msgid "How do you collect environmental data?"
+msgstr ""
+
+#: templates/help.html:20 templates/help.html:44
+msgid "What do you do with the reports?"
+msgstr ""
+
+#: templates/help.html:21 templates/help.html:55
+msgid "How do you validate the information?"
+msgstr ""
+
+#: templates/help.html:28
+msgid "Write to the project creator:"
+msgstr ""
+
+#: templates/help.html:32
+msgid ""
+"In your email, describe why you want to support the project, what skills "
+"you have that you think could be useful, and how you want to do it. It is"
+" important to know if our interests are aligned and how we can serve your"
+" growth."
+msgstr ""
+
+#: templates/help.html:39
+msgid ""
+"Through our mobile app. You can download it here: <strong>The app is "
+"under development and is not yet public.</strong> The data shown was "
+"obtained during a pilot test carried out in 2024 in the state of "
+"Michoacán, with support from the Ecology Department of Pátzcuaro, Mich."
+msgstr ""
+
+#: templates/help.html:46
+msgid ""
+"Reports captured through the app are used for two main purposes: training"
+" artificial intelligence models for automatic waste detection, and "
+"generating statistical analyses to identify patterns and critical "
+"accumulation zones."
+msgstr ""
+
+#: templates/help.html:49
+msgid ""
+"The images and associated data are handled in accordance with Mexican "
+"personal data protection legislation. They are never shared with third "
+"parties for commercial purposes or used for purposes other than those "
+"declared. You can see the full details in our"
+msgstr ""
+
+#: templates/help.html:57
+msgid ""
+"Reports submitted through the app are not published immediately on the "
+"map. Each record goes through a validation process carried out by our "
+"collaborators to verify the quality and consistency of the information. "
+"This procedure allows us to maintain a reliable and useful database for "
+"citizens, researchers, organizations and decision-makers seeking to "
+"understand and address waste-related problems in Mexico."
+msgstr ""
+
+#: templates/help.html:63
+msgid ""
+"We continue developing the app to make it more comfortable and efficient "
+"for users. With much love, the <strong>NuestroEntorno</strong> team."
+msgstr ""
+
+#: templates/index.html:2
+msgid "Data for a cleaner Mexico"
+msgstr ""
+
+#: templates/index.html:11
+msgid "Important Notice"
+msgstr ""
+
+#: templates/index.html:16
+msgid ""
+"This map shows reports of waste accumulation in unsuitable locations. "
+"<strong>NuestroEntorno</strong> is an individual project born to improve "
+"environmental culture in Mexico in 2023 as part of a thesis project. It "
+"aims to be an environmental data bank to help businesses, governments and"
+" collectives improve city cleaning policies."
+msgstr ""
+
+#: templates/index.html:23
+msgid "Help us keep the project running"
+msgstr ""
+
+#: templates/index.html:25
+msgid ""
+"<strong>NuestroEntorno</strong> is maintained by a single person, not a "
+"company or collective. We have no ads or sponsors: the project is "
+"sustained by the support and goodwill of those who use it. Your donation "
+"keeps it free and online for everyone."
+msgstr ""
+
+#: templates/index.html:31
+msgid "Got it &mdash; see the map"
+msgstr ""
+
+#: templates/index.html:34 templates/support.html:2 templates/support.html:82
+msgid "Support the project"
+msgstr ""
+
+#: templates/index.html:43
+msgid "Environmental Data Platform"
+msgstr ""
+
+#: templates/index.html:44
+msgid "Information for a cleaner Mexico"
+msgstr ""
+
+#: templates/index.html:46
+msgid ""
+"<strong>NuestroEntorno</strong> collects and visualizes citizen reports "
+"of uncollected waste to support informed decisions about waste management"
+" in Mexico."
+msgstr ""
+
+#: templates/index.html:59
+msgid "Report Map"
+msgstr ""
+
+#: templates/index.html:92
+msgid "Reports submitted"
+msgstr ""
+
+#: templates/index.html:98
+msgid "AI Training · Environmental Improvement"
+msgstr ""
+
+#: templates/index.html:105
+msgid "Geolocation"
+msgstr ""
+
+#: templates/index.html:106
+msgid "AI"
+msgstr ""
+
+#: templates/index.html:107
+msgid "Analysis"
+msgstr ""
+
+#: templates/index.html:108
+msgid "Open Data"
+msgstr ""
+
+#: templates/index.html:147
+msgid "The Problem"
+msgstr ""
+
+#: templates/index.html:148
+msgid "The Numbers We Don't See"
+msgstr ""
+
+#: templates/index.html:149
+msgid ""
+"The waste crisis in Mexico is present every day. Here are some data "
+"points about the problem we face:"
+msgstr ""
+
+#: templates/index.html:155 templates/index.html:173 templates/index.html:186
+#: templates/index.html:199
+msgid "day"
+msgstr ""
+
+#: templates/index.html:157
+msgid "of waste collected per day in Mexico during 2022"
+msgstr ""
+
+#: templates/index.html:158
+msgid "National average · 32 states · Collected waste only"
+msgstr ""
+
+#: templates/index.html:161
+msgid ""
+"Equivalent to <strong>862 grams per person per day</strong>. Half of all "
+"waste collected in the country comes from just 6 states: Mexico City, "
+"State of Mexico, Jalisco, Veracruz, Nuevo León and Guanajuato. "
+"Additionally, <strong>150 municipalities had no collection "
+"service</strong> — in those places, burning garbage was the most common "
+"practice."
+msgstr ""
+
+#: templates/index.html:165 templates/index.html:178
+msgid "Source:"
+msgstr ""
+
+#: templates/index.html:165
+msgid "INEGI — Cuentame, Environment (2022)"
+msgstr ""
+
+#: templates/index.html:174
+msgid "generated daily by the state of Michoacán"
+msgstr ""
+
+#: templates/index.html:175
+msgid ""
+"Of the total generated in the state, <strong>less than 2&#37; is effectively "
+"recycled</strong>. The rest is deposited, burned or abandoned without "
+"treatment."
+msgstr ""
+
+#: templates/index.html:178
+msgid "Michoacán Ministry of Environment"
+msgstr ""
+
+#: templates/index.html:187
+msgid "in Pátzcuaro, only 64 reach the landfill"
+msgstr ""
+
+#: templates/index.html:188
+msgid ""
+"<strong>36 daily tons</strong> don't reach any treatment system: they end"
+" up in clandestine dumps, water bodies or streets. Pátzcuaro was the site"
+" of our 2024 pilot test."
+msgstr ""
+
+#: templates/index.html:191 templates/index.html:204
+msgid ""
+"Official communication, Ecology Department, Municipality of Pátzcuaro "
+"(2024)"
+msgstr ""
+
+#: templates/index.html:200
+msgid "generated on average by each resident of Pátzcuaro"
+msgstr ""
+
+#: templates/index.html:201
+msgid ""
+"Less than a kilogram. A bag, a bottle, a package. But multiplied by every"
+" person, every day, it is the accumulation you experience in your "
+"surroundings."
+msgstr ""
+
+#: templates/index.html:211
+msgid "The five oceanic plastic islands"
+msgstr ""
+
+#: templates/index.html:213
+msgid "km² of combined surface area"
+msgstr ""
+
+#: templates/index.html:217
+msgid "Mexico"
+msgstr ""
+
+#: templates/index.html:224
+msgid "Plastic Islands"
+msgstr ""
+
+#: templates/index.html:233
+msgid ""
+"The problem is not a single plastic \"island\" floating in the ocean, but"
+" five large accumulation zones where millions of plastic fragments "
+"concentrate due to ocean currents. Together, <strong>they cover an area "
+"equivalent to more than eight times Mexico, making cleanup extremely "
+"difficult and putting entire ecosystems at risk</strong>."
+msgstr ""
+
+#: templates/index.html:239
+msgid ""
+"The data describes what <span class=\"bridge-muted\">gets "
+"collected</span>. What <strong>NuestroEntorno</strong> maps is what "
+"<strong>nobody went to look for</strong>."
+msgstr ""
+
+#: templates/index.html:240
+msgid ""
+"Waste that never reached the garbage truck. Trash dumped in an empty lot,"
+" a ravine or a riverbank. Accumulations in places where municipal "
+"services never arrive and that, therefore, don't appear in any official "
+"statistics. Those are the points we document, and they are not harmless. "
+"They are active hotspots of damage to the people and surroundings of "
+"those who live nearby."
+msgstr ""
+
+#: templates/index.html:245
+msgid "Consequences"
+msgstr ""
+
+#: templates/index.html:246
+msgid "What illegal dumps generate"
+msgstr ""
+
+#: templates/index.html:251
+msgid "Infection Hotspots"
+msgstr ""
+
+#: templates/index.html:252
+msgid ""
+"The accumulation of organic waste attracts rats, mosquitoes and flies "
+"that spread diseases directly in the spaces where we live."
+msgstr ""
+
+#: templates/index.html:257
+msgid "Fire Hazard"
+msgstr ""
+
+#: templates/index.html:258
+msgid ""
+"Dry waste and gas accumulation create conditions for spontaneous or "
+"deliberate fires that are difficult to control."
+msgstr ""
+
+#: templates/index.html:263
+msgid "Toxic Gases"
+msgstr ""
+
+#: templates/index.html:264
+msgid ""
+"Decomposition releases methane, CO₂ and toxic compounds (greenhouse "
+"gases) that degrade air quality in nearby areas."
+msgstr ""
+
+#: templates/index.html:269
+msgid "Aquifer Contamination"
+msgstr ""
+
+#: templates/index.html:270
+msgid ""
+"Leachates (toxic liquids from waste) seep into the soil and reach "
+"underground aquifers. <strong>Much of the water we consume daily comes "
+"from there.</strong>"
+msgstr ""
+
+#: templates/index.html:278
+msgid ""
+"Every report in <strong>NuestroEntorno</strong> turns the invisible into "
+"data. One report at a time."
+msgstr ""
+
+#: templates/index.html:281
+msgid "Download the app"
+msgstr ""
+
+#: templates/map.html:549
+msgid "Citizen Reports"
+msgstr ""
+
+#: templates/map.html:550 templates/map.html:620
+msgid "active report"
+msgstr ""
+
+#: templates/map.html:550 templates/map.html:621
+msgid "active reports"
+msgstr ""
+
+#: templates/map.html:552
+msgid "Expand options"
+msgstr ""
+
+#: templates/map.html:555
+msgid "Click a point to see the report."
+msgstr ""
+
+#: templates/map.html:557
+msgid "Unsolved"
+msgstr ""
+
+#: templates/map.html:558
+msgid "Solved"
+msgstr ""
+
+#: templates/map.html:561
+msgid "Filter by state"
+msgstr ""
+
+#: templates/map.html:563
+msgid "All states"
+msgstr ""
+
+#: templates/map.html:574 templates/map.html:590
+msgid "Top reports"
+msgstr ""
+
+#: templates/map.html:575
+msgid "Collapse"
+msgstr ""
+
+#: templates/map.html:581
+msgid "See top reports"
+msgstr ""
+
+#: templates/map.html:591 templates/map.html:600
+msgid "Close"
+msgstr ""
+
+#: templates/map.html:616
+msgid "Loading…"
+msgstr ""
+
+#: templates/map.html:617
+msgid "Could not load the report."
+msgstr ""
+
+#: templates/map.html:618
+msgid "No reports in this filter."
+msgstr ""
+
+#: templates/map.html:619
+msgid "Error loading."
+msgstr ""
+
+#: templates/map.html:622
+msgid "Reported by"
+msgstr ""
+
+#: templates/map.html:623
+msgid "person"
+msgstr ""
+
+#: templates/map.html:624
+msgid "people"
+msgstr ""
+
+#: templates/privacy_policy.html:8
+msgid "Legal"
+msgstr ""
+
+#: templates/privacy_policy.html:9
+msgid "Comprehensive Privacy Notice"
+msgstr ""
+
+#: templates/privacy_policy.html:11
+msgid ""
+"In compliance with Article 16 of the Mexican Constitution and Articles "
+"11, 12, 13, 14, 15 and other applicable provisions of the LFPDPPP "
+"(Mexican Federal Law on Personal Data Protection Held by Private "
+"Parties)."
+msgstr ""
+
+#: templates/privacy_policy.html:21
+msgid "Data Controller"
+msgstr ""
+
+#: templates/privacy_policy.html:24
+msgid ""
+"is responsible for the processing, safekeeping and protection of your "
+"personal data in accordance with the applicable regulatory framework."
+msgstr ""
+
+#: templates/privacy_policy.html:31
+msgid "Personal data collected"
+msgstr ""
+
+#: templates/privacy_policy.html:34
+msgid "Image and security data:"
+msgstr ""
+
+#: templates/privacy_policy.html:35
+msgid ""
+"photographs, video recordings or images captured through the "
+"<strong>NuestroEntorno</strong> app."
+msgstr ""
+
+#: templates/privacy_policy.html:41
+msgid "Primary purposes"
+msgstr ""
+
+#: templates/privacy_policy.html:42
+msgid ""
+"The images collected will be used for the following primary purposes, "
+"necessary for service improvement:"
+msgstr ""
+
+#: templates/privacy_policy.html:44
+msgid "Training an artificial intelligence model for waste detection."
+msgstr ""
+
+#: templates/privacy_policy.html:49
+msgid "Secondary purposes"
+msgstr ""
+
+#: templates/privacy_policy.html:51
+msgid "Preparation of reports and statistical analysis."
+msgstr ""
+
+#: templates/privacy_policy.html:54
+msgid ""
+"If you do not wish your data to be processed for these secondary "
+"purposes, you may express your refusal by sending an email to"
+msgstr ""
+
+#: templates/privacy_policy.html:56
+msgid "Refusal will not be grounds for denying the services you request."
+msgstr ""
+
+#: templates/privacy_policy.html:63
+msgid "Guiding principles"
+msgstr ""
+
+#: templates/privacy_policy.html:65
+msgid ""
+"The processing of personal data at <strong>NuestroEntorno</strong> is "
+"governed by the principles of lawfulness, consent, information, quality, "
+"purpose, loyalty, proportionality, security and accountability, "
+"guaranteeing respect for privacy and human rights."
+msgstr ""
+
+#: templates/privacy_policy.html:70
+msgid "Data transfers"
+msgstr ""
+
+#: templates/privacy_policy.html:72
+msgid "Your personal data may be shared with the following entities:"
+msgstr ""
+
+#: templates/privacy_policy.html:78
+msgid ""
+"as a database and cloud storage provider. Supabase processes data on "
+"Amazon Web Services (AWS) infrastructure. This transfer is necessary for "
+"the operation of the service and does not require your additional "
+"consent."
+msgstr ""
+
+#: templates/privacy_policy.html:85
+msgid "Cookies and tracking technologies"
+msgstr ""
+
+#: templates/privacy_policy.html:86
+msgid "We do not use non-essential cookies or tracking technologies."
+msgstr ""
+
+#: templates/privacy_policy.html:90
+msgid "Security measures"
+msgstr ""
+
+#: templates/privacy_policy.html:92
+msgid ""
+"<strong>NuestroEntorno</strong> has implemented administrative, technical"
+" and physical security measures in accordance with the LFPDPPP, "
+"including:"
+msgstr ""
+
+#: templates/privacy_policy.html:95
+msgid "Passwords and secure authentication."
+msgstr ""
+
+#: templates/privacy_policy.html:96
+msgid "Data encryption in transit and at rest."
+msgstr ""
+
+#: templates/privacy_policy.html:97
+msgid "Role-based access control."
+msgstr ""
+
+#: templates/privacy_policy.html:104
+msgid "ARCO Rights"
+msgstr ""
+
+#: templates/privacy_policy.html:106
+msgid ""
+"You have the right to access, rectify, cancel or oppose the processing of"
+" your personal data in accordance with Articles 22 to 27 of the LFPDPPP. "
+"To exercise these rights, send a request to"
+msgstr ""
+
+#: templates/privacy_policy.html:108
+msgid "or come directly to our address."
+msgstr ""
+
+#: templates/privacy_policy.html:110
+msgid "Your request must include:"
+msgstr ""
+
+#: templates/privacy_policy.html:112
+msgid "Full name and contact method for our response (email or address)."
+msgstr ""
+
+#: templates/privacy_policy.html:113
+msgid ""
+"Clear and precise description of the data over which you wish to exercise"
+" your rights."
+msgstr ""
+
+#: templates/privacy_policy.html:114
+msgid ""
+"Copy of a valid official ID of the owner or, where applicable, of their "
+"legal representative with the document proving such representation."
+msgstr ""
+
+#: templates/privacy_policy.html:117
+msgid "will respond within a maximum period of"
+msgstr ""
+
+#: templates/privacy_policy.html:118
+msgid "20 business days"
+msgstr ""
+
+#: templates/privacy_policy.html:123
+msgid "Changes to this notice"
+msgstr ""
+
+#: templates/privacy_policy.html:125
+msgid ""
+"We reserve the right to modify or update this Privacy Notice. Any changes"
+" will be notified through the <strong>NuestroEntorno</strong> platform or"
+" by email to registered users."
+msgstr ""
+
+#: templates/privacy_policy.html:134
+msgid "Email:"
+msgstr ""
+
+#: templates/privacy_policy.html:135
+msgid "Address: N/A"
+msgstr ""
+
+#: templates/privacy_policy.html:140
+msgid "Version 1.0"
+msgstr ""
+
+#: templates/privacy_policy.html:140
+msgid "June 2026"
+msgstr ""
+
+#: templates/privacy_policy.html:141
+msgid ""
+"Ley Federal de Protección de Datos Personales en Posesión de los "
+"Particulares (LFPDPPP)"
+msgstr ""
+
+#: templates/support.html:12
+msgid "Help us keep<br>the project online"
+msgstr ""
+
+#: templates/support.html:14
+msgid ""
+"<strong>NuestroEntorno</strong> has no ads or sponsors. Every point on "
+"the map, every citizen report, every tracked dump, has a real cost. It is"
+" sustained by <strong>a single person</strong> with the support of those "
+"who believe in the project. Your support keeps it free and available for "
+"the entire community."
+msgstr ""
+
+#: templates/support.html:23
+msgid "Where does your support go?"
+msgstr ""
+
+#: templates/support.html:28
+msgid "Server and hosting:"
+msgstr ""
+
+#: templates/support.html:29
+msgid "keep the site available 24/7 without interruptions."
+msgstr ""
+
+#: templates/support.html:35
+msgid "Database:"
+msgstr ""
+
+#: templates/support.html:36
+msgid "store and serve reports in real time."
+msgstr ""
+
+#: templates/support.html:42
+msgid "AI moderation:"
+msgstr ""
+
+#: templates/support.html:43
+msgid "filter false or low-quality reports."
+msgstr ""
+
+#: templates/support.html:49
+msgid "Domain:"
+msgstr ""
+
+#: templates/support.html:50
+msgid "the address where the project lives on the internet."
+msgstr ""
+
+#: templates/support.html:56
+msgid "Mobile app:"
+msgstr ""
+
+#: templates/support.html:57
+msgid ""
+"maintenance, improvements and ongoing development of the app that "
+"citizens use to report directly from the field."
+msgstr ""
+
+#: templates/support.html:63
+msgid "Development and new features:"
+msgstr ""
+
+#: templates/support.html:64
+msgid ""
+"fund the research and work to build better tools and continue growing the"
+" platform."
+msgstr ""
+
+#: templates/support.html:74
+msgid "How to support"
+msgstr ""
+
+#: templates/support.html:75
+msgid "Support with the amount you choose"
+msgstr ""
+
+#: templates/support.html:77
+msgid ""
+"A one-time contribution with no strings attached, or enable monthly "
+"support to guarantee the continuity of the project. You can cancel "
+"whenever you want."
+msgstr ""
+
+#: templates/support.html:85
+msgid ""
+"For monthly support, enable the <strong>Make it monthly</strong> option "
+"on the support page."
+msgstr ""
+
+#: templates/support.html:99
+msgid "Transparency"
+msgstr ""
+
+#: templates/support.html:101
+msgid ""
+"<strong>NuestroEntorno</strong> is an independent project run and managed"
+" by a single person. Support received is used "
+"<strong>exclusively</strong> for the operational costs the platform "
+"requires: infrastructure, data storage, domain and development tools. "
+"There is no legal entity or company behind the project, and user "
+"information is handled in accordance with the"
+msgstr ""
+
+#: templates/support.html:105
+msgid ""
+"If you have questions about where your support goes or want to learn more"
+" about the state of the project, write to us at"
+msgstr ""

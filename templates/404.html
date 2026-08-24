@@ -1,5 +1,5 @@
 {% extends "base_generic.html" %}
-{% block head_content %}<title>Página no encontrada — NuestroEntorno</title>{% endblock %}
+{% block head_content %}<title>{{ _('Page not found') }} — NuestroEntorno</title>{% endblock %}
 
 {% block content %}
 <div class="error-page">
@@ -11,18 +11,17 @@
   </div>
 
   <p class="error-code">404</p>
-  <h1 class="error-title">Esta página no existe</h1>
+  <h1 class="error-title">{{ _("This page doesn't exist") }}</h1>
   <p class="error-desc">
-    Es posible que el enlace haya cambiado o que la dirección esté mal escrita.
-    Puedes volver al inicio o explorar el mapa de reportes.
+    {{ _('The link may have changed or the address may be misspelled. You can go back to the home page or explore the report map.') }}
   </p>
 
   <div class="error-actions">
     <a href="/" class="error-btn error-btn--primary">
-      <i class="fa-solid fa-house"></i> Ir al inicio
+      <i class="fa-solid fa-house"></i> {{ _('Go home') }}
     </a>
     <a href="/mapa_reportes" class="error-btn error-btn--outline">
-      <i class="fa-solid fa-map"></i> Ver el mapa
+      <i class="fa-solid fa-map"></i> {{ _('See the map') }}
     </a>
   </div>
 

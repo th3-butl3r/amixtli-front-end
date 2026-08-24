@@ -546,21 +546,21 @@
   <div class="map-overlay">
     <div class="overlay-header">
       <div>
-        <h3>Reportes ciudadanos</h3>
-        <span class="status-dot" id="report-count">{{ reports | length }} reporte{{ 's' if reports | length != 1 else '' }} activo{{ 's' if reports | length != 1 else '' }}</span>
+        <h3>{{ _('Citizen Reports') }}</h3>
+        <span class="status-dot" id="report-count">{{ reports | length }} {% if reports | length == 1 %}{{ _('active report') }}{% else %}{{ _('active reports') }}{% endif %}</span>
       </div>
-      <button class="overlay-toggle-btn" id="overlay-toggle" aria-label="Expandir opciones">▼</button>
+      <button class="overlay-toggle-btn" id="overlay-toggle" aria-label="{{ _('Expand options') }}">▼</button>
     </div>
     <div class="overlay-body" id="overlay-body">
-      <p>Presiona un punto para ver el reporte.</p>
+      <p>{{ _('Click a point to see the report.') }}</p>
       <div class="legend">
-        <div class="legend-item"><span class="legend-dot unsolved"></span> Sin resolver</div>
-        <div class="legend-item"><span class="legend-dot solved"></span> Resuelto</div>
+        <div class="legend-item"><span class="legend-dot unsolved"></span> {{ _('Unsolved') }}</div>
+        <div class="legend-item"><span class="legend-dot solved"></span> {{ _('Solved') }}</div>
       </div>
       <div class="state-filter">
-        <label for="state-select">Filtrar por estado</label>
+        <label for="state-select">{{ _('Filter by state') }}</label>
         <select id="state-select" class="state-select">
-          <option value="">Todos los estados</option>
+          <option value="">{{ _('All states') }}</option>
           {% for state in states %}
           <option value="{{ state }}">{{ state }}</option>
           {% endfor %}
@@ -571,14 +571,14 @@
 
   <div class="top-panel" id="top-panel">
     <div class="top-panel-header">
-      <span class="top-panel-title">Top reportes</span>
-      <button class="top-toggle" id="top-toggle" aria-label="Colapsar">▲</button>
+      <span class="top-panel-title">{{ _('Top reports') }}</span>
+      <button class="top-toggle" id="top-toggle" aria-label="{{ _('Collapse') }}">▲</button>
     </div>
     <div class="top-list" id="top-list"></div>
   </div>
 
   <!-- FAB visible solo en móvil -->
-  <button class="top-fab" id="top-fab" aria-label="Ver top reportes">⚡</button>
+  <button class="top-fab" id="top-fab" aria-label="{{ _('See top reports') }}">⚡</button>
 
   <!-- Backdrop del drawer -->
   <div class="drawer-backdrop" id="drawer-backdrop"></div>
@@ -587,8 +587,8 @@
   <div class="mobile-drawer" id="mobile-drawer">
     <div class="drawer-handle"></div>
     <div class="drawer-header">
-      <span class="drawer-title">Top reportes</span>
-      <button class="drawer-close" id="drawer-close" aria-label="Cerrar">&#x2715;</button>
+      <span class="drawer-title">{{ _('Top reports') }}</span>
+      <button class="drawer-close" id="drawer-close" aria-label="{{ _('Close') }}">&#x2715;</button>
     </div>
     <div class="drawer-list" id="drawer-list"></div>
   </div>
@@ -596,8 +596,8 @@
   <div id="report-popup" class="report-popup hidden">
     <div class="popup-inner">
       <div class="popup-header">
-        <span class="popup-header-label">Reporte</span>
-        <button class="popup-close" id="popup-close" aria-label="Cerrar">&#x2715;</button>
+        <span class="popup-header-label">{{ _('Report') }}</span>
+        <button class="popup-close" id="popup-close" aria-label="{{ _('Close') }}">&#x2715;</button>
       </div>
       <div id="popup-dynamic-body"></div>
     </div>
@@ -610,6 +610,19 @@
 <script>
   const ALL_REPORTS  = {{ reports | tojson }};
   const INIT_TOP     = {{ top_reports | tojson }};
+
+  /* Cadenas traducidas inyectadas desde Jinja */
+  const STRINGS = {
+    loading:        {{ _('Loading…')                          | tojson }},
+    noReport:       {{ _('Could not load the report.')        | tojson }},
+    noReports:      {{ _('No reports in this filter.')        | tojson }},
+    loadError:      {{ _('Error loading.')                    | tojson }},
+    reportSingular: {{ _('active report')                     | tojson }},
+    reportPlural:   {{ _('active reports')                    | tojson }},
+    reportedBy:     {{ _('Reported by')                       | tojson }},
+    person:         {{ _('person')                            | tojson }},
+    people:         {{ _('people')                            | tojson }},
+  };
 
   // ── Map init ─────────────────────────────────────────────────
   const map = L.map('map', {
@@ -752,7 +765,7 @@
   }
 
   function showLoading(lat, lng) {
-    popBody.innerHTML = '<div class="popup-loading"><div class="popup-spinner"></div>Cargando…</div>';
+    popBody.innerHTML = `<div class="popup-loading"><div class="popup-spinner"></div>${STRINGS.loading}</div>`;
     openPopup(lat, lng);
   }
 
@@ -789,7 +802,7 @@
               <circle cx="6" cy="4" r="2" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
               <path d="M2 10c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" stroke-linecap="round"/>
             </svg>
-            Reportado por ${importance} ${importance === 1 ? 'persona' : 'personas'}
+            ${STRINGS.reportedBy} ${importance} ${importance === 1 ? STRINGS.person : STRINGS.people}
           </div>` : ''}
       </div>`;
 
@@ -797,7 +810,7 @@
   }
 
   function showError(lat, lng) {
-    popBody.innerHTML = '<div class="popup-loading">No se pudo cargar el reporte.</div>';
+    popBody.innerHTML = `<div class="popup-loading">${STRINGS.noReport}</div>`;
     positionPopup(lat, lng);
   }
 
@@ -831,8 +844,7 @@
   // ── Report count label ────────────────────────────────────────
   const countEl = document.getElementById('report-count');
   function updateCount(n) {
-    const s = n === 1 ? '' : 's';
-    countEl.textContent = `${n} reporte${s} activo${s}`;
+    countEl.textContent = `${n} ${n === 1 ? STRINGS.reportSingular : STRINGS.reportPlural}`;
   }
 
   // ── Top reports panel (desktop) + drawer (móvil) ─────────────
@@ -852,7 +864,7 @@
 
   function buildTopItems(reports, container) {
     if (!reports.length) {
-      container.innerHTML = '<p class="top-empty">Sin reportes en este filtro.</p>';
+      container.innerHTML = `<p class="top-empty">${STRINGS.noReports}</p>`;
       return;
     }
     container.innerHTML = reports.map((r, i) => `
@@ -921,15 +933,15 @@
     buildMarkers(visible);
     updateCount(visible.length);
 
-    topList.innerHTML = '<div class="top-loading"><div class="popup-spinner"></div>Cargando…</div>';
+    topList.innerHTML = `<div class="top-loading"><div class="popup-spinner"></div>${STRINGS.loading}</div>`;
     e.target.disabled = true;
     const url = `/api/top_reportes?limit=10${state ? `&state=${encodeURIComponent(state)}` : ''}`;
     try {
       const res = await fetch(url);
       if (res.ok) renderTopReports(await res.json());
-      else topList.innerHTML = '<p class="top-empty">Error al cargar.</p>';
+      else topList.innerHTML = `<p class="top-empty">${STRINGS.loadError}</p>`;
     } catch (err) {
-      topList.innerHTML = '<p class="top-empty">Error al cargar.</p>';
+      topList.innerHTML = `<p class="top-empty">${STRINGS.loadError}</p>`;
       console.error('BL > state filter - Failed to fetch top reports:', err);
     } finally {
       e.target.disabled = false;

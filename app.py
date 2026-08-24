@@ -1,3 +1,4 @@
+import os
 from concurrent.futures import ThreadPoolExecutor
 
 import sentry_sdk
@@ -5,8 +6,12 @@ from flask import Flask
 from flask import Response
 from flask import jsonify
 from flask import make_response
+from flask import redirect
 from flask import render_template
 from flask import request
+from flask import session
+from flask_babel import Babel
+from flask_babel import get_locale
 from loguru import logger
 from sentry_sdk.integrations.flask import FlaskIntegration
 
@@ -27,6 +32,17 @@ if settings.SENTRY_DSN:
     logger.info("BL > sentry_sdk.init() - Sentry initialized")
 
 app = Flask(__name__)
+app.secret_key = settings.SECRET_KEY or os.urandom(24)
+
+babel = Babel()
+
+
+def _get_locale() -> str:
+    """Return the active UI locale from the session (defaults to Spanish)."""
+    return session.get("lang", "es")
+
+
+babel.init_app(app, locale_selector=_get_locale)
 
 
 @app.context_processor
@@ -34,7 +50,11 @@ def inject_globals() -> dict:
     """Inject shared variables into all template contexts."""
     from datetime import datetime
 
-    return {"env_state": settings.ENV_STATE, "current_year": datetime.now().year}
+    return {
+        "env_state": settings.ENV_STATE,
+        "current_year": datetime.now().year,
+        "current_lang": str(get_locale()),
+    }
 
 
 @app.route("/health")
@@ -169,6 +189,22 @@ def top_reports() -> Response:
     logger.info(f"BL > top_reports() - limit={limit}, state={state}")
     data = supabase_manager.get_top_reports(limit=limit, state=state)
     return jsonify(data)
+
+
+@app.route("/lang/<code>")
+def set_language(code: str) -> Response:
+    """Set the UI language preference in the session and redirect back.
+
+    Args:
+        code: Language code — 'es' or 'en'.
+
+    Returns:
+        Redirect to the referring page or home.
+    """
+    logger.info(f"BL > set_language() - lang={code}")
+    if code in ("es", "en"):
+        session["lang"] = code
+    return redirect(request.referrer or "/")
 
 
 @app.route("/apoyo")

@@ -1,153 +1,144 @@
 {% extends "base_generic.html" %}
-{% block head_content %}<title>Aviso de Privacidad — NuestroEntorno</title>{% endblock %}
+{% block head_content %}<title>{{ _('Privacy Notice') }} — NuestroEntorno</title>{% endblock %}
 
 {% block content %}
 <div class="content-page">
 
   <div class="page-header">
-    <span class="section-label">Legal</span>
-    <h1>Aviso de Privacidad Integral</h1>
+    <span class="section-label">{{ _('Legal') }}</span>
+    <h1>{{ _('Comprehensive Privacy Notice') }}</h1>
     <p class="page-intro">
-      En cumplimiento con lo dispuesto por el artículo 16, segundo párrafo de la Constitución
-      Política de los Estados Unidos Mexicanos y los artículos 11, 12, 13, 14, 15 y demás
-      aplicables de la LFPDPPP.
+      {{ _('In compliance with Article 16 of the Mexican Constitution and Articles 11, 12, 13, 14, 15 and other applicable provisions of the LFPDPPP (Mexican Federal Law on Personal Data Protection Held by Private Parties).') }}
     </p>
+    {% if current_lang == 'en' %}
+    <p class="page-intro" style="font-size:0.8rem; color:var(--text-muted); margin-top:0.5rem;">
+      Note: This Privacy Notice was originally written in Spanish in compliance with Mexican law. The Spanish version is the legally binding document.
+    </p>
+    {% endif %}
   </div>
 
   <div class="content-block">
-    <h2>Responsable del tratamiento</h2>
+    <h2>{{ _('Data Controller') }}</h2>
     <p>
-      <strong style="color: var(--text-primary);">NuestroEntorno</strong>, es responsable
-      del tratamiento, resguardo y protección de sus datos personales conforme a lo establecido
-      en el marco normativo aplicable.
+      <strong style="color: var(--text-primary);">NuestroEntorno</strong>
+      {{ _('is responsible for the processing, safekeeping and protection of your personal data in accordance with the applicable regulatory framework.') }}
     </p>
   </div>
 
   <hr class="divider-line">
 
   <div class="content-block">
-    <h2>Datos personales recabados</h2>
+    <h2>{{ _('Personal data collected') }}</h2>
     <ul>
       <li>
-        <strong style="color: var(--text-primary);">Datos de imagen y seguridad:</strong>
-        fotografías, videograbaciones o imágenes capturadas a través de la aplicación <strong>NuestroEntorno</strong>.
+        <strong style="color: var(--text-primary);">{{ _('Image and security data:') }}</strong>
+        {{ _('photographs, video recordings or images captured through the <strong>NuestroEntorno</strong> app.') | safe }}
       </li>
     </ul>
   </div>
 
   <div class="content-block">
-    <h2>Finalidades necesarias</h2>
-    <p>Las imagenes recabadas serán utilizados para las siguientes finalidades primarias,
-    necesarias para la mejora del servicio:</p>
+    <h2>{{ _('Primary purposes') }}</h2>
+    <p>{{ _('The images collected will be used for the following primary purposes, necessary for service improvement:') }}</p>
     <ul>
-      <li>Entrenamiento de modelo de inteligencia artificial para la detección de residuos.</li>
+      <li>{{ _('Training an artificial intelligence model for waste detection.') }}</li>
     </ul>
   </div>
 
   <div class="content-block">
-    <h2>Finalidades secundarias</h2>
+    <h2>{{ _('Secondary purposes') }}</h2>
     <ul>
-      <li>Elaboración de reportes y análisis estadístico.</li>
+      <li>{{ _('Preparation of reports and statistical analysis.') }}</li>
     </ul>
     <p style="margin-top: 0.85rem;">
-      Si usted no desea que sus datos sean tratados para estas finalidades secundarias,
-      puede manifestar su negativa enviando un correo electrónico a
+      {{ _('If you do not wish your data to be processed for these secondary purposes, you may express your refusal by sending an email to') }}
       <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>.
-      La negativa no será motivo para negarle los servicios que solicita.
+      {{ _('Refusal will not be grounds for denying the services you request.') }}
     </p>
   </div>
 
   <hr class="divider-line">
 
   <div class="content-block">
-    <h2>Principios rectores</h2>
+    <h2>{{ _('Guiding principles') }}</h2>
     <p>
-      El tratamiento de datos personales en <strong>NuestroEntorno</strong> se rige por los principios de
-      licitud, consentimiento, información, calidad, finalidad, lealtad, proporcionalidad,
-      seguridad y responsabilidad, garantizando el respeto a la privacidad y a los derechos
-      humanos.
+      {{ _('The processing of personal data at <strong>NuestroEntorno</strong> is governed by the principles of lawfulness, consent, information, quality, purpose, loyalty, proportionality, security and accountability, guaranteeing respect for privacy and human rights.') | safe }}
     </p>
   </div>
 
   <div class="content-block">
-    <h2>Transferencia de datos</h2>
+    <h2>{{ _('Data transfers') }}</h2>
     <p>
-      Sus datos personales podrán ser compartidos con las siguientes entidades:
+      {{ _('Your personal data may be shared with the following entities:') }}
     </p>
     <ul>
       <li>
-    <p style="margin-top: 0.65rem;">
-      <strong style="color: var(--text-primary);">Supabase Inc.</strong>
-      como proveedor de base de datos y almacenamiento en la nube. Supabase procesa los datos en infraestructura de Amazon Web Services
-      (AWS). Esta transferencia es necesaria para el funcionamiento del servicio y no requiere de su consentimiento adicional.
-    </p>
-    </li>
-  </ul>
+        <p style="margin-top: 0.65rem;">
+          <strong style="color: var(--text-primary);">Supabase Inc.</strong>
+          {{ _('as a database and cloud storage provider. Supabase processes data on Amazon Web Services (AWS) infrastructure. This transfer is necessary for the operation of the service and does not require your additional consent.') }}
+        </p>
+      </li>
+    </ul>
   </div>
 
   <div class="content-block">
-    <h2>Cookies y tecnologías de rastreo</h2>
-    <p>No utilizamos cookies ni tecnologías de rastreo no esenciales.</p>
+    <h2>{{ _('Cookies and tracking technologies') }}</h2>
+    <p>{{ _('We do not use non-essential cookies or tracking technologies.') }}</p>
   </div>
 
   <div class="content-block">
-    <h2>Medidas de seguridad</h2>
+    <h2>{{ _('Security measures') }}</h2>
     <p>
-      <strong>NuestroEntorno</strong> ha implementado medidas de seguridad administrativas, técnicas y físicas
-      conforme a la LFPDPPP, que incluyen:
+      {{ _('<strong>NuestroEntorno</strong> has implemented administrative, technical and physical security measures in accordance with the LFPDPPP, including:') | safe }}
     </p>
     <ul>
-      <li>Contraseñas y autenticación segura.</li>
-      <li>Cifrado de datos en tránsito y en reposo.</li>
-      <li>Acceso restringido por roles.</li>
+      <li>{{ _('Passwords and secure authentication.') }}</li>
+      <li>{{ _('Data encryption in transit and at rest.') }}</li>
+      <li>{{ _('Role-based access control.') }}</li>
     </ul>
   </div>
 
   <hr class="divider-line">
 
   <div class="content-block">
-    <h2>Derechos ARCO</h2>
+    <h2>{{ _('ARCO Rights') }}</h2>
     <p>
-      Usted tiene derecho a acceder, rectificar, cancelar u oponerse al tratamiento de sus
-      datos personales conforme a los artículos 22 al 27 de la LFPDPPP. Para ejercer estos
-      derechos, envíe una solicitud a
+      {{ _('You have the right to access, rectify, cancel or oppose the processing of your personal data in accordance with Articles 22 to 27 of the LFPDPPP. To exercise these rights, send a request to') }}
       <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>
-      o acuda directamente a nuestro domicilio.
+      {{ _('or come directly to our address.') }}
     </p>
-    <p style="margin-top: 0.85rem;">Su solicitud deberá contener:</p>
+    <p style="margin-top: 0.85rem;">{{ _('Your request must include:') }}</p>
     <ul>
-      <li>Nombre completo y medio para comunicarle la respuesta (correo electrónico o domicilio).</li>
-      <li>Descripción clara y precisa de los datos sobre los que desea ejercer sus derechos.</li>
-      <li>Copia de identificación oficial vigente del titular o, en su caso, de su representante legal con el documento que acredite dicha representación.</li>
+      <li>{{ _('Full name and contact method for our response (email or address).') }}</li>
+      <li>{{ _('Clear and precise description of the data over which you wish to exercise your rights.') }}</li>
+      <li>{{ _('Copy of a valid official ID of the owner or, where applicable, of their legal representative with the document proving such representation.') }}</li>
     </ul>
     <p style="margin-top: 0.85rem;">
-      <strong>NuestroEntorno</strong> dará respuesta en un término máximo de
-      <strong style="color: var(--text-primary);">20 días hábiles</strong>.
+      <strong>NuestroEntorno</strong> {{ _('will respond within a maximum period of') }}
+      <strong style="color: var(--text-primary);">{{ _('20 business days') }}</strong>.
     </p>
   </div>
 
   <div class="content-block">
-    <h2>Modificaciones al aviso</h2>
+    <h2>{{ _('Changes to this notice') }}</h2>
     <p>
-      Nos reservamos el derecho de modificar o actualizar este Aviso de Privacidad. Cualquier
-      cambio será notificado a través de la plataforma <strong>NuestroEntorno</strong> o mediante correo electrónico
-      a los usuarios registrados.
+      {{ _('We reserve the right to modify or update this Privacy Notice. Any changes will be notified through the <strong>NuestroEntorno</strong> platform or by email to registered users.') | safe }}
     </p>
   </div>
 
   <hr class="divider-line">
 
   <div class="content-block">
-    <h2>Contacto</h2>
+    <h2>{{ _('Contact') }}</h2>
     <ul>
-      <li>Correo: <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a></li>
-      <li>Domicilio: N/A</li>
+      <li>{{ _('Email:') }} <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a></li>
+      <li>{{ _('Address: N/A') }}</li>
     </ul>
   </div>
 
   <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">
-    Versión 1.0 &nbsp;|&nbsp; Junio 2026 &nbsp;|&nbsp;
-    Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP)
+    {{ _('Version 1.0') }} &nbsp;|&nbsp; {{ _('June 2026') }} &nbsp;|&nbsp;
+    {{ _('Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP)') }}
   </p>
 
 </div>

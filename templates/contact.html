@@ -1,48 +1,45 @@
 {% extends "base_generic.html" %}
-{% block head_content %}<title>Contacto — NuestroEntorno</title>{% endblock %}
+{% block head_content %}<title>{{ _('Contact') }} — NuestroEntorno</title>{% endblock %}
 
 {% block content %}
 <div class="content-page">
 
   <div class="page-header">
-    <span class="section-label">Hablemos</span>
-    <h1>Contacto</h1>
+    <span class="section-label">{{ _("Let's Talk") }}</span>
+    <h1>{{ _('Contact') }}</h1>
     <p class="page-intro">
-      <strong>NuestroEntorno</strong> es un proyecto de una sola persona, abierto a quienes
-      quieran sumarse. Si tienes algo que aportar o simplemente quieres preguntar algo,
-      escríbeme directamente.
+      {{ _('<strong>NuestroEntorno</strong> is a one-person project, open to those who want to join. If you have something to contribute or simply want to ask something, write to me directly.') | safe }}
     </p>
   </div>
 
-  <!-- Email destacado -->
+  <!-- Email card -->
   <a href="mailto:contacto@bastionlab.com.mx" class="contact-email-card">
     <div class="contact-email-icon-wrap">
       <i class="fa-solid fa-envelope"></i>
     </div>
     <div class="contact-email-body">
-      <span class="contact-email-label">Escríbeme a</span>
+      <span class="contact-email-label">{{ _('Write to me at') }}</span>
       <span class="contact-email-address">contacto@bastionlab.com.mx</span>
     </div>
     <i class="fa-solid fa-arrow-right contact-email-arrow"></i>
   </a>
 
-  <!-- Áreas de colaboración -->
+  <!-- Collaboration areas -->
   <div class="contact-collab">
-    <p class="contact-collab-label">¿En qué puedes colaborar?</p>
+    <p class="contact-collab-label">{{ _('How can you contribute?') }}</p>
     <div class="contact-chips">
-      <span class="contact-chip"><i class="fa-solid fa-code"></i> Desarrollo</span>
-      <span class="contact-chip"><i class="fa-solid fa-chart-bar"></i> Análisis de datos</span>
-      <span class="contact-chip"><i class="fa-solid fa-pen-ruler"></i> Diseño</span>
-      <span class="contact-chip"><i class="fa-solid fa-bullhorn"></i> Comunicación</span>
-      <span class="contact-chip"><i class="fa-solid fa-leaf"></i> Gestión ambiental</span>
-      <span class="contact-chip"><i class="fa-solid fa-ellipsis"></i> Otro</span>
+      <span class="contact-chip"><i class="fa-solid fa-code"></i> {{ _('Development') }}</span>
+      <span class="contact-chip"><i class="fa-solid fa-chart-bar"></i> {{ _('Data Analysis') }}</span>
+      <span class="contact-chip"><i class="fa-solid fa-pen-ruler"></i> {{ _('Design') }}</span>
+      <span class="contact-chip"><i class="fa-solid fa-bullhorn"></i> {{ _('Communication') }}</span>
+      <span class="contact-chip"><i class="fa-solid fa-leaf"></i> {{ _('Environmental Management') }}</span>
+      <span class="contact-chip"><i class="fa-solid fa-ellipsis"></i> {{ _('Other') }}</span>
     </div>
   </div>
 
-  <!-- Nota informal -->
+  <!-- Informal note -->
   <p class="contact-note">
-    En tu correo cuéntame brevemente quién eres, qué te motivó a escribir y cómo
-    crees que puedes sumar. No hay un proceso formal, solo una conversación entre dos personas.
+    {{ _("In your email, briefly tell me who you are, what motivated you to write, and how you think you can contribute. There is no formal process, just a conversation between two people.") }}
   </p>
 
 </div>

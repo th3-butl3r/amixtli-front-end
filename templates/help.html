@@ -1,76 +1,66 @@
 {% extends "base_generic.html" %}
-{% block head_content %}<title>Ayuda — NuestroEntorno</title>{% endblock %}
+{% block head_content %}<title>{{ _('Help') }} — NuestroEntorno</title>{% endblock %}
 
 {% block content %}
 <div class="content-page">
 
   <div class="page-header">
-    <span class="section-label">Soporte</span>
-    <h1>Ayuda</h1>
+    <span class="section-label">{{ _('Support') }}</span>
+    <h1>{{ _('Help') }}</h1>
     <p class="page-intro">
-      Antes de enviarnos tu pregunta, revisa si ya hay una respuesta aquí.
+      {{ _('Before sending us your question, check if there is already an answer here.') }}
     </p>
   </div>
 
-  <nav class="faq-toc" aria-label="Tabla de contenido">
-    <p class="faq-toc-label">En esta página</p>
+  <nav class="faq-toc" aria-label="{{ _('Table of contents') }}">
+    <p class="faq-toc-label">{{ _('On this page') }}</p>
     <ol class="faq-toc-list">
-      <li><a href="#faq-apoyo">¿Cómo puedo apoyar el proyecto de manera directa?</a></li>
-      <li><a href="#faq-datos">¿Cómo recopilan los datos ambientales?</a></li>
-      <li><a href="#faq-reportes">¿Qué hacen con los reportes?</a></li>
-      <li><a href="#faq-validacion">¿Cómo validan la información?</a></li>
+      <li><a href="#faq-apoyo">{{ _('How can I support the project directly?') }}</a></li>
+      <li><a href="#faq-datos">{{ _('How do you collect environmental data?') }}</a></li>
+      <li><a href="#faq-reportes">{{ _('What do you do with the reports?') }}</a></li>
+      <li><a href="#faq-validacion">{{ _('How do you validate the information?') }}</a></li>
     </ol>
   </nav>
 
   <div class="faq-item" id="faq-apoyo">
-    <h3>¿Cómo puedo apoyar el proyecto de manera directa?</h3>
+    <h3>{{ _('How can I support the project directly?') }}</h3>
     <p>
-      Escribe al creador del proyecto:
+      {{ _('Write to the project creator:') }}
       <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>
     </p>
     <p>
-      En el correo describe las razones por las que quieres apoyar al proyecto, qué habilidades tienes que consideras pueden servir y
-      de qué manera quieres hacerlo. Es importante saber si nuestros intereses están alineados y cómo podemos nosotros servir a
-      tu crecimiento.
+      {{ _('In your email, describe why you want to support the project, what skills you have that you think could be useful, and how you want to do it. It is important to know if our interests are aligned and how we can serve your growth.') }}
     </p>
   </div>
 
   <div class="faq-item" id="faq-datos">
-    <h3>¿Cómo recopilan los datos ambientales?</h3>
+    <h3>{{ _('How do you collect environmental data?') }}</h3>
     <p>
-      Mediante nuestra aplicación móvil. Puedes descargarla aquí: <strong>La aplicación se encuentra en mejora y aún no es pública</strong>
-      Los datos visualizados son los obtenidos durante una prueba piloto llevada a cabo en el año 2024 en el estado de Michoacán, con apoyo de la dirección de Ecología de Pátzcuaro, Mich.
+      {{ _('Through our mobile app. You can download it here: <strong>The app is under development and is not yet public.</strong> The data shown was obtained during a pilot test carried out in 2024 in the state of Michoacán, with support from the Ecology Department of Pátzcuaro, Mich.') | safe }}
     </p>
   </div>
 
   <div class="faq-item" id="faq-reportes">
-    <h3>¿Qué hacen con los reportes?</h3>
+    <h3>{{ _('What do you do with the reports?') }}</h3>
     <p>
-      Los reportes capturados a través de la aplicación se utilizan para dos finalidades principales:
-      entrenar modelos de inteligencia artificial para la detección automática de residuos, y generar
-      análisis estadísticos que permitan identificar patrones y zonas críticas de acumulación.
+      {{ _('Reports captured through the app are used for two main purposes: training artificial intelligence models for automatic waste detection, and generating statistical analyses to identify patterns and critical accumulation zones.') }}
     </p>
     <p>
-      Las imágenes y datos asociados son tratados conforme a la legislación mexicana en materia de
-      protección de datos personales. Nunca se comparten con terceros con fines comerciales ni se
-      utilizan para fines distintos a los declarados.
-      Puedes consultar el detalle completo en nuestro
-      <a href="/politica_privacidad" class="text-link">Aviso de Privacidad</a>.
+      {{ _('The images and associated data are handled in accordance with Mexican personal data protection legislation. They are never shared with third parties for commercial purposes or used for purposes other than those declared. You can see the full details in our') }}
+      <a href="/politica_privacidad" class="text-link">{{ _('Privacy Notice') }}</a>.
     </p>
   </div>
 
   <div class="faq-item" id="faq-validacion">
-    <h3>¿Cómo validan la información?</h3>
+    <h3>{{ _('How do you validate the information?') }}</h3>
     <p>
-      Los reportes enviados a través de la aplicación no se publican de forma inmediata en el mapa. Cada registro pasa por un proceso de validación realizado por nuestros colaboradores para verificar la calidad y consistencia de la información.
-      Este procedimiento nos permite mantener una base de datos confiable y útil para ciudadanos, investigadores, organizaciones y tomadores de decisiones que buscan comprender y atender los problemas relacionados con los residuos en México.
+      {{ _('Reports submitted through the app are not published immediately on the map. Each record goes through a validation process carried out by our collaborators to verify the quality and consistency of the information. This procedure allows us to maintain a reliable and useful database for citizens, researchers, organizations and decision-makers seeking to understand and address waste-related problems in Mexico.') }}
     </p>
   </div>
 
-  <div style="margin-top:0.3rem; padding-top:2.5rem; ">
+  <div style="margin-top:0.3rem; padding-top:2.5rem;">
     <p style="font-size:0.9375rem; color:var(--text-secondary);">
-      Continuamos desarrollando la aplicación para que sea más cómoda y eficiente para los usuarios.
-      Con mucho cariño, el equipo de <strong>NuestroEntorno</strong>.
+      {{ _('We continue developing the app to make it more comfortable and efficient for users. With much love, the <strong>NuestroEntorno</strong> team.') | safe }}
     </p>
   </div>
 

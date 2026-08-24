@@ -1,17 +1,15 @@
 {% extends "base_generic.html" %}
-{% block head_content %}<title>Nuestra App — NuestroEntorno</title>{% endblock %}
+{% block head_content %}<title>{{ _('Our App') }} — NuestroEntorno</title>{% endblock %}
 
 {% block content %}
 <div class="content-page" style="max-width: 1280px;">
 
   <div class="page-header">
-    <span class="section-label">Nuestra App</span>
-    <h1>Reporta desde donde estés</h1>
-    <span class="badge-wip"><span class="badge-dot"></span>Beta · En validación</span>
+    <span class="section-label">{{ _('Our App') }}</span>
+    <h1>{{ _('Report from anywhere') }}</h1>
+    <span class="badge-wip"><span class="badge-dot"></span>{{ _('Beta · In validation') }}</span>
     <p class="page-intro">
-      La aplicación móvil de <strong>NuestroEntorno</strong> permite a cualquier persona fotografiar y geolocalizar
-      acumulaciones de residuos en su entorno con un par de toques. Cada reporte alimenta
-      la base de datos y contribuye directamente al análisis.
+      {{ _('The <strong>NuestroEntorno</strong> mobile app lets anyone photograph and geolocate waste accumulations in their environment with a couple of taps. Each report feeds the database and contributes directly to analysis.') | safe }}
     </p>
   </div>
 
@@ -36,11 +34,11 @@
             <div class="phone-capture-btn">
               <i class="fa-solid fa-camera"></i>
             </div>
-            <span class="phone-capture-label">Reportar</span>
+            <span class="phone-capture-label">{{ _('Report') }}</span>
           </div>
           <div class="phone-card">
             <i class="fa-solid fa-circle-check" style="color:#34D399; font-size:0.8rem;"></i>
-            <span>Reporte enviado</span>
+            <span>{{ _('Report sent') }}</span>
           </div>
         </div>
         <div class="phone-home-bar"></div>
@@ -54,10 +52,9 @@
           <i class="fa-solid fa-camera"></i>
         </div>
         <div>
-          <h4>Captura con tu cámara</h4>
+          <h4>{{ _('Capture with your camera') }}</h4>
           <p>
-            Fotografía acumulaciones de residuos directamente desde la app. La imagen
-            queda vinculada automáticamente a tu ubicación.
+            {{ _('Photograph waste accumulations directly from the app. The image is automatically linked to your location.') }}
           </p>
         </div>
       </div>
@@ -67,9 +64,9 @@
           <i class="fa-solid fa-location-dot"></i>
         </div>
         <div>
-          <h4>Geolocalización automática</h4>
+          <h4>{{ _('Automatic geolocation') }}</h4>
           <p>
-            Cada reporte registra las coordenadas exactas del problema sin intervención humana.
+            {{ _('Each report records the exact coordinates of the problem without human intervention.') }}
           </p>
         </div>
       </div>
@@ -79,10 +76,9 @@
           <i class="fa-solid fa-brain"></i>
         </div>
         <div>
-          <h4>Análisis por inteligencia artificial</h4>
+          <h4>{{ _('Artificial intelligence analysis') }}</h4>
           <p>
-            Los reportes alimentan un modelo de IA para la detección y clasificación
-            automática de tipos de residuos.
+            {{ _('Reports feed an AI model for automatic detection and classification of waste types.') }}
           </p>
         </div>
       </div>
@@ -92,10 +88,9 @@
           <i class="fa-solid fa-chart-line"></i>
         </div>
         <div>
-          <h4>Datos abiertos</h4>
+          <h4>{{ _('Open data') }}</h4>
           <p>
-            La información recopilada es pública y accesible para ciudadanos,
-            investigadores, organizaciones y autoridades.
+            {{ _('The information collected is public and accessible to citizens, researchers, organizations and authorities.') }}
           </p>
         </div>
       </div>
@@ -105,11 +100,9 @@
           <i class="fa-solid fa-wifi"></i>
         </div>
         <div>
-          <h4>Sin conexión</h4>
+          <h4>{{ _('Offline mode') }}</h4>
           <p>
-            Si no tienes datos móviles o WiFi, puedes seguir reportando. Los reportes
-            se guardan en tu dispositivo y se envían automáticamente en cuanto
-            recuperas la conexión.
+            {{ _("If you don't have mobile data or WiFi, you can keep reporting. Reports are saved to your device and sent automatically as soon as you regain connectivity.") }}
           </p>
         </div>
       </div>
@@ -119,10 +112,9 @@
           <i class="fa-solid fa-shield-halved"></i>
         </div>
         <div>
-          <h4>Privacidad por diseño</h4>
+          <h4>{{ _('Privacy by design') }}</h4>
           <p>
-            No necesitas una cuenta para reportar. No solicitamos datos personales, por lo que tu identidad nunca forma parte de un reporte.
-            Porque la mejor forma de proteger la información personal de los usuarios es no recopilarla.
+            {{ _("You don't need an account to report. We don't collect personal data, so your identity is never part of a report. Because the best way to protect users' personal information is not to collect it.") }}
           </p>
         </div>
       </div>
@@ -130,46 +122,46 @@
       <div class="app-beta">
         <div class="app-beta-header">
           <i class="fa-solid fa-flask-vial"></i>
-          <span>Programa de validadores</span>
+          <span>{{ _('Validator Program') }}</span>
         </div>
         <p class="app-beta-desc">
-          La app está en beta activa. Buscamos personas que la prueben en campo y nos ayuden a mejorarla antes del lanzamiento público.
+          {{ _("The app is in active beta. We're looking for people to test it in the field and help us improve it before the public launch.") }}
         </p>
 
         <div class="app-beta-steps">
           <div class="app-beta-step">
             <span class="beta-step-num">1</span>
             <div>
-              <strong>Regístrate en el grupo</strong>
-              <p>Entra al enlace de distribución, introduce tu correo de Gmail y recibirás una invitación de Firebase en tu bandeja de entrada.</p>
+              <strong>{{ _('Join the group') }}</strong>
+              <p>{{ _("Go to the distribution link, enter your Gmail address and you'll receive a Firebase invitation in your inbox.") }}</p>
             </div>
           </div>
           <div class="app-beta-step">
             <span class="beta-step-num">2</span>
             <div>
-              <strong>Avísanos por correo</strong>
-              <p>Una vez registrado, escríbenos a <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a> con el Gmail que usaste. El grupo es limitado y el APK no se envía de forma automática.</p>
+              <strong>{{ _('Let us know by email') }}</strong>
+              <p>{{ _('Once registered, write to us at <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a> with the Gmail you used. The group is limited and the APK is not sent automatically.') | safe }}</p>
             </div>
           </div>
           <div class="app-beta-step">
             <span class="beta-step-num">3</span>
             <div>
-              <strong>Recibe el APK y prueba</strong>
-              <p>Validamos tu acceso y te enviamos el APK. Instálalo, úsalo en campo y cuéntanos qué encontraste.</p>
+              <strong>{{ _('Receive the APK and test') }}</strong>
+              <p>{{ _('We verify your access and send you the APK. Install it, use it in the field and tell us what you found.') }}</p>
             </div>
           </div>
         </div>
 
         <div class="app-beta-warning">
           <i class="fa-solid fa-triangle-exclamation"></i>
-          <p>Registrarte en el grupo de Firebase <strong>no envía el APK automáticamente</strong>. Es necesario que nos escribas al correo para que podamos enviártelo.</p>
+          <p>{{ _('Registering in the Firebase group <strong>does not send the APK automatically</strong>. You must write to us by email so we can send it to you.') | safe }}</p>
         </div>
 
         <a href="https://appdistribution.firebase.dev/i/26f4c9c7c5d81bca"
            target="_blank" rel="noopener noreferrer"
            class="app-beta-cta">
           <i class="fa-solid fa-mobile-screen-button"></i>
-          Entrar al grupo de distribución
+          {{ _('Join the distribution group') }}
           <i class="fa-solid fa-arrow-up-right-from-square app-beta-cta-icon"></i>
         </a>
       </div>

@@ -1,5 +1,5 @@
 {% extends "base_generic.html" %}
-{% block head_content %}<title>Apoyar el proyecto — NuestroEntorno</title>{% endblock %}
+{% block head_content %}<title>{{ _('Support the project') }} — NuestroEntorno</title>{% endblock %}
 
 {% block content %}
 <div class="support-page">
@@ -9,13 +9,9 @@
     <div class="support-hero-icon">
       <i class="fa-solid fa-heart"></i>
     </div>
-    <h1>Ayúdanos a mantener<br>el proyecto en línea</h1>
+    <h1>{{ _('Help us keep<br>the project online') | safe }}</h1>
     <p class="support-hero-lead">
-      <strong>NuestroEntorno</strong> no tiene anuncios ni patrocinadores. Cada punto en el mapa,
-      cada reporte ciudadano, cada basurero rastreado, tiene un costo real.
-      Lo sostiene <strong>una sola persona</strong> con el apoyo de quienes
-      creen en el proyecto. Tu apoyo lo mantiene gratuito y disponible para
-      toda la comunidad.
+      {{ _('<strong>NuestroEntorno</strong> has no ads or sponsors. Every point on the map, every citizen report, every tracked dump, has a real cost. It is sustained by <strong>a single person</strong> with the support of those who believe in the project. Your support keeps it free and available for the entire community.') | safe }}
     </p>
   </div>
 
@@ -24,49 +20,48 @@
 
     <!-- Left: allocation -->
     <div class="support-allocation">
-      <p class="section-label" style="margin-bottom:1.25rem;">¿A dónde va tu apoyo?</p>
+      <p class="section-label" style="margin-bottom:1.25rem;">{{ _('Where does your support go?') }}</p>
       <ul class="allocation-list">
         <li>
           <span class="alloc-icon"><i class="fa-solid fa-server"></i></span>
           <div>
-            <strong>Servidor y hosting:</strong>
-            <span>mantener el sitio disponible 24/7 sin interrupciones.</span>
+            <strong>{{ _('Server and hosting:') }}</strong>
+            <span>{{ _('keep the site available 24/7 without interruptions.') }}</span>
           </div>
         </li>
         <li>
           <span class="alloc-icon"><i class="fa-solid fa-database"></i></span>
           <div>
-            <strong>Base de datos:</strong>
-            <span>almacenar y servir los reportes en tiempo real.</span>
+            <strong>{{ _('Database:') }}</strong>
+            <span>{{ _('store and serve reports in real time.') }}</span>
           </div>
         </li>
         <li>
           <span class="alloc-icon"><i class="fa-solid fa-brain"></i></span>
           <div>
-            <strong>Moderación con IA:</strong>
-            <span>filtrar reportes falsos o de baja calidad.</span>
+            <strong>{{ _('AI moderation:') }}</strong>
+            <span>{{ _('filter false or low-quality reports.') }}</span>
           </div>
         </li>
         <li>
           <span class="alloc-icon"><i class="fa-solid fa-globe"></i></span>
           <div>
-            <strong>Dominio:</strong>
-            <span>la dirección donde vive el proyecto en internet.</span>
+            <strong>{{ _('Domain:') }}</strong>
+            <span>{{ _("the address where the project lives on the internet.") }}</span>
           </div>
         </li>
         <li>
           <span class="alloc-icon"><i class="fa-solid fa-mobile-screen"></i></span>
           <div>
-            <strong>Aplicación móvil:</strong>
-            <span>mantenimiento, mejoras y desarrollo continuo de la app con la que los ciudadanos reportan directamente desde el campo.</span>
+            <strong>{{ _('Mobile app:') }}</strong>
+            <span>{{ _('maintenance, improvements and ongoing development of the app that citizens use to report directly from the field.') }}</span>
           </div>
         </li>
         <li>
           <span class="alloc-icon"><i class="fa-solid fa-rocket"></i></span>
           <div>
-            <strong>Desarrollo y nuevas funciones:</strong>
-            <span>financiar la investigación y el trabajo para construir
-            mejores herramientas y seguir creciendo la plataforma.</span>
+            <strong>{{ _('Development and new features:') }}</strong>
+            <span>{{ _('fund the research and work to build better tools and continue growing the platform.') }}</span>
           </div>
         </li>
       </ul>
@@ -76,21 +71,18 @@
     <div class="support-options-card">
       <div class="support-options">
         <div class="support-option-block">
-          <p class="section-label">Cómo apoyar</p>
-          <h2>Apoya con el monto que tú elijas</h2>
+          <p class="section-label">{{ _('How to support') }}</p>
+          <h2>{{ _('Support with the amount you choose') }}</h2>
           <p class="support-option-desc">
-            Una sola vez sin compromisos, o activa el apoyo mensual para
-            garantizar la continuidad del proyecto. Puedes cancelar cuando
-            quieras.
+            {{ _('A one-time contribution with no strings attached, or enable monthly support to guarantee the continuity of the project. You can cancel whenever you want.') }}
           </p>
           <div class="donate-actions">
             <a href="{{ bmac_url }}" class="btn-donate btn-donate--primary"
                target="_blank" rel="noopener">
-              <i class="fa-solid fa-heart"></i> Apoyar el proyecto
+              <i class="fa-solid fa-heart"></i> {{ _('Support the project') }}
             </a>
             <p class="donate-hint">
-              <i class="fa-solid fa-circle-info"></i> Para el apoyo mensual,
-              activa la opción <strong>Hazlo mensual</strong> en la página de apoyo.
+              <i class="fa-solid fa-circle-info"></i> {{ _('For monthly support, enable the <strong>Make it monthly</strong> option on the support page.') | safe }}
             </p>
           </div>
         </div>
@@ -104,18 +96,13 @@
       <i class="fa-solid fa-shield-halved"></i>
     </div>
     <div class="transparency-body">
-      <p class="transparency-title">Transparencia</p>
+      <p class="transparency-title">{{ _('Transparency') }}</p>
       <p>
-        <strong>NuestroEntorno</strong> es un proyecto independiente realizado y administrado por una sola persona.
-        Los apoyos recibidos se destinan <strong>exclusivamente</strong> a los costos
-        operativos que demanda la plataforma: infraestructura, almacenamiento de datos,
-        dominio y herramientas de desarrollo. No existe ninguna persona jurídica ni empresa
-        detrás del proyecto, y la información de los usuarios es tratada conforme al
-        <a href="/politica_privacidad" class="text-link">Aviso de Privacidad</a>.
+        {{ _('<strong>NuestroEntorno</strong> is an independent project run and managed by a single person. Support received is used <strong>exclusively</strong> for the operational costs the platform requires: infrastructure, data storage, domain and development tools. There is no legal entity or company behind the project, and user information is handled in accordance with the') | safe }}
+        <a href="/politica_privacidad" class="text-link">{{ _('Privacy Notice') }}</a>.
       </p>
       <p style="margin-top:0.75rem;">
-        Si tienes dudas sobre el destino de tu apoyo o quieres conocer más sobre el
-        estado del proyecto, escríbenos a
+        {{ _('If you have questions about where your support goes or want to learn more about the state of the project, write to us at') }}
         <a href="mailto:contacto@bastionlab.com.mx" class="text-link">contacto@bastionlab.com.mx</a>.
       </p>
     </div>
