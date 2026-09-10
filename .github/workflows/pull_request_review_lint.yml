@@ -1,15 +1,18 @@
 name: Lint y formato
 
 on:
-  # push:
-  #   branches: ["master", "staging", "development"]
   pull_request:
     branches: ["master", "staging", "development"]
+
+# Mínimo necesario: solo leer el código para el checkout
+permissions:
+  contents: read
 
 jobs:
   lint:
     name: pre-commit hooks
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout

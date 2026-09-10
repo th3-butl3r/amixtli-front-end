@@ -5,8 +5,14 @@ on:
     branches: [master]
 
 permissions:
-  id-token: write
-  contents: read
+  id-token: write   # OIDC para asumir el rol de AWS
+  contents: read    # checkout del repo
+
+# Evita deploys solapados que registren revisiones de task definition en paralelo.
+# No cancelamos el que está en curso: un deploy a medias es peor que esperar.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
 
 env:
   AWS_REGION: us-east-1
@@ -16,6 +22,7 @@ jobs:
   build-and-deploy:
     name: Construir imagen y desplegar en ECS
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -33,6 +40,7 @@ jobs:
 
       - name: Build y push de imagen a ECR
         id: build
+        timeout-minutes: 12
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           SHA_TAG: ${{ github.sha }}
@@ -48,6 +56,7 @@ jobs:
           echo "image_uri=$REGISTRY/$ECR_REPOSITORY:$SHA_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Registrar nueva Task Definition y desplegar en ECS
+        timeout-minutes: 12
         env:
           IMAGE_URI:      ${{ steps.build.outputs.image_uri }}
           SUPABASE_URL:   ${{ secrets.PRODUCTION_SUPABASE_URL }}
@@ -111,10 +120,12 @@ jobs:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ZONE_ID:   ${{ secrets.CF_ZONE_ID }}
         run: |
-          # Obtener la IP pública del task recién desplegado
+          # Obtener la IP pública del task recién desplegado (filtra el que está
+          # RUNNING para no tomar una tarea vieja que aún está drenando).
           TASK_ARN=$(aws ecs list-tasks \
             --cluster ${{ secrets.ECS_CLUSTER }} \
             --service-name ${{ secrets.ECS_SERVICE }} \
+            --desired-status RUNNING \
             --query 'taskArns[0]' --output text)
 
           ENI=$(aws ecs describe-tasks \
